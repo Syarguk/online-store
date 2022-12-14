@@ -16,6 +16,12 @@ module.exports = {
     port: 3000,
     open: true,
     hot: true,
+    client: {
+      overlay: {
+        errors: false,
+        warnings: true,
+      },
+    },
   },
   entry: ['@babel/polyfill', path.resolve(__dirname, 'src', 'index.ts')],
   output: {
