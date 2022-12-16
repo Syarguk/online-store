@@ -1,0 +1,29 @@
+.logo {
+  font-size: 2rem;
+  font-weight: 500;
+  }
+
+  .basket {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    background-image: url(./assets/icon/shopping-cart-3041.png);
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+
+
+    .backet-count {
+      position: absolute;
+      top: -5px;
+      left: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+      border: solid 2px $border;
+      background-color: $contrast;
+      border-radius: 50%;
+      color: $main;
+    }
+  }
