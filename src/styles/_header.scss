@@ -1,6 +1,15 @@
+.header {
+  border-bottom: 2px solid $border;
+    border-radius: 0 0 1.5rem 1.5rem;
+}
+
 .logo {
   font-size: 2rem;
   font-weight: 500;
+
+  &:hover {
+    cursor: pointer;
+  }
   }
 
   .basket {
@@ -10,6 +19,10 @@
     background-image: url(./assets/icon/shopping-cart-3041.png);
     background-repeat: no-repeat;
     background-size: 50px 50px;
+
+    &:hover {
+      cursor: pointer;
+    }
 
 
     .backet-count {

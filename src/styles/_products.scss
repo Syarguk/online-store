@@ -1,16 +1,36 @@
-// #products {
+#products {
+
+  // border: 2px solid $border;
+  // border-radius: 10px;
 
 
 
-//     .card-title {
-//       //background-color: $border;
-//     }
-//   }
+  }
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
 
 
+&.active {
+  border: 2px solid $border;
+  border-radius: 10px;
+  background-color: $main
+}
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+}
 
 .cards-container {
   gap: 10px;
+  border: 2px solid $border;
+  border-radius: 10px;
 
   .card {
     width: 32%;

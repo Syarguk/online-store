@@ -1,0 +1,33 @@
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.6rem;
+}
+
+footer .copyright {
+  text-align: center;
+}
+
+footer .copyright:before {
+  content: '©';
+}
+
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+    margin-bottom: 0;
+    padding-left: 0;
+
+}
+
+.footer-links svg {
+  fill: $contrast;
+  width: 60px;
+  height: 40px;
+}
+
+.footer-links svg:hover {
+fill:  $border;
+}
