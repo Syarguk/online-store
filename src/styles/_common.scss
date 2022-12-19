@@ -1,0 +1,41 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: $nav;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#app {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex: 0 0 auto;
+}
+
+
+.buttons {
+  gap: 5px
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $border;
+  border-radius: 20px;
+  border: 2px solid $nav;
+}
+
+::-webkit-scrollbar-track {
+  background: $nav;
+}

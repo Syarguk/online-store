@@ -1,5 +1,7 @@
-// eslint-disable-next-line import/prefer-default-export
-export const products = [
+/* eslint-disable import/prefer-default-export */
+import { Products } from '../types/products';
+
+export const products: Products = [
   {
     id: 1,
     title: 'iPhone 9',
