@@ -9,9 +9,15 @@
 <body>
 <div class="container-xl">
 <nav>
-  <ul class="nav d-flex justify-content-between m-2">
+  <ul class="nav d-flex justify-content-between align-items-center m-2">
     <li class="nav-item">
       <h1 class="nav-link logo js-rout" data-rout="main">Online store</h1>
+    </li>
+
+    <li class="nav-item">
+      <span">Card total:</span>
+      <span>€</span>
+      <span id="total-cost">0.00</span>
     </li>
 
     <li class="nav-item">
@@ -25,7 +31,68 @@
 </nav>
 
   <main id="app">
+    <div class="row m-2">
 
+      <div class="col-4" id="filters">
+<div class="d-flex justify-content-between flex-wrap">
+        <button type="button" class="btn btn-outline-primary">Reset filters</button>
+        <button type="button" class="btn btn-outline-primary">Copy link</button>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Category</h5>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="prod1" id="prod1">
+            <label class="form-check-label" for="prod1">
+              category 1
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="prod1" id="prod2">
+            <label class="form-check-label" for="prod2">
+              category 2
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="prod1" id="prod2">
+            <label class="form-check-label" for="prod2">
+              category 2
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="prod1" id="prod2">
+            <label class="form-check-label" for="prod2">
+              category 2
+            </label>
+          </div>
+
+
+          <form class="form-check">
+            <input class="form-check-input" type="checkbox" value="prod1" id="prod2">
+            <label class="form-check-label" for="prod2">
+              category 2
+            </label>
+            <div class="filter-count">
+              <span>5</span>
+              <span>/</span>
+              <span>6</span>
+            </div>
+          </form>
+
+
+        </div>
+      </div>
+
+      </div>
+
+
+      <div class="col-8"
+      id="products">col-8</div>
+    </div>
 </main>
 
 
