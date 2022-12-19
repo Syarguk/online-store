@@ -2,10 +2,6 @@ import './index.html';
 import 'reset-css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './global.scss';
+import appCon from './rout';
 
-
-
-// const y = (n, d) => n + d
-
-// console.log(y(3, 5));
-console.log('hi');
+appCon();

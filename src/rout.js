@@ -34,6 +34,11 @@ const historyResolver = (title, location) => {
 const appCon = () => {
   const nav = document.querySelector('.nav');
 
+  window.addEventListener('popstate', e => {
+    console.log('hi');
+   console.log(new URL(window.location.href).pathname);
+})
+
   nav.addEventListener('click', (e) => {
     e.preventDefault();
     const link = e.target.closest('.nav-link')
