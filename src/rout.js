@@ -1,69 +1,50 @@
-const app = document.querySelector('#app');
+import mainPage from './pages/main';
+import basketPage from './pages/basket';
+import productPage from './pages/product';
+import notFoundPage from './pages/notFound';
 
-const historyResolver = (title, location) => {
-  //this.event.preventDefault();
+//разобраться с query параметрами
 
-//  console.log('click');
+export const routes = {
+  main: '/',
+  basket: '/basket',
+  product: '/product',
+};
 
-  history.pushState({}, title, location);
+export const render = (path) => {
+  let result = notFoundPage;
 
-  switch (location) {
-    case '/users/':
-      app.innerHTML = `
-                <h1>${location}</h1>
-                <p>Страница с пользователями</p>
-            `;
-      break;
-    case '/basket/':
-      app.innerHTML = `
-                <h1>${location}</h1>
-                <p>basket</p>
-            `;
-      break;
-    case '/':
-      app.innerHTML = `
-                <h1>${location}</h1>
-                <p>Главная страница</p>
-            `;
-      break;
-    default:
-      break;
+  //console.log(path);
+  if (path === routes.main) {
+    result = mainPage;
+  } else if (path === routes.basket) {
+    result = basketPage;
+  } else if (path === routes.product) {
+    result = productPage;
   }
+
+  document.querySelector('#app').innerHTML = result;
 };
 
-const appCon = () => {
-  const nav = document.querySelector('.nav');
+export const goTo = (path) => {
+  window.history.pushState({ path }, path, path);
+  render(path);
+};
 
-  window.addEventListener('popstate', e => {
-    console.log('hi');
-   console.log(new URL(window.location.href).pathname);
-})
-
-  nav.addEventListener('click', (e) => {
-    e.preventDefault();
-    const link = e.target.closest('.nav-link')
-    const id = link.dataset.rout;
-    console.log(id);
-
-    switch (id) {
-      case 'main':
-        historyResolver('Главная', '/');
-        break;
-
-      case 'basket':
-// прі перезагрузке слетают стілі
-
-        historyResolver('Basket', '/basket/');
-        break;
-
-      // case 'users':
-      //   historyResolver('Пользователи', '/users/');
-      //   break;
-      default:
-        //historyResolver('Not found', '/')
-        break;
-    }
+const initRouter = () => {
+  window.addEventListener('popstate', (e) => {
+    render(new URL(window.location.href).pathname);
   });
+  document.querySelectorAll('.js-rout').forEach((el) => {
+    el.addEventListener('click', (env) => {
+      env.preventDefault();
+      const path = env.target.dataset.rout;
+      //console.log(path);
+      //косяк с корзиной - путь иногда уходит на 404
+      goTo(path);
+    });
+  });
+  render(new URL(window.location.href).pathname);
 };
 
-export default appCon;
+export default initRouter;
