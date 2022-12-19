@@ -26,8 +26,10 @@ footer .copyright:before {
   fill: $contrast;
   width: 60px;
   height: 40px;
+  transition: 0.3s;
 }
 
 .footer-links svg:hover {
 fill:  $border;
+transition: 0.3s;
 }
