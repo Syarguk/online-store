@@ -4,9 +4,10 @@ interface Model {
   data: Products;
   filteredData: Products | [];
   basket: Products | [];
-  getData(): Products;
+  getProducts(): Products;
   addProductToBasket(productId: number): void;
   getProduct(productId: number): Products;
+  delProductFromBasket(poductId: number): void;
 }
 
 export default Model;

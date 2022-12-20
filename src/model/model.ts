@@ -6,7 +6,7 @@ const model: Model = {
   filteredData: [],
   basket: [],
 
-  getData() {
+  getProducts() {
     if (this.filteredData.length === 0) {
       return this.data;
     }
@@ -16,6 +16,10 @@ const model: Model = {
   addProductToBasket(productId) {
     const product = this.getProduct(productId);
     this.basket = [...product, ...this.basket];
+  },
+  delProductFromBasket(productId) {
+    const filtredBasket = this.basket.filter((product) => product.id !== productId);
+    this.basket = [...filtredBasket];
   },
 
   getProduct(productId) {
