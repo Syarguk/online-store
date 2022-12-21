@@ -2,8 +2,7 @@ import mainPage from './pages/main';
 import basketPage from './pages/basket';
 import buildProductPage from './pages/product';
 import notFoundPage from './pages/notFound';
-import ProductCard from './components/ProductCard';
-
+//import ProductCard from './components/ProductCard';
 
 export const routes = {
   main: '/',
@@ -55,18 +54,16 @@ export const render = (path) => {
     // cardContainer.append(card1.init());
     // cardContainer.append(card2.init());
     // result = cardContainer;
-
   } else if (path === routes.basket) {
     result = basketPage;
   } else if (path.includes(routes.product)) {
     result = buildProductPage(path);
   }
 
- const app = document.querySelector('#app')
-//  app.innerHTML = '';
-//  app.append(result);
-app.innerHTML = result;
-
+  const app = document.querySelector('#app');
+  //  app.innerHTML = '';
+  //  app.append(result);
+  app.innerHTML = result;
 };
 
 export const goTo = (path) => {

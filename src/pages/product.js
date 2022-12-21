@@ -1,7 +1,7 @@
-import { transformUrlToParams } from '../utillites/url';
+import { transformUrlToParams } from '../common/urlHelpers';
 import model from '../model/model';
 
-export { transformUrlToParams } from '../utillites/url';
+export { transformUrlToParams } from '../common/urlHelpers';
 
 const buildProductPage = (path) => {
   const { id } = transformUrlToParams(path);
