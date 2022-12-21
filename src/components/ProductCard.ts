@@ -1,6 +1,6 @@
 import { Product } from '../types/products';
-import Model from '../types/model';
 import model from '../model/model';
+import { routes, goTo } from '../rout';
 
 type Elements = {
   card: HTMLElement | null;
@@ -9,15 +9,12 @@ type Elements = {
 class ProductCard {
   product: Product;
 
-  model: Model;
-
   elements: Elements = {
     card: null,
   };
 
   constructor(product: Product) {
     this.product = product;
-    this.model = model;
   }
 
   init() {
@@ -53,17 +50,18 @@ class ProductCard {
 
   private attachEvents(): void {
     this.elements.card?.addEventListener('click', (e: Event) => {
-      const target = e.target as HTMLElement;
-      if (target) {
+      if (e.target) {
+        const target = e.target as HTMLElement;
         if (target.matches('.js-basket')) {
-          //func for add product in basket
- console.log('hi');
-
-
+          // func for add product in basket
+          console.log('hi');
+        } else {
+          const path = `${routes.product}id=${this.product.id}`
+          goTo(path)
         }
       }
 
-      //console.log(e.target);
+      // console.log(e.target);
     });
   }
 }
