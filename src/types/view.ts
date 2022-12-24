@@ -5,3 +5,8 @@ interface View {
 }
 
 export default View;
+
+export type HeaderWiewArgs = {
+  cost: number,
+  count: number,
+};
