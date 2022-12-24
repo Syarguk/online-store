@@ -16,9 +16,7 @@ const model: Model = {
 
   addProductToBasket(productId) {
     const product = this.getProduct(productId);
-
     this.basket.push(product);
-    console.log(this.basket);
   },
 
   dropProductFromBasket(productId) {
