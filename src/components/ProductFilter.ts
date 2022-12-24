@@ -1,7 +1,4 @@
-type Filter = {
-  fild: string;
-  quantity: number;
-};
+type Filter = [string, number];
 
 class ProductFilter {
   constructor(filter: Filter) {
@@ -12,20 +9,16 @@ class ProductFilter {
 
   render(): HTMLDivElement {
     const filterEl = document.createElement('div');
-    filterEl.classList.add('card');
-    filterEl.innerHTML = `<div class="check-form">
-                            <div class="form-check me-2">
-                              <input class="form-check-input" type="checkbox" value="prod1" id="prod2">
-                              <div class="d-flex justify-content-between">
-                                <label class="form-check-label" for="prod2">${this.filter.fild}</label>
-                                <div class="filter-count">
-                                  <span>5</span>
-                                  <span>/</span>
-                                  <span>${this.filter.quantity}</span>
-                                </div>
+    filterEl.classList.add('form-check', 'me-2');
+    filterEl.innerHTML = `<input class="form-check-input" type="checkbox" value="prod1" id="prod2">
+                            <div class="d-flex justify-content-between">
+                              <label class="form-check-label" for="prod2">${this.filter[0]}</label>
+                              <div class="filter-count">
+                                <span>5</span>
+                                <span>/</span>
+                                <span>${this.filter[1]}</span>
                               </div>
-                            </div>
-                          </div>`;
+                            </div>`;
     return filterEl;
   }
 }

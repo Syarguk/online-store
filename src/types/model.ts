@@ -4,12 +4,11 @@ interface Model {
   data: Products;
   filteredData: Products | [];
   basket: Products | [];
-  fieldsProduct: string[];
   getProducts(): Products;
   addProductToBasket(productId: number): void;
   getProduct(productId: number): Products;
   delProductFromBasket(poductId: number): void;
-  getListFields(nameField: string): void;
+  // getListFields(): [string, number][];
 }
 
 export default Model;

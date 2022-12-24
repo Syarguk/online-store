@@ -5,7 +5,6 @@ const model: Model = {
   data: products,
   filteredData: [],
   basket: [],
-  fieldsProduct: ['category', 'brand'],
 
   getProducts() {
     if (this.filteredData.length === 0) {
@@ -25,15 +24,6 @@ const model: Model = {
 
   getProduct(productId) {
     return this.data.filter((product) => product.id === productId);
-  },
-
-  getListFields(nameField) {
-    const listFields = {};
-    this.data.forEach((product) => {
-      if (product[nameField] in listFields) listFields[product[nameField]] += 1;
-      else listFields[product[nameField]] = 1;
-    });
-    return Object.entries(listFields);
   },
 };
 
