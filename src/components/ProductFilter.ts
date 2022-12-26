@@ -1,6 +1,3 @@
-import model from "../model/model";
-import view from "../view/view";
-
 type Filter = [string, number];
 
 type Elements = {
@@ -33,22 +30,8 @@ class ProductFilter {
     this.elements.card = filterEl;
   }
 
-  attachEvents() {
-    if (this.elements.card !== null) {
-      this.elements.card.addEventListener('click', (e) => {
-        if (e.target) {
-          const target = e.target as HTMLElement;
-          const category = target.parentElement?.children[1].children[0].textContent;
-          model.getFilterProducts(category);
-          view.renderProducts(model.getProducts());
-        }
-      });
-    }
-  }
-
   init() {
     this.render();
-    this.attachEvents();
     return this.elements.card;
   }
 }
