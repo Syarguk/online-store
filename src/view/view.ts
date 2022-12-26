@@ -17,10 +17,10 @@ const view: View = {
 
   renderFilters(listFields) {
     const filterContainer = document.querySelector('#filters');
-    /* const cards = document.querySelectorAll('#filters .card');
+    const cards = document.querySelectorAll('#filters .card');
     if (cards) {
       cards.forEach((el) => el.remove());
-    } */
+    }
     const card = document.createElement('div');
     card.classList.add('card');
     const cardBody = document.createElement('div');
@@ -30,7 +30,7 @@ const view: View = {
     cardsContainer.classList.add('check-form');
     listFields.forEach((field) => {
       const productFilter = new ProductFilter(field);
-      cardsContainer?.append(productFilter.render());
+      cardsContainer?.append(productFilter.init());
     });
     cardBody.append(cardsContainer);
     card.append(cardBody);

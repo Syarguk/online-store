@@ -8,7 +8,7 @@ interface Model {
   addProductToBasket(productId: number): void;
   getProduct(productId: number): Products;
   delProductFromBasket(poductId: number): void;
-  // getListFields(): [string, number][];
+  getFilterProducts(filter: string | null | undefined): void;
 }
 
 export default Model;

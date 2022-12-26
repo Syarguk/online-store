@@ -25,6 +25,10 @@ const model: Model = {
   getProduct(productId) {
     return this.data.filter((product) => product.id === productId);
   },
+
+  getFilterProducts(filter) {
+    this.filteredData = this.data.filter((product) => product.category === filter);
+  },
 };
 
 export default model;
