@@ -32,6 +32,12 @@
   border: 2px solid $border;
   border-radius: 10px;
 
+  &.small {
+    .card>.list-group {
+      display: none;
+    }
+  }
+
   .card {
     width: 32%;
     transition: 0.3s;
@@ -41,12 +47,6 @@
   transform: scale(1.03);
   transition: 0.3s;
 }
-
-    &.small {
-.list-group {
-  display: none;
-}
-    }
 
   img {
     width: 100%;

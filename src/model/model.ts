@@ -1,3 +1,4 @@
+import { Product } from '../types/products';
 import { products } from './data';
 import Model from '../types/model';
 
@@ -15,15 +16,30 @@ const model: Model = {
 
   addProductToBasket(productId) {
     const product = this.getProduct(productId);
-    this.basket = [...product, ...this.basket];
-  },
-  delProductFromBasket(productId) {
-    const filtredBasket = this.basket.filter((product) => product.id !== productId);
-    this.basket = [...filtredBasket];
+    this.basket.push(product);
   },
 
-  getProduct(productId) {
-    return this.data.filter((product) => product.id === productId);
+  dropProductFromBasket(productId) {
+    let tmp = [];
+    for (let i = 0; i < this.basket.length; i += 1) {
+      if (this.basket[i].id !== productId) {
+        tmp.push(this.basket[i]);
+      } else {
+        tmp = [...this.basket.slice(i + 1), ...tmp];
+        this.basket = tmp;
+        break;
+      }
+    }
+  },
+
+  getBasket() {
+    return this.basket;
+  },
+
+  getProduct(productId): Product {
+    const filterProducts = this.data.filter((product) => product.id === productId);
+    const [product] = filterProducts;
+    return product;
   },
 
   getFilterProducts(filter) {

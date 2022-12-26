@@ -1,6 +1,17 @@
 import { Product } from '../types/products';
 import model from '../model/model';
 import { routes, goTo } from '../rout';
+import { getSumAndCount } from '../common/basketHelper';
+import headerWiew from '../view/headerWiew';
+
+const changeHeaderWiew = (): void => {
+  headerWiew(getSumAndCount(model.getBasket()));
+};
+
+const isDropBtn = (id: number): boolean => {
+  const basket = model.getBasket().map((product) => product.id);
+  return basket.includes(id);
+};
 
 type Elements = {
   card: HTMLElement | null;
@@ -30,7 +41,6 @@ class ProductCard {
     cardEl.setAttribute('id', String(product.id));
     cardEl.innerHTML = `<h5 class="card-title text-center mt-1">${product.title}</h5>
     <img src="${product.thumbnail}" class="card-img-top" alt="${product.title}">
-    <div class="card-body">
       <ul class="list-group list-group-flush">
         <li class="list-group-item p-2">Category: ${product.category}</li>
         <li class="list-group-item p-2">Brand: ${product.brand}</li>
@@ -39,13 +49,28 @@ class ProductCard {
         <li class="list-group-item p-2">Rating: ${product.rating}</li>
         <li class="list-group-item p-2">Stock: ${product.stock}</li>
       </ul>
+`;
 
-      <div class="d-flex justify-content-between flex-wrap">
-      <button type="button" class="btn btn-primary btn-sm js-basket">Add to card</button>
-      <button type="button" class="btn btn-primary btn-sm">Details</button>
-    </div>`;
+    const btnContainer = document.createElement('div');
+    btnContainer.classList.add('d-flex', 'justify-content-between', 'flex-wrap', 'm-2');
+    btnContainer.innerHTML = '<button type="button" class="btn btn-primary btn-sm">Details</button>';
+    btnContainer.prepend(this.getBtn());
+    cardEl.append(btnContainer);
 
     this.elements.card = cardEl;
+  }
+
+  private getBtn(): Element {
+    const btn = document.createElement('button');
+    btn.classList.add('btn', 'btn-primary', 'btn-sm', 'js-basket');
+    if (isDropBtn(this.product.id)) {
+      btn.textContent = 'Drop from card';
+      btn.dataset.basket = 'drop';
+    } else {
+      btn.textContent = 'Add to card';
+      btn.dataset.basket = 'add';
+    }
+    return btn;
   }
 
   private attachEvents(): void {
@@ -53,15 +78,30 @@ class ProductCard {
       if (e.target) {
         const target = e.target as HTMLElement;
         if (target.matches('.js-basket')) {
-          // func for add product in basket
-          console.log('hi');
+          const btnType = target.dataset.basket;
+          switch (btnType) {
+            case 'add':
+              model.addProductToBasket(this.product.id);
+              changeHeaderWiew();
+              target.textContent = 'Drop from card';
+              target.dataset.basket = 'drop';
+              break;
+            case 'drop':
+              model.dropProductFromBasket(this.product.id);
+              changeHeaderWiew();
+              target.textContent = 'Add to card';
+              target.dataset.basket = 'add';
+              break;
+
+            default:
+              throw new Error(`unknow btn type ${btnType}`);
+              break;
+          }
         } else {
-          const path = `${routes.product}id=${this.product.id}`
-          goTo(path)
+          const path = `${routes.product}id=${this.product.id}`;
+          goTo(path);
         }
       }
-
-      // console.log(e.target);
     });
   }
 }
