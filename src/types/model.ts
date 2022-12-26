@@ -6,10 +6,10 @@ interface Model {
   basket: Products;
   getProducts(): Products;
   addProductToBasket(productId: number): void;
+  getFilterProducts(filter: string | null | undefined): void;
   getProduct(productId: number): Product;
   dropProductFromBasket(poductId: number): void;
   getBasket(): Products;
-
 }
 
 export default Model;
