@@ -21,14 +21,15 @@ function getSelectFilter() {
     if ((el as HTMLInputElement).checked) {
       const category = el.parentElement?.children[1].children[0].textContent;
       model.getFilterProducts(category);
-      view.renderProducts(model.getProducts());
     }
   });
+  view.renderProducts(model.getProducts());
+  model.filteredData = [];
 }
 
 function addListenerFilter() {
   document.querySelectorAll('#filters .form-check').forEach((el) => {
-    el.addEventListener('change', () => getSelectFilter);
+    el.addEventListener('change', () => getSelectFilter());
   });
 }
 

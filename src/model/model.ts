@@ -43,7 +43,8 @@ const model: Model = {
   },
 
   getFilterProducts(filter) {
-    this.filteredData = this.data.filter((product) => product.category === filter);
+    const filterProd = this.data.filter((product) => product.category === filter);
+    this.filteredData = this.filteredData.concat(filterProd);
   },
 };
 
