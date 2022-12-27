@@ -5,7 +5,6 @@ import Model from '../types/model';
 const model: Model = {
   data: products,
   filteredData: [],
-  basket: [],
 
   getProducts() {
     if (this.filteredData.length === 0) {
