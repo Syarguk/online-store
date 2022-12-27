@@ -16,24 +16,30 @@ const model: Model = {
 
   addProductToBasket(productId) {
     const product = this.getProduct(productId);
-    this.basket.push(product);
+    const basket = this.getBasket();
+    basket.push(product);
+    window.localStorage.setItem('basket', JSON.stringify(basket));
   },
 
   dropProductFromBasket(productId) {
+    let basket = this.getBasket();
     let tmp = [];
-    for (let i = 0; i < this.basket.length; i += 1) {
-      if (this.basket[i].id !== productId) {
-        tmp.push(this.basket[i]);
+    for (let i = 0; i < basket.length; i += 1) {
+      if (basket[i].id !== productId) {
+        tmp.push(basket[i]);
       } else {
-        tmp = [...this.basket.slice(i + 1), ...tmp];
-        this.basket = tmp;
+        tmp = [...basket.slice(i + 1), ...tmp];
+        basket = tmp;
+        window.localStorage.setItem('basket', JSON.stringify(basket));
         break;
       }
     }
   },
 
   getBasket() {
-    return this.basket;
+    const basket = window.localStorage.getItem('basket');
+    if (basket === null) return [];
+    return JSON.parse(basket);
   },
 
   getProduct(productId): Product {
