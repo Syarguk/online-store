@@ -11,7 +11,7 @@ const view: View = {
     const cardsContainer = document.querySelector('.cards-container');
     products.forEach((product) => {
       const productCard = new ProductCard(product);
-      cardsContainer?.append(productCard.init());
+      cardsContainer?.append(productCard.init() as HTMLElement);
     });
   },
 
@@ -30,11 +30,15 @@ const view: View = {
     cardsContainer.classList.add('check-form');
     listFields.forEach((field) => {
       const productFilter = new ProductFilter(field);
-      cardsContainer?.append(productFilter.init());
+      cardsContainer?.append(productFilter.init() as HTMLElement);
     });
     cardBody.append(cardsContainer);
     card.append(cardBody);
     filterContainer?.append(card);
+  },
+
+  renderBasket(productsId) {
+
   },
 };
 

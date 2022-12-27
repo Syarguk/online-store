@@ -33,6 +33,8 @@ function addListenerFilter() {
   });
 }
 
+function initBasket() {}
+
 function start() {
   getFilters();
   addListenerFilter();
