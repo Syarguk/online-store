@@ -28,7 +28,7 @@ class ProductCard {
     this.product = product;
   }
 
-  init() {
+  init(): HTMLElement | null {
     this.render();
     this.attachEvents();
     return this.elements.card;
