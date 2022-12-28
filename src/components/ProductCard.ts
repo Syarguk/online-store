@@ -101,6 +101,8 @@ class ProductCard {
           const path = `${routes.product}id=${this.product.id}`;
           goTo(path);
         }
+        console.log('Current list products');
+        console.log(model.basket);
       }
     });
   }

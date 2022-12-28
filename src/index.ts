@@ -6,4 +6,4 @@ import initRouter from './rout';
 import start from './controller/controller';
 
 initRouter();
-// start();
+start();

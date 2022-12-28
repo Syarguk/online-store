@@ -20,11 +20,11 @@ class ProductBasket {
     filterEl.classList.add('form-check', 'me-2');
     filterEl.innerHTML = `<input class="form-check-input" type="checkbox" value="prod1" id="prod2">
                             <div class="d-flex justify-content-between">
-                              <label class="form-check-label" for="prod2">${this.filter[0]}</label>
+                              <label class="form-check-label" for="prod2"></label>
                               <div class="filter-count">
                                 <span>5</span>
                                 <span>/</span>
-                                <span>${this.filter[1]}</span>
+                                <span></span>
                               </div>
                             </div>`;
     this.elements.card = filterEl;

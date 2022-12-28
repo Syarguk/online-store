@@ -9,6 +9,7 @@ interface Model {
   getFilterProducts(filter: string | null | undefined): void;
   getProduct(productId: number): Product;
   dropProductFromBasket(poductId: number): void;
+  changeBasketStorage(): void;
   getBasket(): Products;
 }
 
