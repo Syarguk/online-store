@@ -2,7 +2,7 @@ import View from '../types/view';
 import ProductCard from '../components/ProductCard';
 import ProductFilter from '../components/ProductFilter';
 
-const view: View = {
+const viewBasket: View = {
   renderProducts(products) {
     const cards = document.querySelectorAll('.cards-container .card');
     if (cards) {
@@ -42,4 +42,4 @@ const view: View = {
   },
 };
 
-export default view;
+export default viewBasket;

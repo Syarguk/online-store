@@ -17,6 +17,7 @@ const model: Model = {
   addProductToBasket(productId) {
     const product = this.getProduct(productId);
     this.basket.push(product);
+    this.changeBasketStorage();
   },
 
   dropProductFromBasket(productId) {
@@ -30,6 +31,12 @@ const model: Model = {
         break;
       }
     }
+    this.changeBasketStorage();
+  },
+
+  changeBasketStorage() {
+    const productId = this.basket.map((product) => product.id);
+    localStorage.setItem('products-id', JSON.stringify(productId));
   },
 
   getBasket() {
