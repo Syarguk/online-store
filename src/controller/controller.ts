@@ -43,8 +43,8 @@ function checkBasket() {
 function start() {
   getFilters();
   addListenerFilter();
-  view.renderProducts(model.getProducts());
   checkBasket();
+  view.renderProducts(model.getProducts());
   console.log('Initial list products');
   console.log(model.basket);
 }
