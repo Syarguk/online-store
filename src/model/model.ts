@@ -3,9 +3,11 @@ import { products } from './data';
 import Model from '../types/model';
 
 const model: Model = {
+
   data: products,
   filteredData: [],
   basket: [],
+  basketInStorage: {},
 
   getProducts() {
     if (this.filteredData.length === 0) {
@@ -34,9 +36,26 @@ const model: Model = {
     this.changeBasketStorage();
   },
 
-  changeBasketStorage() {
-    const productId = this.basket.map((product) => product.id);
-    localStorage.setItem('products-id', JSON.stringify(productId));
+  changeBasketStorage(productId, incrDecr) {
+    if (productId) {
+      if (incrDecr) {
+        this.basketInStorage[productId] += 1;
+        localStorage.setItem('products-id', JSON.stringify(this.basketInStorage));
+      } else {
+        this.basketInStorage[productId] -= 1;
+        localStorage.setItem('products-id', JSON.stringify(this.basketInStorage));
+      }
+    } else {
+      const productsId = Object();
+      this.basket.forEach((product) => {
+        if (product.id in this.basketInStorage) {
+          productsId[product.id] = this.basketInStorage[product.id];
+        } else {
+          productsId[product.id] = 1;
+        }
+      });
+      localStorage.setItem('products-id', JSON.stringify(productsId));
+    }
   },
 
   getBasket() {

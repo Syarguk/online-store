@@ -3,10 +3,14 @@ import { Products } from './products';
 interface View {
   renderProducts(products: Products): void;
   renderFilters(listFields: [string, number][]): void;
-  renderBasket(productsId: number[]): void;
 }
 
-export default View;
+interface ViewBasket {
+  renderSelectProducts(products: Products): void;
+
+}
+
+export { View, ViewBasket };
 
 export type HeaderWiewArgs = {
   cost: number,

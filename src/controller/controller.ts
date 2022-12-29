@@ -36,7 +36,11 @@ function addListenerFilter() {
 function checkBasket() {
   const storage = localStorage.getItem('products-id');
   if (storage) {
-    JSON.parse(storage).forEach((id: number) => model.addProductToBasket(id));
+    const productId = Object.keys(JSON.parse(storage));
+    productId.forEach((id: string) => {
+      model.addProductToBasket(Number(id));
+    });
+    model.basketInStorage = JSON.parse(storage);
   }
 }
 

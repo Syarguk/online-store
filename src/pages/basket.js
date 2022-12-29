@@ -1,5 +1,5 @@
 const basketPage = `<div class="wrapper-basket d-flex">
-<section class="col-8">
+<section class="select-products col-8">
   <div class="title-page-control d-flex justify-content-between">
     <h5>Products In Cart</h5>
     <div class="page-control d-flex">
@@ -12,7 +12,7 @@ const basketPage = `<div class="wrapper-basket d-flex">
     </div>
   </div>
   <div class="prod-items vstack gap-0">
-    <div class="bg-light border d-flex align-items-center">
+    <div class="item-prod bg-light border d-flex align-items-center">
       <div class="item-i">1</div>
       <div class="item-info d-flex ">
         <img class="img-thumbnail img-descr-prod" alt="..." src="https://i.dummyjson.com/data/products/30/thumbnail.jpg">
@@ -33,14 +33,12 @@ const basketPage = `<div class="wrapper-basket d-flex">
         <div class="amount-control">€120.00</div>
       </div>
     </div>
-    <div class="bg-light border">3</div>
-    <div class="bg-light border">4</div>
   </div>
 </section>
 <aside class="col-4 d-flex flex-column align-items-center">
   <h5>Summary</h5>
   <div class="total-products">
-    <span>Products:</span>9
+    <span>Products: </span>9
   </div>
   <div class="total-price">
     <span>Total:</span> €4,314.00
