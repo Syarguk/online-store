@@ -3,6 +3,7 @@ import { Products, Product } from './products';
 interface Model {
   data: Products;
   filteredData: Products;
+  basket: Products;
   getProducts(): Products;
   addProductToBasket(productId: number): void;
   getFilterProducts(filter: string | null | undefined): void;
