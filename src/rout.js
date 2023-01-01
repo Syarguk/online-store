@@ -2,7 +2,7 @@ import mainPage from './pages/main';
 import basketPage from './pages/basket';
 import buildProductPage from './pages/product';
 import notFoundPage from './pages/notFound';
-//import ProductCard from './components/ProductCard';
+// import ProductCard from './components/ProductCard';
 
 export const routes = {
   main: '/',
@@ -23,8 +23,8 @@ export const render = (path) => {
   }
 
   const app = document.querySelector('#app');
-   app.innerHTML = '';
-   app.append(result);
+  app.innerHTML = '';
+  app.append(result);
   //app.innerHTML = result;
 };
 
