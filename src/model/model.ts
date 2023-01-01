@@ -58,6 +58,16 @@ const model: Model = {
     }
   },
 
+  getSummaryProducts() {
+    const price = this.basket.reduce((acc, product) => {
+      const multiplyPrice = product.price * this.basketInStorage[product.id];
+      return acc + multiplyPrice;
+    }, 0);
+    const quantity = Object.values(this.basketInStorage);
+    const quantityProducts = quantity.reduce((acc, quant) => acc + quant, 0);
+    return [price, quantityProducts];
+  },
+
   getBasket() {
     return this.basket;
   },

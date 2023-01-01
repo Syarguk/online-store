@@ -15,6 +15,7 @@ interface Model {
   getProduct(productId: number): Product;
   dropProductFromBasket(poductId: number): void;
   changeBasketStorage(productId?: number, incrDecr?: boolean): void;
+  getSummaryProducts(): number[];
   getBasket(): Products;
 }
 

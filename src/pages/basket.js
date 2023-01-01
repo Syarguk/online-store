@@ -4,10 +4,10 @@ const basketPage = `<div class="wrapper-basket d-flex">
     <h5>Products In Cart</h5>
     <div class="page-control d-flex">
       <div class="limit">
-        ITEMS:<input class="basket-number-items">
+        LIMIT:<input class="basket-number-items" type="number" min="1" max="10" value="3">
       </div>
       <div class="page-numbers">
-        PAGE:<button class="prev-page-but btn btn-outline-primary"><</button>1<button class="next-page-but btn btn-outline-primary">></button>
+        PAGE:<button class="prev-page-but btn btn-outline-primary"><</button><span>1</span><button class="next-page-but btn btn-outline-primary">></button>
       </div>
     </div>
   </div>
@@ -38,10 +38,12 @@ const basketPage = `<div class="wrapper-basket d-flex">
 <aside class="col-4 d-flex flex-column align-items-center">
   <h5>Summary</h5>
   <div class="total-products">
-    <span>Products: </span>9
+    Products: 
+    <span>9</span>
   </div>
   <div class="total-price">
-    <span>Total:</span> €4,314.00
+    Total:
+    €<span>4,314.00</span>
   </div>
   <div class="promo-code">
     <input type="text" placeholder="Enter promo code">

@@ -6,8 +6,7 @@ interface View {
 }
 
 interface ViewBasket {
-  renderSelectProducts(products: Products): void;
-
+  renderSelectProducts(data: [Products, number]): void;
 }
 
 export { View, ViewBasket };
