@@ -1,8 +1,5 @@
 import { numbersTypeArea } from './constans';
-
-interface ObjectInterface {
-  [key: string]: string | number;
-}
+import { ObjectInterface } from '../types/products';
 
 export const transformUrlToParams = (url:string):ObjectInterface => {
   const stringParams = url.split(':')[1].split('&');
