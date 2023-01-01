@@ -13,3 +13,7 @@ export type Product = {
 };
 
 export type Products = Array<Product>;
+
+export interface ObjectInterface {
+  [key: string]: string | number;
+}
