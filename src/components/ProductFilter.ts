@@ -1,10 +1,10 @@
-import { ObjectInterface } from '../types/products';
+import { ObjectForFilter } from '../types/products';
 
 type Elements = {
   card: HTMLElement | null;
 };
 
-const renderFilter = (name: string, filter: ObjectInterface): string => {
+const renderFilter = (name: string, filter: ObjectForFilter): string => {
   const labels = Object.entries(filter)
     .map((item) => {
       const [value, count] = item;
@@ -38,12 +38,12 @@ ${labels.join('')}
 };
 
 class ProductFilter {
-  constructor(filter: ObjectInterface, filterName: string) {
+  constructor(filter: ObjectForFilter, filterName: string) {
     this.filter = filter;
     this.filterName = filterName;
   }
 
-  filter: ObjectInterface;
+  filter: ObjectForFilter;
 
   filterName: string;
 
