@@ -1,7 +1,8 @@
-import { ObjectForFilter } from '../types/products';
+import { ObjectForFilter, ObjectInterface } from '../types/products';
+import { transformParamsToUrl } from '../common/urlHelpers';
 
 type Elements = {
-  card: HTMLElement | null;
+  filterEl: HTMLElement | null;
 };
 
 const renderFilter = (name: string, filter: ObjectForFilter): string => {
@@ -25,7 +26,7 @@ const renderFilter = (name: string, filter: ObjectForFilter): string => {
 
   const html = ` <div class="card">
 <div class="card-body pe-0">
-  <h5 class="card-title text-center">${name}</h5>
+  <h5 class="card-title text-center">${name.toUpperCase()}</h5>
   <div class="check-form">
   <form class="form-check me-2">
 ${labels.join('')}
@@ -37,31 +38,52 @@ ${labels.join('')}
   return html;
 };
 
-class ProductFilter {
-  constructor(filter: ObjectForFilter, filterName: string) {
-    this.filter = filter;
-    this.filterName = filterName;
-  }
+const getParamsToUrl = (name: string, value: string[]): ObjectInterface => ({ [name]: value });
 
+class ProductFilter {
   filter: ObjectForFilter;
 
   filterName: string;
 
   elements: Elements = {
-    card: null,
+    filterEl: null,
   };
+
+  currentFilters: string[] = [];
+
+  constructor(filter: ObjectForFilter, filterName: string) {
+    this.filter = filter;
+    this.filterName = filterName;
+  }
+
+  init() {
+    this.render();
+    this.attachEvents();
+
+    return this.elements.filterEl;
+  }
 
   render(): void {
     const filterEl = document.createElement('div');
     filterEl.classList.add('form-check', 'me-2');
 
     filterEl.innerHTML = renderFilter(this.filterName, this.filter);
-    this.elements.card = filterEl;
+    this.elements.filterEl = filterEl;
   }
 
-  init() {
-    this.render();
-    return this.elements.card;
+  private attachEvents(): void {
+    this.elements.filterEl?.addEventListener('change', (e) => {
+      const checkbox = e.target as HTMLInputElement;
+      if (checkbox.checked) {
+        this.currentFilters.push(checkbox.value);
+      } else {
+        this.currentFilters = this.currentFilters.filter((val) => val !== checkbox.value);
+      }
+      const params = getParamsToUrl(this.filterName, this.currentFilters);
+      const url = transformParamsToUrl(params);
+      console.log(url);
+
+    });
   }
 }
 
