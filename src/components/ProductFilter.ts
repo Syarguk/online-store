@@ -1,5 +1,6 @@
 import { ObjectForFilter, ObjectInterface } from '../types/products';
-import { transformParamsToUrl } from '../common/urlHelpers';
+import { transformParamsToUrl, transformUrlToParams, updateUrl } from '../common/urlHelpers';
+import { routes } from '../common/constans';
 
 type Elements = {
   filterEl: HTMLElement | null;
@@ -79,10 +80,12 @@ class ProductFilter {
       } else {
         this.currentFilters = this.currentFilters.filter((val) => val !== checkbox.value);
       }
-      const params = getParamsToUrl(this.filterName, this.currentFilters);
-      const url = transformParamsToUrl(params);
-      console.log(url);
 
+      // const currentUrl = new URL(window.location.href).pathname;
+      // console.log(currentUrl);
+
+      const params = getParamsToUrl(this.filterName, this.currentFilters);
+      updateUrl(routes.mainSearch, params);
     });
   }
 }
