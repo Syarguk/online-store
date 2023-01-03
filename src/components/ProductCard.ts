@@ -33,6 +33,7 @@ class ProductCard {
   init(): HTMLElement | null {
     this.render();
     this.attachEvents();
+
     return this.elements.card;
   }
 
@@ -46,7 +47,7 @@ class ProductCard {
       <ul class="list-group list-group-flush">
         <li class="list-group-item p-2">Category: ${product.category}</li>
         <li class="list-group-item p-2">Brand: ${product.brand}</li>
-        <li class="list-group-item p-2">Price: ${product.price}</li>
+        <li class="list-group-item p-2">Price: ${product.price} €</li>
         <li class="list-group-item p-2">Discount: ${product.discountPercentage} %</li>
         <li class="list-group-item p-2">Rating: ${product.rating}</li>
         <li class="list-group-item p-2">Stock: ${product.stock}</li>
