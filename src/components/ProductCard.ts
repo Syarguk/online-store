@@ -1,6 +1,7 @@
 import { Product } from '../types/products';
 import model from '../model/model';
-import { routes, goTo } from '../rout';
+import { goTo } from '../rout';
+import { routes } from '../common/constans';
 import { getSumAndCount } from '../common/basketHelper';
 import headerWiew from '../view/headerWiew';
 
@@ -9,7 +10,10 @@ const changeHeaderWiew = (): void => {
 };
 
 const isDropBtn = (id: number): boolean => {
-  const basket = model.getBasket().map((product) => product.id);
+  const basket = model.getBasket();
+  // console.log(model.getBasket());
+  // сказать чтобы переделал корзину и вынес её из модели!
+
   return basket.includes(id);
 };
 
@@ -31,6 +35,7 @@ class ProductCard {
   init(): HTMLElement | null {
     this.render();
     this.attachEvents();
+
     return this.elements.card;
   }
 
@@ -44,7 +49,7 @@ class ProductCard {
       <ul class="list-group list-group-flush">
         <li class="list-group-item p-2">Category: ${product.category}</li>
         <li class="list-group-item p-2">Brand: ${product.brand}</li>
-        <li class="list-group-item p-2">Price: ${product.price}</li>
+        <li class="list-group-item p-2">Price: ${product.price} €</li>
         <li class="list-group-item p-2">Discount: ${product.discountPercentage} %</li>
         <li class="list-group-item p-2">Rating: ${product.rating}</li>
         <li class="list-group-item p-2">Stock: ${product.stock}</li>
@@ -101,8 +106,9 @@ class ProductCard {
           const path = `${routes.product}id=${this.product.id}`;
           goTo(path);
         }
-        console.log('Current list products');
-        console.log(model.basket);
+
+        // console.log('Current list products');
+        // console.log(model.basket);
       }
     });
   }
