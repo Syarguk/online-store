@@ -6,8 +6,6 @@ const model: Model = {
 
   data: products,
   filteredData: [],
-  basket: [],
-  basketInStorage: {},
 
   getProducts() {
     if (this.filteredData.length === 0) {
@@ -16,60 +14,8 @@ const model: Model = {
     return this.filteredData;
   },
 
-  addProductToBasket(productId) {
-    const product = this.getProduct(productId);
-    this.basket.push(product);
-    this.changeBasketStorage();
-  },
-
-  dropProductFromBasket(productId) {
-    let tmp = [];
-    for (let i = 0; i < this.basket.length; i += 1) {
-      if (this.basket[i].id !== productId) {
-        tmp.push(this.basket[i]);
-      } else {
-        tmp = [...this.basket.slice(i + 1), ...tmp];
-        this.basket = tmp;
-        break;
-      }
-    }
-    this.changeBasketStorage();
-  },
-
-  changeBasketStorage(productId, incrDecr) {
-    if (productId) {
-      if (incrDecr) {
-        this.basketInStorage[productId] += 1;
-        localStorage.setItem('products-id', JSON.stringify(this.basketInStorage));
-      } else {
-        this.basketInStorage[productId] -= 1;
-        localStorage.setItem('products-id', JSON.stringify(this.basketInStorage));
-      }
-    } else {
-      const productsId = Object();
-      this.basket.forEach((product) => {
-        if (product.id in this.basketInStorage) {
-          productsId[product.id] = this.basketInStorage[product.id];
-        } else {
-          productsId[product.id] = 1;
-        }
-      });
-      localStorage.setItem('products-id', JSON.stringify(productsId));
-    }
-  },
-
-  getSummaryProducts() {
-    const price = this.basket.reduce((acc, product) => {
-      const multiplyPrice = product.price * this.basketInStorage[product.id];
-      return acc + multiplyPrice;
-    }, 0);
-    const quantity = Object.values(this.basketInStorage);
-    const quantityProducts = quantity.reduce((acc, quant) => acc + quant, 0);
-    return [price, quantityProducts];
-  },
-
-  getBasket() {
-    return this.basket;
+  getProducts1(productsId) {
+    return this.data.filter((product) => productsId.includes(String(product.id)));
   },
 
   getProduct(productId): Product {

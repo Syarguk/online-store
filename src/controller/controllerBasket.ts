@@ -1,18 +1,6 @@
-import model from '../model/model';
 import viewBasket from '../view/viewBasket';
 import ProductBasket from '../components/ProductBasket';
-import setQuantityProducts from '../common/basketHelper';
-
-function checkBasket() {
-  const storage = localStorage.getItem('products-id');
-  if (storage) {
-    const productId = Object.keys(JSON.parse(storage));
-    model.basketInStorage = JSON.parse(storage);
-    productId.forEach((id: string) => {
-      model.addProductToBasket(Number(id));
-    });
-  }
-}
+import { setQuantityProducts, getSummaryProducts, getBasket } from '../common/basketHelper';
 
 function changePageProducts(e: Event) {
   if (e.target) {
@@ -24,6 +12,7 @@ function changePageProducts(e: Event) {
     });
     const lastProductPage = Math.max(...pageProducts);
     const firstProductPage = Math.min(...pageProducts);
+    const quantityProducts = Object.keys(getBasket());
     if (target.textContent === '<' && firstProductPage > 1) {
       if (numberPage) {
         const newNumberPage = Number(numberPage.textContent);
@@ -33,7 +22,7 @@ function changePageProducts(e: Event) {
       if (products) {
         viewBasket.renderSelectProducts(products);
       }
-    } else if (target.textContent === '>' && lastProductPage < model.basket.length) {
+    } else if (target.textContent === '>' && lastProductPage < quantityProducts.length) {
       if (numberPage) {
         const newNumberPage = Number(numberPage.textContent);
         numberPage.textContent = String(newNumberPage + 1);
@@ -57,7 +46,7 @@ function addListenerPagination() {
 }
 
 function initBasket() {
-  const sum = model.getSummaryProducts();
+  const sum = getSummaryProducts();
   const products = setQuantityProducts();
   if (products) viewBasket.renderSelectProducts(products);
   ProductBasket.changeSummary(sum);
@@ -65,9 +54,7 @@ function initBasket() {
 }
 
 function start() {
-  checkBasket();
   initBasket();
-  // console.log(model.basket);
 }
 
 export default start;

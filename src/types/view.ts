@@ -11,7 +11,7 @@ interface ViewBasket {
 
 export { View, ViewBasket };
 
-export type HeaderWiewArgs = {
+export type HeaderWiewArgs = [
   cost: number,
   count: number,
-};
+];

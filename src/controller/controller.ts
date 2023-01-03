@@ -33,24 +33,10 @@ function addListenerFilter() {
   });
 }
 
-function checkBasket() {
-  const storage = localStorage.getItem('products-id');
-  if (storage) {
-    const productId = Object.keys(JSON.parse(storage));
-    productId.forEach((id: string) => {
-      model.addProductToBasket(Number(id));
-    });
-    model.basketInStorage = JSON.parse(storage);
-  }
-}
-
 function start() {
   getFilters();
   addListenerFilter();
-  checkBasket();
   view.renderProducts(model.getProducts());
-  console.log('Initial list products');
-  console.log(model.basket);
 }
 
 export default start;

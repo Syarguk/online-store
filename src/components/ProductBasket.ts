@@ -1,7 +1,8 @@
 import { Product } from '../types/products';
-import model from '../model/model';
 import viewBasket from '../view/viewBasket';
-import setQuantityProducts from '../common/basketHelper';
+import {
+  addToBasket, getBasket, setQuantityProducts, takeFromBasket, getSummaryProducts
+} from '../common/basketHelper';
 
 type Elements = {
   card: HTMLElement | null;
@@ -23,6 +24,7 @@ class ProductBasket {
 
   render(): void {
     const cardProduct = document.createElement('div');
+    const prodIdBasket = getBasket();
     cardProduct.classList.add('item-prod', 'bg-light', 'border', 'd-flex', 'align-items-center');
     cardProduct.innerHTML = `
       <div class="item-i">${this.index}</div>
@@ -41,7 +43,7 @@ class ProductBasket {
         <p class="stock-control">Stock: ${this.product.stock}</p>
         <div class="inc-dec-control">
           <button class="change-quant btn btn-outline-secondary">+</button>
-          <span class="quant-copy">${model.basketInStorage[this.product.id]}</span>
+          <span class="quant-copy">${prodIdBasket[this.product.id]}</span>
           <button class="change-quant btn btn-outline-secondary">-</button>
         </div>
         <div class="amount-control">€${this.product.price}</div>
@@ -61,18 +63,18 @@ class ProductBasket {
     this.elements.card?.addEventListener('click', (e: Event) => {
       if (e.target) {
         const target = e.target as HTMLElement;
+        const prodIdBasket = getBasket();
         if (target.matches('.change-quant')) {
           const quantityCopyProd = target.parentElement?.children[1] as HTMLElement;
           if (target.textContent === '+') {
-            if (model.basketInStorage[this.product.id] < this.product.stock) {
-              model.changeBasketStorage(this.product.id, true);
-              quantityCopyProd.textContent = `${model.basketInStorage[this.product.id]}`;
+            if (prodIdBasket[this.product.id] < this.product.stock) {
+              addToBasket(this.product.id);
+              quantityCopyProd.textContent = `${prodIdBasket[this.product.id]}`;
             }
           } else if (quantityCopyProd.textContent === '1') {
             const listProductsPage = document.querySelectorAll('.item-prod .item-i');
-            model.changeBasketStorage(this.product.id, false);
-            quantityCopyProd.textContent = `${model.basketInStorage[this.product.id]}`;
-            model.dropProductFromBasket(this.product.id);
+            quantityCopyProd.textContent = `${prodIdBasket[this.product.id]}`;
+            takeFromBasket(this.product.id);
             const products = setQuantityProducts();
             if (products) viewBasket.renderSelectProducts(products);
             if (listProductsPage.length === 1) {
@@ -80,10 +82,10 @@ class ProductBasket {
               if (button) button.click();
             }
           } else {
-            model.changeBasketStorage(this.product.id, false);
-            quantityCopyProd.textContent = `${model.basketInStorage[this.product.id]}`;
+            takeFromBasket(this.product.id);
+            quantityCopyProd.textContent = `${prodIdBasket[this.product.id]}`;
           }
-          ProductBasket.changeSummary(model.getSummaryProducts());
+          ProductBasket.changeSummary(getSummaryProducts());
         } else {
           /* const path = `${routes.product}id=${this.product.id}`;
           goTo(path); */
