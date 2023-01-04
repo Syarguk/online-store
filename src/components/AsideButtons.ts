@@ -15,9 +15,9 @@ class AsideButtons {
   }
 
   render() {
-    this.btnContainer.classList.add('d-flex', 'justify-content-between', 'flex-wrap', 'buttons');
+    this.btnContainer.classList.add('d-flex', 'justify-content-around', 'flex-wrap', 'buttons');
     this.btnContainer.innerHTML = `<button type="button" class="btn btn-primary" data-btn="reset">Reset filters</button>
-    <button type="button" class="btn btn-primary" data-btn="copy">Copy link</button>'`;
+    <button type="button" class="btn btn-primary" data-btn="copy">Copy link</button>`;
   }
 
   private attachEvents() {
@@ -33,7 +33,7 @@ class AsideButtons {
           case 'copy':
             target.style.backgroundColor = 'green';
             navigator.clipboard.writeText(window.location.href);
-            setTimeout(() => { target.removeAttribute('style'); }, 4000);
+            setTimeout(() => { target.removeAttribute('style'); }, 2000);
             break;
 
           default:
