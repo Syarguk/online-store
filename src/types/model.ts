@@ -5,9 +5,13 @@ interface Model {
   filteredData: Products;
   basket: Products;
   getProducts(): Products;
-  addProductToBasket(productId: number): void;
-  getFilterProducts(filter: string | null | undefined): void;
+  getFilteredProducts(): Products;
+
+  setFilterProducts(filter: string, value: string): void;
+  dropFilterProducts(filter: string, value: string): void
   getProduct(productId: number): Product;
+
+  addProductToBasket(productId: number): void;
   dropProductFromBasket(poductId: number): void;
   changeBasketStorage(): void;
   getBasket(): Products;
