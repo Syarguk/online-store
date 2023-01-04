@@ -2,40 +2,50 @@ import { filtersName } from '../common/constans';
 import { getListFields } from '../common/filtersHelpers';
 import { getSumAndCount } from '../common/basketHelper';
 import ProductFilter from '../components/ProductFilter';
-import ProductCard from '../components/ProductCard';
+import AsideButtons from '../components/AsideButtons';
 import model from '../model/model';
 import headerWiew from '../view/headerWiew';
+import view from '../view/view';
+
+const productsRenderCallback = (containerEl) => {
+  const render = (products) => {
+    //console.log(products);
+    view.renderProducts(products, containerEl);
+  };
+  return render;
+};
 
 const mainPage = () => {
   const products = model.getProducts();
-  headerWiew(getSumAndCount(model.getBasket()));
+  //headerWiew(getSumAndCount(model.getBasket()));
 
-  const div = document.createElement('div');
-  div.classList.add('row', 'm-2', 'py-3');
-
+  const pageContainer = document.createElement('div');
   const aside = document.createElement('aside');
+  const productsContainer = document.createElement('div');
+  const productsSection = document.createElement('section');
+
+  pageContainer.classList.add('row', 'm-2', 'py-3');
   aside.setAttribute('id', 'filters');
   aside.classList.add('col-4');
+  productsContainer.classList.add('cards-container', 'd-flex', 'flex-wrap', 'justify-content-center', 'p-2');
+  productsSection.classList.add('col-8', 'py-2');
 
+  aside.append(new AsideButtons().init());
   filtersName.forEach((filterName) => {
-    const filterEl = new ProductFilter(getListFields(filterName, products), filterName);
+    const dataForFilter = getListFields(filterName, products);
+    const callback = productsRenderCallback(productsContainer);
+    const filterEl = new ProductFilter(dataForFilter, filterName, callback);
     aside.append(filterEl.init());
   });
 
-  const productsContainer = document.createElement('div');
-  productsContainer.classList.add('cards-container', 'd-flex', 'flex-wrap', 'justify-content-center', 'p-2');
-  products.forEach((product) => {
-    const card = new ProductCard(product);
-    productsContainer.append(card.init());
-  });
 
-  const section = document.createElement('section');
-  section.classList.add('col-8', 'py-2');
-  section.append(productsContainer);
 
-  div.append(aside);
-  div.append(section);
-  return div;
+  view.renderProducts(products, productsContainer);
+  productsSection.append(productsContainer);
+
+  pageContainer.append(aside);
+  pageContainer.append(productsSection);
+  return pageContainer;
 };
 
 export default mainPage;
