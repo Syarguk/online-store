@@ -43,12 +43,12 @@ const basketPage = `<div class="wrapper-basket d-flex">
   </div>
   <div class="total-price">
     Total:
-    €<span>4,314.00</span>
+    €<span>4,314.00 </span>
   </div>
   <div class="promo-code">
-    <input type="text" placeholder="Enter promo code">
+    <input class="input-promo" type="text" placeholder="Enter promo code">
   </div>
-  <span class="promo-ex">Promo for test: 'RS', 'EPM'</span>
+  <span class="promo-ex">Promo for test: 'Pro1', 'Pro2', 'Pro3'</span>
   <button class="btn btn-outline-dark">BUY NOW</button>
 </aside>
 </div>`;

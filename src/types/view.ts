@@ -1,4 +1,5 @@
 import { Products } from './products';
+import { UPC, ProCod } from './basket';
 
 interface View {
   renderProducts(products: Products): void;
@@ -7,6 +8,7 @@ interface View {
 
 interface ViewBasket {
   renderSelectProducts(data: [Products, number]): void;
+  renderUsedPromoCode(prCodes: ProCod, usdPrCodes: UPC): void;
 }
 
 export { View, ViewBasket };

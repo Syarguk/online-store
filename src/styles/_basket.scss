@@ -10,3 +10,15 @@
 .basket-number-control {
   width: 100px;
 }
+.old-price {
+  position: relative;
+}
+.old-price::after {
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: black;
+}
