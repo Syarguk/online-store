@@ -35,10 +35,8 @@ export const transformUrlToParams = (url:string):ObjectInterface => {
 export const transformParamsToUrl = (params: ObjectInterface):string => {
   const query = Object.entries(params)
     .flatMap(([key, value]) => {
-      //Свойство "length" не существует в типе "string | number | string[] | number[]"
-      if (!value || value.length < 1) {
-        return [];
-      }
+      if (!value) return [];
+      if (typeof value !== 'number' && value.length < 1) return [];
       let resultValue = value;
       if (Array.isArray(value)) {
         resultValue = value.join('%');
