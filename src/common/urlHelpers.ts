@@ -1,9 +1,9 @@
-import { numbersTypeArea, routes } from './constans';
+import { numbersTypeArea } from './constans';
 import { ObjectInterface } from '../types/products';
 
 type Transform = string | number | string[] | number[];
 
-const transformStrToNum = (key: string, value: string | string[]): Transform => {
+const transformParamsToNum = (key: string, value: string | string[]): Transform => {
   if (numbersTypeArea.includes(key)) {
     if (Array.isArray(value)) {
       return value.map((item) => Number(item));
@@ -22,19 +22,13 @@ export const transformUrlToParams = (url:string):ObjectInterface => {
     if (arr.length > 1) {
       newValue = arr;
     } else {
+      // eslint-disable-next-line prefer-destructuring
       newValue = arr[0];
     }
-    // if (numbersTypeArea.includes(key)) {
-    //   acc[key] = Number(value);
-    // } else {
-    acc[key] = transformStrToNum(key, newValue);
-    // if (numbersTypeArea.includes(key)) {
-    //   acc[key] = Number(value);
-    // } else {
-    //   acc[key] = value;
-    // }
+    acc[key] = transformParamsToNum(key, newValue);
     return acc;
   }, {});
+
   return params;
 };
 
@@ -54,20 +48,4 @@ export const transformParamsToUrl = (params: ObjectInterface):string => {
   const resultQuery = query.length === 1 ? query.join('') : query.join('&');
 
   return resultQuery;
-};
-
-export const updateUrl = (startUrl: string, params: ObjectInterface): void => {
-  const currentUrl = new URL(window.location.href).pathname;
-
-  let path;
-  if (currentUrl === routes.main) {
-    path = `${startUrl}${transformParamsToUrl(params)}`;
-  } else {
-    const currentParams = transformUrlToParams(currentUrl);
-    const newParams = { ...currentParams, ...params };
-    const newUrl = transformParamsToUrl(newParams);
-
-    path = newUrl ? startUrl + newUrl : routes.main;
-  }
-  window.history.pushState({ path }, path, path);
 };
