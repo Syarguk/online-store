@@ -1,6 +1,6 @@
 import { Product } from '../types/products';
 import model from '../model/model';
-import { goTo } from '../rout';
+import { goToPath } from '../router/router';
 import { routes } from '../common/constans';
 import { getSumAndCount } from '../common/basketHelper';
 import headerWiew from '../view/headerWiew';
@@ -104,7 +104,7 @@ class ProductCard {
           }
         } else {
           const path = `${routes.product}id=${this.product.id}`;
-          goTo(path);
+          goToPath(path);
         }
 
         // console.log('Current list products');
