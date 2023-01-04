@@ -40,28 +40,24 @@ export const transformUrlToParams = (url:string):ObjectInterface => {
 
 export const transformParamsToUrl = (params: ObjectInterface):string => {
   const query = Object.entries(params)
-    .map(([key, value]) => {
-      //console.log(value.length);
-
+    .flatMap(([key, value]) => {
+      //Свойство "length" не существует в типе "string | number | string[] | number[]"
       if (!value || value.length < 1) {
-        return '';
+        return [];
       }
       let resultValue = value;
       if (Array.isArray(value)) {
         resultValue = value.join('%');
       }
       return `${key}=${resultValue}`;
-    })
-    .join('&');
+    });
+  const resultQuery = query.length === 1 ? query.join('') : query.join('&');
 
-  return `${query}`;
+  return resultQuery;
 };
 
 export const updateUrl = (startUrl: string, params: ObjectInterface): void => {
- // надо как-то убирать префикс маин для поисковых урлов
-
   const currentUrl = new URL(window.location.href).pathname;
-  console.log(currentUrl);
 
   let path;
   if (currentUrl === routes.main) {
@@ -69,9 +65,9 @@ export const updateUrl = (startUrl: string, params: ObjectInterface): void => {
   } else {
     const currentParams = transformUrlToParams(currentUrl);
     const newParams = { ...currentParams, ...params };
-    //console.log(newParams);
+    const newUrl = transformParamsToUrl(newParams);
 
-    path = `${startUrl}${transformParamsToUrl(newParams)}`;
+    path = newUrl ? startUrl + newUrl : routes.main;
   }
   window.history.pushState({ path }, path, path);
 };
