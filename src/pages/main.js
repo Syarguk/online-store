@@ -9,7 +9,7 @@ import view from '../view/view';
 
 const productsRenderCallback = (containerEl) => {
   const render = (products) => {
-    //console.log(products);
+    //const data = products.legenth > 0 ? products : model.getProducts();
     view.renderProducts(products, containerEl);
   };
   return render;

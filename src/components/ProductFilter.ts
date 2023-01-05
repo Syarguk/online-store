@@ -82,7 +82,9 @@ class ProductFilter {
         model.dropFilterProducts(this.filterName, value);
       }
 
-      // console.log(model.getProducts());
+      //подумать как отрисовывать когда снимаешь все фильтры
+      // const filteredProducts = model.getFilteredProducts()
+      // const data = filteredProducts.length < 1 ? filteredProducts : model.getProducts();
 
       this.productsRender(model.getFilteredProducts());
 
