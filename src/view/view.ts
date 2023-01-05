@@ -1,17 +1,16 @@
-import { View } from '../types/view';
+/* eslint-disable no-param-reassign */
+import View from '../types/view';
 import ProductCard from '../components/ProductCard';
 import ProductFilter from '../components/ProductFilter';
 
 const view: View = {
-  renderProducts(products) {
-    const cards = document.querySelectorAll('.cards-container .card');
-    if (cards) {
-      cards.forEach((el) => el.remove());
-    }
-    const cardsContainer = document.querySelector('.cards-container');
+  renderProducts(products, containerEl): void {
+    containerEl.innerHTML = '';
     products.forEach((product) => {
       const productCard = new ProductCard(product);
-      cardsContainer?.append(productCard.init() as HTMLElement);
+      if (productCard.init()) {
+        containerEl?.append(productCard.init());
+      }
     });
   },
 

@@ -2,7 +2,7 @@ import { Products } from './products';
 import { UPC, ProCod } from './basket';
 
 interface View {
-  renderProducts(products: Products): void;
+  renderProducts(products: Products, containerEl: HTMLDivElement): void;
   renderFilters(listFields: [string, number][]): void;
 }
 
