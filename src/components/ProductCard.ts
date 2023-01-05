@@ -1,16 +1,18 @@
 import { Product } from '../types/products';
-import model from '../model/model';
 import { routes, goTo } from '../rout';
-import { getSumAndCount } from '../common/basketHelper';
+import { getBasket, addToBasket, takeFromBasket, getSummaryProducts } from '../common/basketHelper';
 import headerWiew from '../view/headerWiew';
 
 const changeHeaderWiew = (): void => {
-  headerWiew(getSumAndCount(model.getBasket()));
+  headerWiew(getSummaryProducts());
 };
 
 const isDropBtn = (id: number): boolean => {
-  const basket = model.getBasket().map((product) => product.id);
-  return basket.includes(id);
+  const basket = getBasket();
+  if (basket) {
+    return Object.prototype.hasOwnProperty.call(basket, String(id));
+  }
+  return false;
 };
 
 type Elements = {
@@ -81,13 +83,13 @@ class ProductCard {
           const btnType = target.dataset.basket;
           switch (btnType) {
             case 'add':
-              model.addProductToBasket(this.product.id);
+              addToBasket(this.product.id);
               changeHeaderWiew();
               target.textContent = 'Drop from card';
               target.dataset.basket = 'drop';
               break;
             case 'drop':
-              model.dropProductFromBasket(this.product.id);
+              takeFromBasket(this.product.id);
               changeHeaderWiew();
               target.textContent = 'Add to card';
               target.dataset.basket = 'add';
@@ -102,7 +104,6 @@ class ProductCard {
           goTo(path);
         }
         console.log('Current list products');
-        console.log(model.basket);
       }
     });
   }

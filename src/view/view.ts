@@ -1,4 +1,4 @@
-import View from '../types/view';
+import { View } from '../types/view';
 import ProductCard from '../components/ProductCard';
 import ProductFilter from '../components/ProductFilter';
 
@@ -35,10 +35,6 @@ const view: View = {
     cardBody.append(cardsContainer);
     card.append(cardBody);
     filterContainer?.append(card);
-  },
-
-  renderBasket(productsId) {
-
   },
 };
 

@@ -1,44 +1,46 @@
-import View from '../types/view';
-import ProductCard from '../components/ProductCard';
-import ProductFilter from '../components/ProductFilter';
+import { ViewBasket } from '../types/view';
+import ProductBasket from '../components/ProductBasket';
+import { UPC, ProCod } from '../types/basket';
 
-const viewBasket: View = {
-  renderProducts(products) {
-    const cards = document.querySelectorAll('.cards-container .card');
+const viewBasket: ViewBasket = {
+  renderSelectProducts(data) {
+    const [products, startIndex] = data;
+    const cards = document.querySelectorAll('.prod-items .item-prod');
     if (cards) {
       cards.forEach((el) => el.remove());
     }
-    const cardsContainer = document.querySelector('.cards-container');
-    products.forEach((product) => {
-      const productCard = new ProductCard(product);
+    const cardsContainer = document.querySelector('.select-products .prod-items');
+    products.forEach((product, index) => {
+      const productCard = new ProductBasket(product, index + startIndex + 1);
       cardsContainer?.append(productCard.init() as HTMLElement);
     });
   },
 
-  renderFilters(listFields) {
-    const filterContainer = document.querySelector('#filters');
-    const cards = document.querySelectorAll('#filters .card');
-    if (cards) {
-      cards.forEach((el) => el.remove());
-    }
-    const card = document.createElement('div');
-    card.classList.add('card');
-    const cardBody = document.createElement('div');
-    cardBody.classList.add('card-body', 'pe-0');
-    cardBody.innerHTML = '<h5 class="card-title text-center">Category</h5>';
-    const cardsContainer = document.createElement('div');
-    cardsContainer.classList.add('check-form');
-    listFields.forEach((field) => {
-      const productFilter = new ProductFilter(field);
-      cardsContainer?.append(productFilter.init() as HTMLElement);
+  renderUsedPromoCode(prCodes: ProCod, usdPrCodes: UPC) {
+    if (document.querySelector('.appl-codes')) document.querySelector('.appl-codes')?.remove();
+    const appleCodes = document.createElement('div');
+    appleCodes.classList.add('appl-codes');
+    appleCodes.innerHTML = '<h5>Appled codes</h5>';
+    Object.keys(usdPrCodes).forEach((key) => {
+      const nameKey = key[0].toUpperCase() + key.slice(1);
+      const codeDesc = prCodes[nameKey as keyof typeof prCodes];
+      const strIndex = codeDesc.indexOf('">');
+      const newCodeDescr = `${codeDesc.slice(0, strIndex)}n">${codeDesc.slice(strIndex + 2)}`;
+      const prCodeBtn = document.createElement('div');
+      prCodeBtn.classList.add('code-appl-btn');
+      prCodeBtn.innerHTML = `${newCodeDescr}<span class="del-promo-btn btn btn-outline-dark">DROP</span>`;
+      appleCodes.append(prCodeBtn);
     });
-    cardBody.append(cardsContainer);
-    card.append(cardBody);
-    filterContainer?.append(card);
+    document.querySelector('.promo-code')?.before(appleCodes);
   },
 
-  renderBasket(productsId) {
-
+  renderModalCheckout() {
+    const backgrPopup = document.createElement('div');
+    backgrPopup.classList.add('popup-backgr');
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+    backgrPopup.append(popup);
+    document.body.append(backgrPopup);
   },
 };
 
