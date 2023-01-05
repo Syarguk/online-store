@@ -1,10 +1,7 @@
-import { ObjectForFilter, ObjectInterface } from '../types/products';
+import { ObjectForFilter, ObjectInterface, ProductsRenderCallback } from '../types/products';
 import { updateUrl } from '../router/router';
 import { routes } from '../common/constans';
-
-type Elements = {
-  filterEl: HTMLElement | null;
-};
+import model from '../model/model';
 
 const renderFilter = (name: string, filter: ObjectForFilter): string => {
   const labels = Object.entries(filter)
@@ -19,7 +16,7 @@ const renderFilter = (name: string, filter: ObjectForFilter): string => {
     <div class="filter-count">
       <span>${count}</span>
       <span>/</span>
-      <span>6</span>
+      <span>${count}</span>
     </div>
   </div>`;
       return html;
@@ -46,44 +43,51 @@ class ProductFilter {
 
   filterName: string;
 
-  elements: Elements = {
-    filterEl: null,
-  };
+  productsRender: ProductsRenderCallback;
+
+  filterEl: HTMLDivElement;
 
   currentFilters: string[] = [];
 
-  constructor(filter: ObjectForFilter, filterName: string) {
+  constructor(filter: ObjectForFilter, filterName: string, productsRender:ProductsRenderCallback) {
     this.filter = filter;
     this.filterName = filterName;
+    this.productsRender = productsRender;
+    this.filterEl = document.createElement('div');
   }
 
-  init() {
+  init(): HTMLDivElement {
     this.render();
     this.attachEvents();
 
-    return this.elements.filterEl;
+    return this.filterEl;
   }
 
   render(): void {
-    const filterEl = document.createElement('div');
-    filterEl.classList.add('form-check', 'me-2');
-
-    filterEl.innerHTML = renderFilter(this.filterName, this.filter);
-    this.elements.filterEl = filterEl;
+    this.filterEl.classList.add('form-check', 'me-2');
+    this.filterEl.innerHTML = renderFilter(this.filterName, this.filter);
   }
 
   private attachEvents(): void {
-    this.elements.filterEl?.addEventListener('change', (e) => {
+    this.filterEl.addEventListener('change', (e) => {
       const checkbox = e.target as HTMLInputElement;
+      const { value } = checkbox;
       if (checkbox.checked) {
-        this.currentFilters.push(checkbox.value);
+        this.currentFilters.push(value);
+        console.log(new URL(window.location.href).searchParams);
+
+        model.setFilterProducts(this.filterName, value);
       } else {
-        this.currentFilters = this.currentFilters.filter((val) => val !== checkbox.value);
+        this.currentFilters = this.currentFilters.filter((val) => val !== value);
+        model.dropFilterProducts(this.filterName, value);
       }
+
+      // console.log(model.getProducts());
+
+      this.productsRender(model.getFilteredProducts());
+
       const params = getParamsToUrl(this.filterName, this.currentFilters);
       updateUrl(routes.mainSearch, params);
-
-
     });
   }
 }
