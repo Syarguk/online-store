@@ -33,6 +33,15 @@ const viewBasket: ViewBasket = {
     });
     document.querySelector('.promo-code')?.before(appleCodes);
   },
+
+  renderModalCheckout() {
+    const backgrPopup = document.createElement('div');
+    backgrPopup.classList.add('popup-backgr');
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+    backgrPopup.append(popup);
+    document.body.append(backgrPopup);
+  },
 };
 
 export default viewBasket;

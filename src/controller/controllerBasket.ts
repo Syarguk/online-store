@@ -89,6 +89,12 @@ function addListenerBasket() {
     if (data) viewBasket.renderSelectProducts(data);
   });
   document.querySelector('.input-promo')?.addEventListener('input', changePromo);
+  document.querySelector('.btn-by-now')?.addEventListener('click', () => {
+    viewBasket.renderModalCheckout();
+    document.querySelector('.popup-backgr')?.addEventListener('click', () => {
+
+    });
+  });
 }
 
 function initBasket() {

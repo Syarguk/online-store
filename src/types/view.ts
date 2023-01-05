@@ -9,6 +9,7 @@ interface View {
 interface ViewBasket {
   renderSelectProducts(data: [Products, number]): void;
   renderUsedPromoCode(prCodes: ProCod, usdPrCodes: UPC): void;
+  renderModalCheckout(): void;
 }
 
 export { View, ViewBasket };
