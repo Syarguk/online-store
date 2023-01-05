@@ -1,17 +1,22 @@
 import { Product } from '../types/products';
 import { goToPath } from '../router/router';
 import { routes } from '../common/constans';
-import { getBasket, addToBasket, takeFromBasket, getSummaryProducts } from '../common/basketHelper';
+import {
+  getStorage, addToStorage, dropFromStorage, getCostAndCount
+} from '../common/basketHelper';
 import headerWiew from '../view/headerWiew';
+import model from '../model/model';
 
 const changeHeaderWiew = (): void => {
-  headerWiew(getSummaryProducts());
+  headerWiew(getCostAndCount());
 };
 
 const isDropBtn = (id: number): boolean => {
-  const basket = getBasket();
-  if (basket) {
-    return Object.prototype.hasOwnProperty.call(basket, String(id));
+  const storage = getStorage();
+
+  if (Array.isArray(storage)) {
+    const ids = storage.map((item: Product) => item.id);
+    return ids.includes(id);
   }
   return false;
 };
@@ -67,37 +72,30 @@ class ProductCard {
       btn.textContent = 'Add to card';
       btn.dataset.basket = 'add';
     }
+    btn.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const btnType = target.dataset.basket;
+      if (btnType === 'add') {
+        addToStorage(model.getProduct(this.product.id));
+        target.textContent = 'Drop from card';
+        target.dataset.basket = 'drop';
+      } else {
+        dropFromStorage(this.product.id);
+        target.textContent = 'Add to card';
+        target.dataset.basket = 'add';
+      }
+      changeHeaderWiew();
+    });
+
     return btn;
   }
 
   private attachEvents(): void {
-    this.cardEl.addEventListener('click', (e: Event) => {
-      if (e.target) {
-        const target = e.target as HTMLElement;
-        if (target.matches('.js-basket')) {
-          const btnType = target.dataset.basket;
-          switch (btnType) {
-            case 'add':
-              addToBasket(this.product.id);
-              changeHeaderWiew();
-              target.textContent = 'Drop from card';
-              target.dataset.basket = 'drop';
-              break;
-            case 'drop':
-              takeFromBasket(this.product.id);
-              changeHeaderWiew();
-              target.textContent = 'Add to card';
-              target.dataset.basket = 'add';
-              break;
-
-            default:
-              throw new Error(`unknow btn type ${btnType}`);
-              break;
-          }
-        } else {
-          const path = `${routes.product}id=${this.product.id}`;
-          goToPath(path);
-        }
+    this.cardEl.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.matches('.js-basket')) {
+        const path = `${routes.product}id=${this.product.id}`;
+        goToPath(path);
       }
     });
   }

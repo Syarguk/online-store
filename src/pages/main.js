@@ -1,6 +1,6 @@
 import { filtersName } from '../common/constans';
 import { getListFields } from '../common/filtersHelpers';
-import { getSumAndCount } from '../common/basketHelper';
+import { getCostAndCount } from '../common/basketHelper';
 import ProductFilter from '../components/ProductFilter';
 import AsideButtons from '../components/AsideButtons';
 import model from '../model/model';
@@ -17,7 +17,7 @@ const productsRenderCallback = (containerEl) => {
 
 const mainPage = () => {
   const products = model.getProducts();
-  //headerWiew(getSumAndCount(model.getBasket()));
+  headerWiew(getCostAndCount());
 
   const pageContainer = document.createElement('div');
   const aside = document.createElement('aside');

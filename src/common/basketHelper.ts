@@ -1,8 +1,9 @@
+/* eslint-disable no-return-assign */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 import { Products, Product } from '../types/products';
 import model from '../model/model';
-import { UPC, ObectProductsId } from '../types/basket';
+import { UPC, ObectProductsId, CostAndCount } from '../types/basket';
 
 export function addToStorage(product: Product) {
   const storage = localStorage.getItem('basket');
@@ -41,6 +42,17 @@ export function getStorage(): Products | null {
     return (JSON.parse(storage));
   }
   return null;
+}
+
+export function getCostAndCount(): CostAndCount {
+  const result = { cost: 0, count: 0 };
+  const basket = getStorage();
+  if (Array.isArray(basket) && basket.length > 0) {
+    result.count = basket.length;
+    // eslint-disable-next-line no-param-reassign
+    result.cost = basket.reduce((acc, item: Product) => acc += item.price, 0);
+  }
+  return result;
 }
 
 export const promoCodes = {

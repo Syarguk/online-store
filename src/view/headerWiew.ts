@@ -1,10 +1,9 @@
-import { HeaderWiewArgs } from './../types/view';
+import { CostAndCount } from '../types/basket';
 
 const totalCost: HTMLElement | null = document.getElementById('total-cost');
 const totalCount: HTMLElement | null = document.getElementById('basket-count');
 
-const headerWiew = (summaryProd: [cost: number, count: number]):void => {
-  const [cost, count] = summaryProd;
+const headerWiew = ({ cost, count }:CostAndCount):void => {
   if (totalCost) {
     totalCost.textContent = String(cost);
   }
