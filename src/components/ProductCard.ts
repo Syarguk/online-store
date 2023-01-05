@@ -16,34 +16,29 @@ const isDropBtn = (id: number): boolean => {
   return false;
 };
 
-type Elements = {
-  card: HTMLElement | null;
-};
-
 class ProductCard {
   product: Product;
 
-  elements: Elements = {
-    card: null,
-  };
+  cardEl: HTMLDivElement;
 
   constructor(product: Product) {
     this.product = product;
+    this.cardEl = document.createElement('div');
   }
 
-  init(): HTMLElement | null {
+  init(): HTMLDivElement {
     this.render();
     this.attachEvents();
 
-    return this.elements.card;
+    return this.cardEl;
   }
 
   render(): void {
     const { product } = this;
-    const cardEl = document.createElement('div');
-    cardEl.classList.add('card');
-    cardEl.setAttribute('id', String(product.id));
-    cardEl.innerHTML = `<h5 class="card-title text-center mt-1">${product.title}</h5>
+
+    this.cardEl.classList.add('card');
+    this.cardEl.setAttribute('id', String(product.id));
+    this.cardEl.innerHTML = `<h5 class="card-title text-center mt-1">${product.title}</h5>
     <img src="${product.thumbnail}" class="card-img-top" alt="${product.title}">
       <ul class="list-group list-group-flush">
         <li class="list-group-item p-2">Category: ${product.category}</li>
@@ -59,12 +54,10 @@ class ProductCard {
     btnContainer.classList.add('d-flex', 'justify-content-between', 'flex-wrap', 'm-2');
     btnContainer.innerHTML = '<button type="button" class="btn btn-primary btn-sm">Details</button>';
     btnContainer.prepend(this.getBtn());
-    cardEl.append(btnContainer);
-
-    this.elements.card = cardEl;
+    this.cardEl.append(btnContainer);
   }
 
-  private getBtn(): Element {
+  private getBtn(): HTMLButtonElement {
     const btn = document.createElement('button');
     btn.classList.add('btn', 'btn-primary', 'btn-sm', 'js-basket');
     if (isDropBtn(this.product.id)) {
@@ -78,7 +71,7 @@ class ProductCard {
   }
 
   private attachEvents(): void {
-    this.elements.card?.addEventListener('click', (e: Event) => {
+    this.cardEl.addEventListener('click', (e: Event) => {
       if (e.target) {
         const target = e.target as HTMLElement;
         if (target.matches('.js-basket')) {
@@ -105,7 +98,6 @@ class ProductCard {
           const path = `${routes.product}id=${this.product.id}`;
           goToPath(path);
         }
-        console.log('Current list products');
       }
     });
   }
