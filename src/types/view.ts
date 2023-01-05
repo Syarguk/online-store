@@ -1,7 +1,7 @@
 import { Products } from './products';
 
 interface View {
-  renderProducts(products: Products): void;
+  renderProducts(products: Products, containerEl: HTMLDivElement): void;
   renderFilters(listFields: [string, number][]): void;
   renderBasket(productsId: number[]): void;
 }
