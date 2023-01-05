@@ -4,6 +4,46 @@ import { Products } from '../types/products';
 import model from '../model/model';
 import { UPC, ObectProductsId } from '../types/basket';
 
+
+function add(product: Product) {
+  const storage = localStorage.getItem('basket');
+
+  if (typeof storage === 'string') {
+    const basket = JSON.parse(storage);
+    const newBasket = [...basket, product];
+    localStorage.setItem('basket', JSON.stringify(newBasket));
+  } else {
+    localStorage.setItem('basket', JSON.stringify([product]));
+  }
+}
+
+function drop(id: number): void {
+  const storage = localStorage.getItem('basket');
+
+  if (typeof storage === 'string') {
+    const basket = JSON.parse(storage);
+    let tmp: Products = [];
+    for (let i = 0; i < basket.length; i += 1) {
+      if (basket[i].id === id) {
+        const chunk = basket.slice(i + 1);
+        tmp = [...tmp, ...chunk];
+        break;
+      }
+      tmp.push(basket[i]);
+    }
+
+    localStorage.setItem('basket', JSON.stringify(tmp));
+  }
+}
+
+function getStorage(): Products | null {
+  const storage = localStorage.getItem('basket');
+  if (typeof storage === 'string') {
+    return (JSON.parse(storage));
+  }
+  return null;
+}
+
 export const promoCodes = {
   Pro1: 'Code Number-One - <span id="pro1">10</span>% --> ',
   Pro2: 'Code Number-Two - <span id="pro2">20</span>% --> ',
