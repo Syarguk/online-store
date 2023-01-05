@@ -5,16 +5,14 @@ interface Model {
   filteredData: Products;
 
   getProducts(): Products;
+  getProduct(productId: number): Product;
+  getProductsForBasket(productsId: string[]): Products;
+  //talk about this metods
+  getFilterProducts(filter: string | null | undefined): void;
   getFilteredProducts(): Products;
 
   setFilterProducts(filter: string, value: string): void;
   dropFilterProducts(filter: string, value: string): void
-  getProduct(productId: number): Product;
-
-  getFilterProducts(filter: string | null | undefined): void;
-
-  addProductToBasket(productId: number): void;
-
 }
 
 export default Model;

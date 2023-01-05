@@ -18,7 +18,6 @@ export const updateUrl = (startUrl: string, params: ObjectInterface): void => {
     const currentParams = transformUrlToParams(currentUrl);
     const newParams = { ...currentParams, ...params };
     const newUrl = transformParamsToUrl(newParams);
-
     path = newUrl ? startUrl + newUrl : routes.main;
   }
   window.history.pushState({ path }, path, path);

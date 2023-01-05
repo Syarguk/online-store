@@ -10,7 +10,7 @@ const render = (path) => {
   if (path === routes.main) {
     result = mainPage();
   } else if (path === routes.basket) {
-    result = basketPage;
+    result = basketPage();
   } else if (path.includes(routes.product)) {
     result = buildProductPage(path);
   } else if (path.includes(routes.mainSearch)) {
