@@ -13,3 +13,13 @@ export type Product = {
 };
 
 export type Products = Array<Product>;
+
+export interface ObjectInterface {
+  [key: string]: string | number | string[] | number[];
+}
+
+export interface ObjectForFilter {
+  [key: string]: number;
+}
+
+export type ProductsRenderCallback = (products: Products) => void;

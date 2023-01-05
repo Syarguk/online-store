@@ -2,30 +2,29 @@ import mainPage from './pages/main';
 import basketPage from './pages/basket';
 import buildProductPage from './pages/product';
 import notFoundPage from './pages/notFound';
-// import ProductCard from './components/ProductCard';
+import { routes } from './common/constans';
 
-export const routes = {
-  main: '/',
-  basket: '/basket',
-  product: '/product:',
-};
+
 
 export const render = (path) => {
   let result = notFoundPage;
 
- // console.log(path);
   if (path === routes.main) {
     result = mainPage();
   } else if (path === routes.basket) {
     result = basketPage;
   } else if (path.includes(routes.product)) {
     result = buildProductPage(path);
+  } else if (path.includes(routes.mainSearch)) {
+    //its only now
+    const div = document.createElement('div');
+    div.textContent = 'search product';
+    result = div;
   }
 
   const app = document.querySelector('#app');
   app.innerHTML = '';
   app.append(result);
-  //app.innerHTML = result;
 };
 
 export const goTo = (path) => {
