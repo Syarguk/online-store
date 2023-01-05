@@ -8,10 +8,7 @@ const model: Model = {
   filteredData: [],
 
   getProducts() {
-    if (this.filteredData.length === 0) {
-      return this.data;
-    }
-    return this.filteredData;
+    return this.data;
   },
 
   getProductsForBasket(productsId) {
@@ -24,9 +21,24 @@ const model: Model = {
     return product;
   },
 
-  getFilterProducts(filter) {
-    const filterProd = this.data.filter((product) => product.category === filter);
+  dropFilterProducts(filter, value) {
+    const filterProd = this.filteredData.filter((product) => product[filter] !== value);
+    this.filteredData = filterProd;
+    // this.filteredData.concat(filterProd);
+
+    console.log(this.filteredData);
+  },
+
+  setFilterProducts(filter, value) {
+    const filterProd = this.data.filter((product) =>
+    // console.log(filter);
+
+      product[filter] === value);
+    console.log(filterProd);
+
     this.filteredData = this.filteredData.concat(filterProd);
+
+    // console.log(this.filteredData);
   },
 };
 
