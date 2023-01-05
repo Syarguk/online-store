@@ -10,7 +10,7 @@ interface Model {
   // basket: Products;
   // basketInStorage: Bis;
   getProducts(): Products;
-  getProducts1(productsId: string[]): Products;
+  getProductsForBasket(productsId: string[]): Products;
   // addProductToBasket(productId: number): void;
   getFilterProducts(filter: string | null | undefined): void;
   getProduct(productId: number): Product;

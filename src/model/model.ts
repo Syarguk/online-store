@@ -14,7 +14,7 @@ const model: Model = {
     return this.filteredData;
   },
 
-  getProducts1(productsId) {
+  getProductsForBasket(productsId) {
     return this.data.filter((product) => productsId.includes(String(product.id)));
   },
 

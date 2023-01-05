@@ -104,7 +104,7 @@ export function setQuantityProducts(e?: Event): [Products, number] | null {
     const endArray = startArray + quantity;
     const prodIdBasket = Object.keys(getBasket());
     const prodIdPage = prodIdBasket.filter((el, index) => index >= startArray && index < endArray);
-    const products = model.getProducts1(prodIdPage);
+    const products = model.getProductsForBasket(prodIdPage);
     return [products, startArray];
   }
   return null;
