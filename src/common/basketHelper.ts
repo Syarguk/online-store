@@ -1,11 +1,10 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
-import { Products } from '../types/products';
+import { Products, Product } from '../types/products';
 import model from '../model/model';
 import { UPC, ObectProductsId } from '../types/basket';
 
-
-function add(product: Product) {
+export function addToStorage(product: Product) {
   const storage = localStorage.getItem('basket');
 
   if (typeof storage === 'string') {
@@ -17,7 +16,7 @@ function add(product: Product) {
   }
 }
 
-function drop(id: number): void {
+export function dropFromStorage(id: number): void {
   const storage = localStorage.getItem('basket');
 
   if (typeof storage === 'string') {
@@ -36,7 +35,7 @@ function drop(id: number): void {
   }
 }
 
-function getStorage(): Products | null {
+export function getStorage(): Products | null {
   const storage = localStorage.getItem('basket');
   if (typeof storage === 'string') {
     return (JSON.parse(storage));
