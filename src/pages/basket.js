@@ -59,9 +59,9 @@ const basketPage = () => {
                         <h4>No products in basket</h4>
                       </section>`;
   if (getBasket) {
-    wrapper.append(htmlBasket);
+    wrapper.innerHTML = htmlBasket;
   } else {
-    wrapper.append(noProducts);
+    wrapper.innerHTML = noProducts;
   }
   return wrapper;
 };
