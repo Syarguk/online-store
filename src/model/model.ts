@@ -29,17 +29,15 @@ const model: Model = {
     console.log(this.filteredData);
   },
 
-  setFilterProducts(filter, value) {
-    const filterProd = this.data.filter((product) =>
-    // console.log(filter);
 
-      product[filter] === value);
-    console.log(filterProd);
-
-    this.filteredData = this.filteredData.concat(filterProd);
-
-    // console.log(this.filteredData);
+  getProduct(productId): Product {
+    const filterProducts = this.data.filter((product) => product.id === productId);
+    const [product] = filterProducts;
+    return product;
   },
+
+
+
 };
 
 export default model;
