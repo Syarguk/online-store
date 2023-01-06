@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { filtersName } from '../common/constans';
 import { getListFields } from '../common/filtersHelpers';
 import { getCostAndCount } from '../common/basketHelper';
@@ -9,7 +10,6 @@ import view from '../view/view';
 
 const productsRenderCallback = (containerEl) => {
   const render = (products) => {
-    //const data = products.legenth > 0 ? products : model.getProducts();
     view.renderProducts(products, containerEl);
   };
   return render;

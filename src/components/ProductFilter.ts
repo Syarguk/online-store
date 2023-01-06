@@ -1,7 +1,9 @@
 import { ObjectForFilter, ObjectInterface, ProductsRenderCallback } from '../types/products';
+// eslint-disable-next-line import/no-cycle
 import { updateUrl } from '../router/router';
 import { routes } from '../common/constans';
 import model from '../model/model';
+import filterStrategue from '../common/filter';
 
 const renderFilter = (name: string, filter: ObjectForFilter): string => {
   const labels = Object.entries(filter)
@@ -47,8 +49,6 @@ class ProductFilter {
 
   filterEl: HTMLDivElement;
 
-  currentFilters: string[] = [];
-
   constructor(filter: ObjectForFilter, filterName: string, productsRender:ProductsRenderCallback) {
     this.filter = filter;
     this.filterName = filterName;
@@ -73,22 +73,14 @@ class ProductFilter {
       const checkbox = e.target as HTMLInputElement;
       const { value } = checkbox;
       if (checkbox.checked) {
-        this.currentFilters.push(value);
-        console.log(new URL(window.location.href).searchParams);
-
-        model.setFilterProducts(this.filterName, value);
+        filterStrategue.addValToArr(this.filterName, value);
       } else {
-        this.currentFilters = this.currentFilters.filter((val) => val !== value);
-        model.dropFilterProducts(this.filterName, value);
+        filterStrategue.dropValFromArr(this.filterName, value);
       }
-
-      //подумать как отрисовывать когда снимаешь все фильтры
-      // const filteredProducts = model.getFilteredProducts()
-      // const data = filteredProducts.length < 1 ? filteredProducts : model.getProducts();
-
-      this.productsRender(model.getFilteredProducts());
-
-      const params = getParamsToUrl(this.filterName, this.currentFilters);
+      const filteredData = filterStrategue.filterData(model.getProducts());
+      this.productsRender(filteredData);
+      const currentFilterss = filterStrategue.getFilterValues(this.filterName);
+      const params = getParamsToUrl(this.filterName, currentFilterss);
       updateUrl(routes.mainSearch, params);
     });
   }
