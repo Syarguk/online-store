@@ -4,6 +4,7 @@
 import { Products, Product } from '../types/products';
 import model from '../model/model';
 import { UPC, ObectProductsId, CostAndCount } from '../types/basket';
+import viewBasket from '../view/viewBasket';
 
 export function addToStorage(product: Product) {
   const storage = localStorage.getItem('basket');
@@ -64,8 +65,47 @@ export const promoCodes = {
 export const usedPromoCodes: UPC = {};
 
 export function getBasket(): ObectProductsId {
-  const storage = localStorage.getItem('products-id');
-  return storage ? JSON.parse(storage) : null;
+  const productsId = Object();
+  const storage = getStorage();
+  storage?.forEach((product) => {
+    if (String(product.id) in productsId) {
+      productsId[String(product.id)] += 1;
+    } else {
+      productsId[String(product.id)] = 1;
+    }
+  });
+  return storage ? productsId : null;
+}
+
+export function getProductsFreeCopy() {
+  const storage = getStorage();
+  const ids = Array();
+  const products = storage?.filter((product) => {
+    if (!ids.includes(product.id)) {
+      ids.push(product.id);
+      return true;
+    }
+    return false;
+  });
+  return products;
+}
+
+export function getProductsForBasket(productsId: string[]): Products | undefined {
+  const products = getProductsFreeCopy();
+  if (products) {
+    return products.filter((product) => productsId.includes(String(product.id)));
+  }
+}
+
+export function getProductsLimit(limit = 3, index = 0) {
+  const products = getProductsFreeCopy();
+  const result = [];
+  if (products) {
+    for (let i = index; i < limit; i += 1) {
+      result.push(products[i]);
+    }
+  }
+  return result;
 }
 
 export function addToBasket(productId: number) {
@@ -155,8 +195,43 @@ export function setQuantityProducts(e?: Event): [Products, number] | null {
     const endArray = startArray + quantity;
     const prodIdBasket = Object.keys(getBasket());
     const prodIdPage = prodIdBasket.filter((el, index) => index >= startArray && index < endArray);
-    const products = model.getProductsForBasket(prodIdPage);
-    return [products, startArray];
+    const products = getProductsForBasket(prodIdPage);
+    if (products) {
+      return [products, startArray];
+    }
   }
   return null;
+}
+
+export function changePageProducts(e: Event) {
+  if (e.target) {
+    const target = e.target as HTMLElement;
+    const numberPage = document.querySelector('.page-numbers span');
+    const pageProducts = Array();
+    document.querySelectorAll('.item-prod .item-i').forEach((el) => {
+      pageProducts.push(Number(el.textContent));
+    });
+    const lastProductPage = Math.max(...pageProducts);
+    const firstProductPage = Math.min(...pageProducts);
+    const quantityProducts = Object.keys(getBasket());
+    if (target.textContent === '<' && firstProductPage > 1) {
+      if (numberPage) {
+        const newNumberPage = Number(numberPage.textContent);
+        numberPage.textContent = String(newNumberPage - 1);
+      }
+      const products = setQuantityProducts();
+      if (products) {
+        viewBasket.renderSelectProductsPage(products);
+      }
+    } else if (target.textContent === '>' && lastProductPage < quantityProducts.length) {
+      if (numberPage) {
+        const newNumberPage = Number(numberPage.textContent);
+        numberPage.textContent = String(newNumberPage + 1);
+      }
+      const products = setQuantityProducts();
+      if (products) {
+        viewBasket.renderSelectProductsPage(products);
+      }
+    }
+  }
 }

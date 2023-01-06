@@ -3,7 +3,7 @@ import ProductBasket from '../components/ProductBasket';
 import { UPC, ProCod } from '../types/basket';
 
 const viewBasket: ViewBasket = {
-  /* renderSelectProducts(data) {
+  renderSelectProductsPage(data) {
     const [products, startIndex] = data;
     const cards = document.querySelectorAll('.prod-items .item-prod');
     if (cards) {
@@ -14,11 +14,23 @@ const viewBasket: ViewBasket = {
       const productCard = new ProductBasket(product, index + startIndex + 1);
       cardsContainer?.append(productCard.init() as HTMLElement);
     });
-  }, */
+  },
+
+  changeSelectProducts(products) {
+    const cards = document.querySelectorAll('.prod-items .item-prod');
+    if (cards) {
+      cards.forEach((el) => el.remove());
+    }
+    const cardsContainer = document.querySelector('.select-products .prod-items');
+    products.forEach((product, index) => {
+      const productCard = new ProductBasket(product, index + 1);
+      cardsContainer?.append(productCard.init() as HTMLElement);
+    });
+  },
 
   renderSelectProducts(data, cardsContainer) {
-    data.forEach((product) => {
-      const productCard = new ProductBasket(product, 2);
+    data.forEach((product, index) => {
+      const productCard = new ProductBasket(product, index + 1);
       cardsContainer?.append(productCard.init() as HTMLElement);
     });
   },
