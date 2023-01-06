@@ -43,7 +43,7 @@ class ProductBasket {
         <p class="stock-control">Stock: ${this.product.stock}</p>
         <div class="inc-dec-control">
           <button class="change-quant btn btn-outline-secondary">+</button>
-          <span class="quant-copy">${prodIdBasket[this.product.id]}</span>
+          <span class="quant-copy">3?</span>
           <button class="change-quant btn btn-outline-secondary">-</button>
         </div>
         <div class="amount-control">€${this.product.price}</div>

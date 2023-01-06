@@ -1,8 +1,13 @@
-import { getBasket } from '../common/basketHelper';
+import { getStorage } from '../common/basketHelper';
+import viewBasket from '../view/viewBasket';
+import model from '../model/model';
 
 const basketPage = () => {
   const wrapper = document.createElement('div');
+  const section = document.createElement('section');
   wrapper.classList.add('wrapper-basket', 'd-flex');
+  const products = getStorage();
+
   const htmlBasket = `<section class="select-products col-8">
                         <div class="title-page-control d-flex justify-content-between">
                           <h5>Products In Cart</h5>
@@ -58,8 +63,24 @@ const basketPage = () => {
   const noProducts = `<section class="no-products col-12">
                         <h4>No products in basket</h4>
                       </section>`;
-  if (getBasket) {
-    wrapper.innerHTML = htmlBasket;
+  if (products) {
+    const contCards = document.createElement('div');
+    section.classList.add('select-products', 'col-8');
+    contCards.classList.add('prod-items', 'vstack', 'gap-0');
+    viewBasket.renderSelectProducts(products, contCards);
+    section.innerHTML = `<div class="title-page-control d-flex justify-content-between">
+                          <h5>Products In Cart</h5>
+                          <div class="page-control d-flex">
+                            <div class="limit">
+                              LIMIT:<input class="basket-number-items" type="number" min="1" max="10" value="3">
+                            </div>
+                            <div class="page-numbers">
+                              PAGE:<button class="prev-page-but btn btn-outline-primary"><</button><span>1</span><button class="next-page-but btn btn-outline-primary">></button>
+                            </div>
+                          </div>
+                        </div>`;
+    section.append(contCards);
+    wrapper.append(section);
   } else {
     wrapper.innerHTML = noProducts;
   }

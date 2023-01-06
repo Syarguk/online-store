@@ -13,6 +13,7 @@ const view: View = {
       }
     });
   },
+  
 
   renderFilters(listFields) {
     const filterContainer = document.querySelector('#filters');
