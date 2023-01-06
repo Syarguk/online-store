@@ -7,6 +7,7 @@ import AsideButtons from '../components/AsideButtons';
 import model from '../model/model';
 import headerWiew from '../view/headerWiew';
 import view from '../view/view';
+import SortList from '../components/SortList';
 
 const productsRenderCallback = (containerEl) => {
   const render = (products) => {
@@ -23,10 +24,14 @@ const mainPage = () => {
   const aside = document.createElement('aside');
   const productsContainer = document.createElement('div');
   const productsSection = document.createElement('section');
+  const sortContainet = document.createElement('div');
+
+
 
   pageContainer.classList.add('row', 'm-2', 'py-3');
   aside.setAttribute('id', 'filters');
   aside.classList.add('col-4');
+  sortContainet.classList.add('d-flex', 'flex-wrap', 'justify-content-center', 'p-2');
   productsContainer.classList.add('cards-container', 'd-flex', 'flex-wrap', 'justify-content-center', 'p-2');
   productsSection.classList.add('col-8', 'py-2');
 
@@ -39,8 +44,12 @@ const mainPage = () => {
   });
 
 
-
   view.renderProducts(products, productsContainer);
+  const sortList = new SortList(products);
+  sortContainet.prepend(sortList.init());
+  //productsContainer.prepend(sortList.init());
+
+  pageContainer.append(sortContainet);
   productsSection.append(productsContainer);
 
   pageContainer.append(aside);
