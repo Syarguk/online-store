@@ -36,12 +36,15 @@ const filterStrategue = {
   },
   filterData(data) {
     let result = data;
-    const { category, brand } = this.values;
+    const { category, brand, sort } = this.values;
 
     if (category.length > 0) {
       result = filterDataByArrValues(result, 'category', category);
     } if (brand.length > 0) {
       result = filterDataByArrValues(result, 'brand', brand);
+    } if (typeof sort !== 'string') {
+      console.log(sort);
+    result = result.sort(sort);
     }
     // if (search.length > 0) {
 
