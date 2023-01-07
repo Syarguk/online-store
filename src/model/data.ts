@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable import/prefer-default-export */ 
 import { Products } from '../types/products';
 
 export const products: Products = [

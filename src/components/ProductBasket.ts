@@ -1,7 +1,8 @@
 import { Product } from '../types/products';
 import viewBasket from '../view/viewBasket';
 import {
-  addToBasket, getBasket, setQuantityProducts, takeFromBasket, getSummaryProducts
+  addToStorage, getBasket, setQuantityProducts,
+  dropFromStorage, getSummaryProducts
 } from '../common/basketHelper';
 
 type Elements = {
@@ -43,7 +44,7 @@ class ProductBasket {
         <p class="stock-control">Stock: ${this.product.stock}</p>
         <div class="inc-dec-control">
           <button class="change-quant btn btn-outline-secondary">+</button>
-          <span class="quant-copy">${prodIdBasket[this.product.id]}</span>
+          <span class="quant-copy">${prodIdBasket[String(this.product.id)]}</span>
           <button class="change-quant btn btn-outline-secondary">-</button>
         </div>
         <div class="amount-control">€${this.product.price}</div>
@@ -68,22 +69,22 @@ class ProductBasket {
           const quantityCopyProd = target.parentElement?.children[1] as HTMLElement;
           if (target.textContent === '+') {
             if (prodIdBasket[this.product.id] < this.product.stock) {
-              addToBasket(this.product.id);
-              quantityCopyProd.textContent = `${prodIdBasket[this.product.id]}`;
+              addToStorage(this.product);
+              quantityCopyProd.textContent = String(Number(quantityCopyProd.textContent) + 1);
             }
           } else if (quantityCopyProd.textContent === '1') {
             const listProductsPage = document.querySelectorAll('.item-prod .item-i');
             quantityCopyProd.textContent = `${prodIdBasket[this.product.id]}`;
-            takeFromBasket(this.product.id);
+            dropFromStorage(this.product.id);
             const products = setQuantityProducts();
-            if (products) viewBasket.renderSelectProducts(products);
+            if (products) viewBasket.renderSelectProductsPage(products);
             if (listProductsPage.length === 1) {
               const button = document.querySelector('.prev-page-but') as HTMLElement;
               if (button) button.click();
             }
           } else {
-            takeFromBasket(this.product.id);
-            quantityCopyProd.textContent = `${prodIdBasket[this.product.id]}`;
+            dropFromStorage(this.product.id);
+            quantityCopyProd.textContent = String(Number(quantityCopyProd.textContent) - 1);
           }
           ProductBasket.changeSummary(getSummaryProducts());
         } else {
