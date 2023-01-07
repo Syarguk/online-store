@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
 import { filtersName } from '../common/constans';
-import { getListFields } from '../common/filtersHelpers';
+import getListFields from '../common/filter/filtersHelpers';
 import { getCostAndCount } from '../common/basketHelper';
 import ProductFilter from '../components/ProductFilter';
 import AsideButtons from '../components/AsideButtons';
@@ -16,24 +16,10 @@ const productsRenderCallback = (containerEl) => {
   return render;
 };
 
-const mainPage = () => {
-  const products = model.getProducts();
-  headerWiew(getCostAndCount());
-
-  const pageContainer = document.createElement('div');
+const getAside = (products, productsContainer) => {
   const aside = document.createElement('aside');
-  const productsContainer = document.createElement('div');
-  const productsSection = document.createElement('section');
-  const sortContainet = document.createElement('div');
-
-
-
-  pageContainer.classList.add('row', 'm-2', 'py-3');
   aside.setAttribute('id', 'filters');
   aside.classList.add('col-4');
-  sortContainet.classList.add('d-flex', 'flex-wrap', 'justify-content-center', 'p-2');
-  productsContainer.classList.add('cards-container', 'd-flex', 'flex-wrap', 'justify-content-center', 'p-2');
-  productsSection.classList.add('col-8', 'py-2');
 
   aside.append(new AsideButtons().init());
   filtersName.forEach((filterName) => {
@@ -43,14 +29,48 @@ const mainPage = () => {
     aside.append(filterEl.init());
   });
 
+  return aside;
+};
+
+const getProductsContainer = (products) => {
+  const productsContainer = document.createElement('div');
+  productsContainer.classList.add('cards-container', 'd-flex', 'flex-wrap', 'justify-content-center', 'p-2');
 
   view.renderProducts(products, productsContainer);
-  const sortList = new SortList(products);
-  sortContainet.prepend(sortList.init());
-  //productsContainer.prepend(sortList.init());
 
-  pageContainer.append(sortContainet);
+  return productsContainer;
+};
+
+const getSelectContainer = (products) => {
+  const selectContainer = document.createElement('div');
+  selectContainer.classList.add('d-flex', 'flex-wrap', 'justify-content-center', 'p-2');
+  const sortList = new SortList(products);
+  selectContainer.prepend(sortList.init());
+
+  return selectContainer;
+};
+
+const getProductsSection = (products, productsContainer) => {
+  const productsSection = document.createElement('section');
+  productsSection.classList.add('col-8', 'py-2');
+
+  const selectContainer = getSelectContainer(products);
+
+  productsSection.append(selectContainer);
   productsSection.append(productsContainer);
+  return productsSection;
+};
+
+const mainPage = () => {
+  const products = model.getProducts();
+  headerWiew(getCostAndCount());
+
+  const pageContainer = document.createElement('div');
+  pageContainer.classList.add('row', 'm-2', 'py-3');
+  const productsContainer = getProductsContainer(products);
+  const aside = getAside(products, productsContainer);
+
+  const productsSection = getProductsSection(products, productsContainer);
 
   pageContainer.append(aside);
   pageContainer.append(productsSection);
