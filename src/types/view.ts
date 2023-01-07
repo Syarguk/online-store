@@ -8,7 +8,7 @@ interface View {
 
 interface ViewBasket {
   renderSelectProductsPage(data: [Products, number]): void;
-  changeSelectProducts(products: Products): void;
+  // changeSelectProducts(products: Products): void;
   renderSelectProducts(data: Products, cardsContainer: any): void;
   renderUsedPromoCode(prCodes: ProCod, usdPrCodes: UPC): void;
   renderModalCheckout(): void;

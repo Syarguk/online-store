@@ -2,7 +2,7 @@ import { Product } from '../types/products';
 import viewBasket from '../view/viewBasket';
 import {
   addToStorage, getBasket, setQuantityProducts,
-  dropFromStorage, getSummaryProducts, getProductsFreeCopy
+  dropFromStorage, getSummaryProducts
 } from '../common/basketHelper';
 
 type Elements = {
@@ -76,9 +76,8 @@ class ProductBasket {
             const listProductsPage = document.querySelectorAll('.item-prod .item-i');
             quantityCopyProd.textContent = `${prodIdBasket[this.product.id]}`;
             dropFromStorage(this.product.id);
-            // const products = setQuantityProducts();
-            const products = getProductsFreeCopy();
-            if (products) viewBasket.changeSelectProducts(products);
+            const products = setQuantityProducts();
+            if (products) viewBasket.renderSelectProductsPage(products);
             if (listProductsPage.length === 1) {
               const button = document.querySelector('.prev-page-but') as HTMLElement;
               if (button) button.click();

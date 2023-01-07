@@ -16,18 +16,6 @@ const viewBasket: ViewBasket = {
     });
   },
 
-  changeSelectProducts(products) {
-    const cards = document.querySelectorAll('.prod-items .item-prod');
-    if (cards) {
-      cards.forEach((el) => el.remove());
-    }
-    const cardsContainer = document.querySelector('.select-products .prod-items');
-    products.forEach((product, index) => {
-      const productCard = new ProductBasket(product, index + 1);
-      cardsContainer?.append(productCard.init() as HTMLElement);
-    });
-  },
-
   renderSelectProducts(data, cardsContainer) {
     data.forEach((product, index) => {
       const productCard = new ProductBasket(product, index + 1);

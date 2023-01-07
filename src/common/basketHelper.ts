@@ -97,47 +97,15 @@ export function getProductsForBasket(productsId: string[]): Products | undefined
   }
 }
 
-export function getProductsLimit(limit = 3, index = 0) {
+export function getProductsLimit(limit = 3) {
   const products = getProductsFreeCopy();
   const result = [];
   if (products) {
-    for (let i = index; i < limit; i += 1) {
+    for (let i = 0; i < limit; i += 1) {
       result.push(products[i]);
     }
   }
   return result;
-}
-
-export function addToBasket(productId: number) {
-  const storage = localStorage.getItem('products-id');
-  if (storage) {
-    const productsBasketId = JSON.parse(storage);
-    if (String(productId) in productsBasketId) {
-      productsBasketId[String(productId)] += 1;
-    } else {
-      productsBasketId[String(productId)] = 1;
-    }
-    localStorage.setItem('products-id', JSON.stringify(productsBasketId));
-  } else {
-    const newBasket = Object();
-    newBasket[productId] = 1;
-    localStorage.setItem('products-id', JSON.stringify(newBasket));
-  }
-}
-
-export function takeFromBasket(productId: number) {
-  const storage = localStorage.getItem('products-id');
-  if (storage) {
-    const productsBasketId = JSON.parse(storage);
-    if (String(productId) in productsBasketId) {
-      if (productsBasketId[String(productId)] > 1) {
-        productsBasketId[String(productId)] -= 1;
-      } else {
-        delete productsBasketId[String(productId)];
-      }
-      localStorage.setItem('products-id', JSON.stringify(productsBasketId));
-    }
-  }
 }
 
 export function getSummaryProducts(): [cost: number, count: number] {
@@ -234,4 +202,57 @@ export function changePageProducts(e: Event) {
       }
     }
   }
+}
+
+export function addPromoCode(e: Event) {
+  if (e.target) {
+    const target = e.target as HTMLElement;
+    const discount = Number(target.parentElement?.children[0].textContent);
+    const nameDiscount = target.parentElement?.children[0].id;
+    if (nameDiscount !== undefined && !(nameDiscount in usedPromoCodes)) {
+      usedPromoCodes[nameDiscount as keyof typeof usedPromoCodes] = discount;
+      const elemTotalPrice = document.querySelector('.total-price') as HTMLElement;
+      const discountPrice = calculationDiscount();
+      if (document.querySelector('.old-price')) {
+        const elemNewPrice = document.querySelector('.total-price:not(.old-price) span') as HTMLElement;
+        elemNewPrice.textContent = String(discountPrice);
+      } else {
+        const newPrice = elemTotalPrice.cloneNode(true);
+        newPrice.childNodes[1].textContent = String(discountPrice);
+        elemTotalPrice.after(newPrice);
+        elemTotalPrice.classList.add('old-price');
+      }
+      viewBasket.renderUsedPromoCode(promoCodes, usedPromoCodes);
+      document.querySelectorAll('.del-promo-btn')?.forEach((btn) => {
+        btn.addEventListener('click', dropPromoCode);
+      });
+    }
+    document.querySelector('.code-btn')?.remove();
+  }
+}
+
+export function changePromo(e: Event) {
+  const target = e.target as HTMLInputElement;
+  if (Object.keys(promoCodes).includes(target.value)
+   && !(target.value.toLocaleLowerCase() in usedPromoCodes)) {
+    const codeText = promoCodes[target.value as keyof typeof promoCodes];
+    const codeElement = document.createElement('div');
+    codeElement.classList.add('code-btn');
+    codeElement.innerHTML = `${codeText}<span class="add-promo-btn btn btn-outline-dark">ADD</span>`;
+    document.querySelector('.promo-ex')?.before(codeElement);
+    document.querySelector('.add-promo-btn')?.addEventListener('click', addPromoCode);
+  } else {
+    document.querySelector('.code-btn')?.remove();
+  }
+}
+
+export function getModalCheckout() {
+  console.log('sdf');
+  viewBasket.renderModalCheckout();
+  document.querySelector('.popup-backgr')?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target.matches('.popup')) {
+      document.querySelector('.popup-backgr')?.remove();
+    }
+  });
 }

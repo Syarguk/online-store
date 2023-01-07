@@ -97,6 +97,7 @@ function addListenerBasket() {
   });
 }
 
+
 function initBasket() {
   const sum = getSummaryProducts();
   const products = setQuantityProducts();
