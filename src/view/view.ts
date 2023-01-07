@@ -19,6 +19,15 @@ const view: View = {
     }
   },
 
+  changeProductsCount(count) {
+    const el = document.getElementById('prodFound');
+    if (count && el) {
+      el.textContent = String(count);
+    }
+  },
+
+
+
   // renderFilters(listFields) {
   //   const filterContainer = document.querySelector('#filters');
   //   const cards = document.querySelectorAll('#filters .card');

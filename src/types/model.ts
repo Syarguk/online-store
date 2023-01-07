@@ -5,7 +5,7 @@ interface Model {
   // filteredData: Products;
   // isInit: boolean;
 
-  getProducts(): Products | undefined;
+  getProducts(): Products;
   getProduct(productId: number): Product;
 
   // getProductsForBasket(productsId: string[]): Products;
