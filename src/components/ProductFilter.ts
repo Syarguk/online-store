@@ -3,7 +3,7 @@ import { ObjectForFilter, ObjectInterface, ProductsRenderCallback } from '../typ
 import { updateUrl } from '../router/router';
 import { routes } from '../common/constans';
 import model from '../model/model';
-import filterStrategue from '../common/filter';
+import multiFilter from '../common/filter/multiFilter';
 
 const renderFilter = (name: string, filter: ObjectForFilter): string => {
   const labels = Object.entries(filter)
@@ -73,13 +73,13 @@ class ProductFilter {
       const checkbox = e.target as HTMLInputElement;
       const { value } = checkbox;
       if (checkbox.checked) {
-        filterStrategue.addValToArr(this.filterName, value);
+        multiFilter.addToMultiOptions(this.filterName, value);
       } else {
-        filterStrategue.dropValFromArr(this.filterName, value);
+        multiFilter.dropFromMultiOptions(this.filterName, value);
       }
-      const filteredData = filterStrategue.filterData(model.getProducts());
+      const filteredData = multiFilter.getFilteredData(model.getProducts());
       this.productsRender(filteredData);
-      const currentFilterss = filterStrategue.getFilterValues(this.filterName);
+      const currentFilterss = multiFilter.getMultiOptions(this.filterName);
       const params = getParamsToUrl(this.filterName, currentFilterss);
       updateUrl(routes.mainSearch, params);
     });
