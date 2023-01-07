@@ -1,0 +1,25 @@
+import { Product, ProductsRenderCallback } from '../../types/products';
+import { filtersName } from '../../common/constans';
+import AsideButtons from '../../components/AsideButtons';
+import getListFields from '../../common/filter/filtersHelpers';
+import ProductFilter from '../../components/ProductFilter';
+import model from '../../model/model';
+
+const getAside = (callback: ProductsRenderCallback) => {
+  const aside = document.createElement('aside');
+  aside.setAttribute('id', 'filters');
+  aside.classList.add('col-4');
+
+  aside.append(new AsideButtons().init());
+
+  filtersName.forEach((filterName) => {
+    const products = model.getProducts();
+    const dataForFilter = getListFields(filterName, products);
+    const filterEl = new ProductFilter(dataForFilter, filterName, callback);
+    aside.append(filterEl.init());
+  });
+
+  return aside;
+};
+
+export default getAside;
