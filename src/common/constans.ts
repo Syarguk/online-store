@@ -15,3 +15,5 @@ export const routes: Routes = {
   product: '/product',
   mainSearch: '/main',
 };
+
+export const singleValue = ['sort', 'search', 'big'];

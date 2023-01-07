@@ -1,18 +1,30 @@
-import { ObjectForFilter, ObjectInterface, ProductsRenderCallback } from '../types/products';
+import { ObjectInterface, ObjectForFilter, ProductsRenderCallback } from '../types/products';
 // eslint-disable-next-line import/no-cycle
 import { updateUrl } from '../router/router';
 import { routes } from '../common/constans';
 import model from '../model/model';
 import multiFilter from '../common/filter/multiFilter';
+import { changeParamsForUrl } from '../common/urlHelpers';
 
-const renderFilter = (name: string, filter: ObjectForFilter): string => {
+const checkOptions = (name:string, options: ObjectInterface | undefined): string[] => {
+  if (options) {
+    const names = options[name];
+    if (names && Array.isArray(names)) return names;
+  }
+  return [];
+};
+
+const renderFilter = (name: string, filter: ObjectForFilter, options?: ObjectInterface): string => {
+  const names = checkOptions(name, options);
+
   const labels = Object.entries(filter)
     .map((item) => {
       const [value, count] = item;
+      const checked = names.includes(value) ? 'checked' : '';
       const html = `
     <div class="d-flex justify-content-between">
     <label class="form-check-label" for="prod2">
-    <input class="form-check-input" type="checkbox" name="${name}" value="${value}">
+    <input class="form-check-input" type="checkbox" name="${name}" value="${value}" ${checked}>
       ${value}
     </label>
     <div class="filter-count">
@@ -38,8 +50,6 @@ ${labels.join('')}
   return html;
 };
 
-const getParamsToUrl = (name: string, value: string[]) => ({ [name]: value.join('_') });
-
 class ProductFilter {
   filter: ObjectForFilter;
 
@@ -49,11 +59,15 @@ class ProductFilter {
 
   filterEl: HTMLDivElement;
 
-  constructor(filter: ObjectForFilter, filterName: string, productsRender:ProductsRenderCallback) {
+  options?: ObjectInterface;
+
+  // eslint-disable-next-line max-len
+  constructor(filter: ObjectForFilter, filterName: string, productsRender:ProductsRenderCallback, options?: ObjectInterface) {
     this.filter = filter;
     this.filterName = filterName;
     this.productsRender = productsRender;
     this.filterEl = document.createElement('div');
+    this.options = options;
   }
 
   init(): HTMLDivElement {
@@ -65,7 +79,7 @@ class ProductFilter {
 
   render(): void {
     this.filterEl.classList.add('form-check', 'me-2');
-    this.filterEl.innerHTML = renderFilter(this.filterName, this.filter);
+    this.filterEl.innerHTML = renderFilter(this.filterName, this.filter, this.options);
   }
 
   private attachEvents(): void {
@@ -80,7 +94,7 @@ class ProductFilter {
       const filteredData = multiFilter.getFilteredData(model.getProducts());
       this.productsRender(filteredData);
       const currentFilterss = multiFilter.getMultiOptions(this.filterName);
-      const params = getParamsToUrl(this.filterName, currentFilterss);
+      const params = changeParamsForUrl(this.filterName, currentFilterss);
       updateUrl(routes.mainSearch, params);
     });
   }

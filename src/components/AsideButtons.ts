@@ -1,5 +1,7 @@
 import { routes } from '../common/constans';
+// eslint-disable-next-line import/no-cycle
 import { goToPath } from '../router/router';
+import multiFilter from '../common/filter/multiFilter';
 
 class AsideButtons {
   btnContainer: HTMLDivElement;
@@ -28,6 +30,7 @@ class AsideButtons {
         switch (btnType) {
           case 'reset':
             goToPath(routes.main);
+            multiFilter.dropAllOptions();
             break;
 
           case 'copy':

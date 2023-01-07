@@ -1,11 +1,12 @@
-import mainPage from '../pages/main';
+//import mainPage from '../pages/main';
+import mainPage from '../pages/mainPage/main';
 import basketPage from '../pages/basket';
 import buildProductPage from '../pages/product';
 import notFoundPage from '../pages/notFound';
 import { routes } from '../common/constans';
 
 const render = (url) => {
-  let result = notFoundPage;
+  let result = notFoundPage();
 
   const { pathname } = url;
 
@@ -16,10 +17,11 @@ const render = (url) => {
   } else if (pathname === routes.product) {
     result = buildProductPage();
   } else if (pathname === routes.mainSearch) {
+    result = mainPage(url.search.slice(1));
     // its only now
-    const div = document.createElement('div');
-    div.textContent = 'search product';
-    result = div;
+    // const div = document.createElement('div');
+    // div.textContent = 'search product';
+    // result = div;
   }
 
   const app = document.querySelector('#app');

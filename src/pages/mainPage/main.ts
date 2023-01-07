@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import { Products, ProductsRenderCallback } from '../../types/products';
+import { Products, ProductsRenderCallback, ObjectInterface  } from '../../types/products';
 import model from '../../model/model';
 import multiFilter from '../../common/filter/multiFilter';
 import view from '../../view/view';
@@ -8,23 +8,27 @@ import { getCostAndCount } from '../../common/basketHelper';
 import getAside from './aside';
 import getProductsSection from './productsSection';
 import getProductsContainer from './products';
+import { transformUrlToParams } from '../product';
 
 const productsRenderCallback = (containerEl: HTMLDivElement): ProductsRenderCallback => {
   const render = (products: Products) => {
     view.renderProducts(products, containerEl);
+    view.changeProductsCount(products.length);
   };
   return render;
 };
 
-const buildMainPage = (products: Products): HTMLElement => {
+const buildMainPage = (products: Products, options?: ObjectInterface): HTMLElement => {
   headerWiew(getCostAndCount());
+
+  //console.log(options);
 
   const pageContainer = document.createElement('div');
   pageContainer.classList.add('row', 'm-2', 'py-3');
   const productsContainer = getProductsContainer(products);
-  const aside = getAside(productsRenderCallback(productsContainer));
+  const aside = getAside(productsRenderCallback(productsContainer), options);
 
-  const productsSection = getProductsSection(productsContainer);
+  const productsSection = getProductsSection(productsContainer, options);
 
   pageContainer.append(aside);
   pageContainer.append(productsSection);
@@ -32,12 +36,28 @@ const buildMainPage = (products: Products): HTMLElement => {
 };
 
 const mainPage = (searchUrl = ''): HTMLElement => {
-  let data = model.getProducts();
-  if(searchUrl !== '') {
-  //some logic
-  data = multiFilter.getFilteredData();
+  const data = model.getProducts();
+  if (searchUrl === '') {
+    return buildMainPage(data);
   }
-  return buildMainPage(data);
+
+  const params = transformUrlToParams(searchUrl);
+  const options = {...params};
+  if (params.big) {
+    delete params.big;
+  }
+  multiFilter.updateAllOptions(params);
+  const restoredData = multiFilter.getFilteredData(data);
+  options.found = restoredData.length;
+  const page = buildMainPage(restoredData, options);
+ // view.restorePageView(restoredData);
+  //console.log(viewProdCard);
+
+
+  // some logic
+  // data = multiFilter.getFilteredData();
+  //data = model.getProducts();
+  return page;
 };
 
 export default mainPage;

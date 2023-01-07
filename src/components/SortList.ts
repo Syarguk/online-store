@@ -1,50 +1,54 @@
-import { Products, Product } from '../types/products';
-import filterStrategue from '../common/filter';
+import { ObjectInterface } from '../types/products';
+import multiFilter from '../common/filter/multiFilter';
+import model from '../model/model';
+// eslint-disable-next-line import/no-cycle
+import { updateUrl } from '../router/router';
+import { routes } from '../common/constans';
 
-const getSortingFuncASC = (key: keyof Product) => {
-  const sortASC = (prod: Product, nextProd: Product) => {
-    //console.log(prod, nextProd);
+// const getSortingFuncASC = (key: keyof Product) => {
+//   const sortASC = (prod: Product, nextProd: Product) => {
+//     // console.log(prod, nextProd);
 
-    if (prod[key] < nextProd[key]) {
-      return -1;
-    }
-    if (prod[key] > nextProd[key]) {
-      return 1;
-    }
-    return 0;
-  };
-  return sortASC;
-};
+//     if (prod[key] < nextProd[key]) {
+//       return -1;
+//     }
+//     if (prod[key] > nextProd[key]) {
+//       return 1;
+//     }
+//     return 0;
+//   };
+//   return sortASC;
+// };
 
-const getSortingFuncDESC = (key: keyof Product) => {
-  const sortASC = (prod: Product, nextProd: Product) => {
-    if (prod[key] > nextProd[key]) {
-      return -1;
-    }
-    if (prod[key] < nextProd[key]) {
-      return 1;
-    }
-    return 0;
-  };
-  return sortASC;
-};
-//проверіть сортіровку по возрастанію
-const sortingFunctions = {
-  priceASC: getSortingFuncASC('price'),
-  priceDESC: getSortingFuncDESC('price'),
-  discountASC: getSortingFuncASC('discountPercentage'),
-  discountDESC: getSortingFuncDESC('discountPercentage'),
-  remove: '',
-};
+// const getSortingFuncDESC = (key: keyof Product) => {
+//   const sortASC = (prod: Product, nextProd: Product) => {
+//     if (prod[key] > nextProd[key]) {
+//       return -1;
+//     }
+//     if (prod[key] < nextProd[key]) {
+//       return 1;
+//     }
+//     return 0;
+//   };
+//   return sortASC;
+// };
+// // проверіть сортіровку по возрастанію
+// const sortingFunctions = {
+//   priceASC: getSortingFuncASC('price'),
+//   priceDESC: getSortingFuncDESC('price'),
+//   discountASC: getSortingFuncASC('discountPercentage'),
+//   discountDESC: getSortingFuncDESC('discountPercentage'),
+//   remove: '',
+// };
 
 class SortList {
   containerEl: HTMLDivElement;
 
-  products: Products;
+  options?: ObjectInterface;
 
-  constructor(products: Products) {
+  constructor(options?: ObjectInterface) {
     this.containerEl = document.createElement('div');
-    this.products = products;
+    this.options = options;
   }
 
   init(): HTMLDivElement {
@@ -56,10 +60,25 @@ class SortList {
 
   render():void {
     this.containerEl.classList.add('dropdown');
+
+    let btnName = 'Sort options';
+    if (this.options?.sort) {
+      const names: { [key:string]: string } = {
+        priceASC: 'Sort by price ASC',
+        priceDESC: 'Sort by price DESC',
+        discountASC: 'Sort by discount ASC',
+        discountDESC: 'Sort by discount DESC',
+        remove: 'Sort options',
+      };
+
+      if (typeof this.options?.sort === 'string') {
+        btnName = names[this.options?.sort];
+      }
+    }
     const html = `
     <div class="d-grid">
     <button class="btn btn-secondary btn-info dropdown-toggle" type="button">
-    Sort options
+    ${btnName}
     </button>
     <ul class="sort-list hide">
     <li class="sort-item" data-sort="priceASC">Sort by price ASC</li>
@@ -79,18 +98,16 @@ class SortList {
 
       if (target.matches('.sort-item')) {
         const sortType = target.dataset.sort;
-        //console.log(sortType);
         if (sortType) {
-          filterStrategue.addValue('sort', sortingFunctions[sortType]);
-          filterStrategue.filterData(this.products);
+          multiFilter.changeOption('sort', sortType);
+          multiFilter.getFilteredData(model.getProducts());
+          updateUrl(routes.mainSearch, { sort: sortType });
         }
-
-
         const btn = this.containerEl.querySelector('.dropdown-toggle');
         const text = sortType !== 'remove' ? target.textContent : 'Sort options';
 
-        if (text) {
-          btn?.textContent = text;
+        if (text && btn) {
+          btn.textContent = text;
         }
       }
       const list = this.containerEl.querySelector('.sort-list');
