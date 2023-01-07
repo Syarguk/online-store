@@ -12,6 +12,6 @@ type Routes = {
 export const routes: Routes = {
   main: '/',
   basket: '/basket',
-  product: '/product:',
-  mainSearch: '/main:',
+  product: '/product',
+  mainSearch: '/main',
 };

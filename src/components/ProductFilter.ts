@@ -38,7 +38,7 @@ ${labels.join('')}
   return html;
 };
 
-const getParamsToUrl = (name: string, value: string[]): ObjectInterface => ({ [name]: value });
+const getParamsToUrl = (name: string, value: string[]) => ({ [name]: value.join('_') });
 
 class ProductFilter {
   filter: ObjectForFilter;

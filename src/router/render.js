@@ -4,16 +4,18 @@ import buildProductPage from '../pages/product';
 import notFoundPage from '../pages/notFound';
 import { routes } from '../common/constans';
 
-const render = (path) => {
+const render = (url) => {
   let result = notFoundPage;
 
-  if (path === routes.main) {
+  const { pathname } = url;
+
+  if (pathname === routes.main) {
     result = mainPage();
-  } else if (path === routes.basket) {
+  } else if (pathname === routes.basket) {
     result = basketPage();
-  } else if (path.includes(routes.product)) {
-    result = buildProductPage(path);
-  } else if (path.includes(routes.mainSearch)) {
+  } else if (pathname === routes.product) {
+    result = buildProductPage();
+  } else if (pathname === routes.mainSearch) {
     // its only now
     const div = document.createElement('div');
     div.textContent = 'search product';
