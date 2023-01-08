@@ -5,7 +5,7 @@ import productPage from '../pages/product';
 import notFoundPage from '../pages/notFound';
 import { routes } from '../common/constans';
 
-const render = (url) => {
+const render = (url: URL): void => {
   let result = notFoundPage();
 
   const { pathname } = url;
