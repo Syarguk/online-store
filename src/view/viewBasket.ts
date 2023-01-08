@@ -58,10 +58,10 @@ const viewBasket: ViewBasket = {
 
   renderModalCheckout() {
     const formFields = [
-      '<input class="input-name form-control" name="name" placeholder="Name"><span class="error" id="namef"></span>',
-      '<input class="input-phone form-control" name="phone" placeholder="Phone number" type="tel">',
-      '<input class="input-address form-control" name="address" placeholder="Delivery address">',
-      '<input class="input-email form-control"  name="email" placeholder="E-mail" type="email">'];
+      '<input class="input-name form-control" name="name" placeholder="Name" required>',
+      '<input class="input-phone form-control" name="phone" placeholder="Phone number" type="tel" required>',
+      '<input class="input-address form-control" name="address" placeholder="Delivery address" required>',
+      '<input class="input-email form-control"  name="email" placeholder="E-mail" type="email" required>'];
     const backgrPopup = document.createElement('div');
     backgrPopup.classList.add('popup-backgr');
     const popup = document.createElement('form');
