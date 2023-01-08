@@ -26,6 +26,14 @@ const view: View = {
     }
   },
 
+  changeProductView () {
+    const prodContainer = document.getElementById('products')
+    prodContainer?.classList.toggle('small');
+
+    const gridBtns = document.querySelectorAll('.grid');
+    gridBtns.forEach((el) => el.classList.toggle('active'));
+  }
+
 
 
   // renderFilters(listFields) {

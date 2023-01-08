@@ -17,14 +17,14 @@ const productsRenderCallback = (containerEl: HTMLDivElement): ProductsRenderCall
   return render;
 };
 
-const buildMainPage = (products: Products, options?: ObjectInterface): HTMLElement => {
+const buildMainPage = (products: Products, options?: ObjectInterface): HTMLDivElement => {
   changeHeaderWiew();
 
   //console.log(options);
 
   const pageContainer = document.createElement('div');
   pageContainer.classList.add('row', 'm-2', 'py-3');
-  const productsContainer = getProductsContainer(products);
+  const productsContainer = getProductsContainer(products, options);
   const aside = getAside(productsRenderCallback(productsContainer), options);
 
   const productsSection = getProductsSection(productsContainer, options);
@@ -34,7 +34,7 @@ const buildMainPage = (products: Products, options?: ObjectInterface): HTMLEleme
   return pageContainer;
 };
 
-const mainPage = (searchUrl = ''): HTMLElement => {
+const mainPage = (searchUrl = ''): HTMLDivElement => {
   const data = model.getProducts();
   if (searchUrl === '') {
     return buildMainPage(data);
