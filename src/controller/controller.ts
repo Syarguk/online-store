@@ -1,4 +1,4 @@
-import model from '../model/model';
+/* import model from '../model/model';
 import view from '../view/view';
 
 function getListFields(): [string, number][] {
@@ -40,3 +40,4 @@ function start() {
 }
 
 export default start;
+ */

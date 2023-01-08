@@ -1,9 +1,7 @@
 import { Product } from '../types/products';
 import viewBasket from '../view/viewBasket';
-import {
-  addToStorage, getBasket, setQuantityProducts,
-  dropFromStorage, getSummaryProducts
-} from '../common/basketHelper';
+import { addToStorage, getBasket, dropFromStorage, getSummaryProducts } from '../common/basketHelper';
+import { setQuantityProducts } from '../view/viewBasketHelper';
 
 type Elements = {
   card: HTMLElement | null;

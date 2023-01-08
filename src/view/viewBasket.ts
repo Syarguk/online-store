@@ -41,11 +41,62 @@ const viewBasket: ViewBasket = {
     document.querySelector('.promo-code')?.before(appleCodes);
   },
 
+  checkInput(e) {
+    if (e.target) {
+      /* const target = e.target as HTMLInputElement;
+      const form = document.querySelector('.needs-validation') as HTMLFormElement;
+      const name = document.querySelector('.input-name') as HTMLInputElement;
+      const namef = document.getElementById('#namef');
+      form?.addEventListener('submit', () => {
+        if (name.value.length === 0) {
+          if (namef) namef.innerHTML = 'Required field';
+        return false;
+        }
+      }); */
+    }
+  },
+
   renderModalCheckout() {
+    const formFields = [
+      '<input class="input-name form-control" name="name" placeholder="Name"><span class="error" id="namef"></span>',
+      '<input class="input-phone form-control" name="phone" placeholder="Phone number" type="tel">',
+      '<input class="input-address form-control" name="address" placeholder="Delivery address">',
+      '<input class="input-email form-control"  name="email" placeholder="E-mail" type="email">'];
     const backgrPopup = document.createElement('div');
     backgrPopup.classList.add('popup-backgr');
-    const popup = document.createElement('div');
-    popup.classList.add('popup');
+    const popup = document.createElement('form');
+    popup.classList.add('popup', 'needs-validation');
+    popup.setAttribute('novalidate', '');
+    popup.setAttribute('name', 'formpd');
+    popup.innerHTML = '<h5>Personal details</h5>';
+    formFields.forEach((element) => {
+      const field = document.createElement('div');
+      field.classList.add('mb-3');
+      field.innerHTML = `${element}`;
+      popup.append(field);
+    });
+    popup.innerHTML += '<h5>Credit card details</h5>';
+    const cardData = document.createElement('div');
+    cardData.classList.add('card-data');
+    const cardDataHtml = `<div class="number">
+                            <input class="input-number form-control" name="number-card" placeholder="Card number">
+                          </div>
+                          <div class="other-data">
+                            <div class="valid-data">
+                              VALID: <input class="input-data form-control" name="data-card" placeholder="Valid Thru">
+                            </div>
+                            <div class="cv-data">
+                              CVV: <input class="input-cvv form-control" name="cvv-card" placeholder="Code">
+                            </div>
+                          </div>`;
+    cardData.innerHTML = cardDataHtml;
+    popup.append(cardData);
+    popup.addEventListener('change', this.checkInput);
+    const confirmBtn = document.createElement('button');
+    confirmBtn.classList.add('btn', 'btn-outline-primary');
+    confirmBtn.setAttribute('type', 'submit');
+    confirmBtn.textContent = 'CONFIRM';
+    popup.append(confirmBtn);
     backgrPopup.append(popup);
     document.body.append(backgrPopup);
   },
