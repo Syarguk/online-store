@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import View from '../types/view';
+import { View } from '../types/view';
 import ProductCard from '../components/ProductCard';
 import ProductFilter from '../components/ProductFilter';
 
@@ -13,7 +13,6 @@ const view: View = {
       }
     });
   },
-  
 
   renderFilters(listFields) {
     const filterContainer = document.querySelector('#filters');

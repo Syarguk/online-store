@@ -1,5 +1,7 @@
-import { getProductsLimit, getProductsFreeCopy, setQuantityProducts,
-  changePageProducts, getSummaryProducts, changePromo, getModalCheckout } from '../common/basketHelper';
+import { getProductsLimit, getProductsFreeCopy, getSummaryProducts } from '../common/basketHelper';
+import { setQuantityProducts, changePageProducts, changePromo } from '../view/viewBasketHelper';
+import getModalCheckout from '../controller/controllerBasket';
+
 import viewBasket from '../view/viewBasket';
 
 const basketPage = () => {

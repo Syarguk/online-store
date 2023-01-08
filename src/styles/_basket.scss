@@ -36,8 +36,29 @@
   transform: translate(-50%, -50%);
   z-index: 1;
   width: 40%;
-  height: 300px;
   border: $border solid 2px;
   border-radius: 10px;
   background-color: $nav;
+  text-align: center;
+  padding: 10px;
+}
+.card-data {
+  width: 70%;
+  border: $border solid 2px;
+  border-radius: 10px;
+  margin: 0 auto 15px auto;
+  padding: 10px;
+}
+.number {
+  margin-bottom: 15px;
+}
+.other-data {
+  display: flex;
+}
+.input-data,
+.input-cvv {
+  width: 100px;
+}
+.error {
+  color: red;
 }
