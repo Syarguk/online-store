@@ -14,6 +14,8 @@ interface ObectProductsId {
   [index: string]: number;
 }
 
-type CostAndCount = {cost: number, count: number};
+type CostAndCount = { cost: number, count: number };
 
-export { UPC, ProCod, ObectProductsId, CostAndCount };
+export {
+  UPC, ProCod, ObectProductsId, CostAndCount,
+};
