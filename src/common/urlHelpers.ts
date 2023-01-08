@@ -1,7 +1,9 @@
-import { numbersTypeArea } from './constans';
+import { numbersTypeArea, singleValues } from './constans';
 import { ObjectInterface } from '../types/products';
 
 type Transform = string | number | string[] | number[];
+
+export const changeParamsForUrl = (name: string, value: string[]) => ({ [name]: value.join('_') });
 
 const transformParamsToNum = (key: string, value: string | string[]): Transform => {
   if (numbersTypeArea.includes(key)) {
@@ -14,12 +16,12 @@ const transformParamsToNum = (key: string, value: string | string[]): Transform 
 };
 
 export const transformUrlToParams = (url:string):ObjectInterface => {
-  const stringParams = url.split(':')[1].split('&');
-  const params = stringParams.reduce((acc: ObjectInterface, param) => {
+  const arrParams = url.split('&');
+  const params = arrParams.reduce((acc: ObjectInterface, param) => {
     const [key, value] = param.split('=');
     let newValue;
-    const arr = value.split('%');
-    if (arr.length > 1) {
+    const arr = value.split('_');
+    if (arr.length > 1 || !singleValues.includes(key)) {
       newValue = arr;
     } else {
       // eslint-disable-next-line prefer-destructuring
@@ -28,22 +30,21 @@ export const transformUrlToParams = (url:string):ObjectInterface => {
     acc[key] = transformParamsToNum(key, newValue);
     return acc;
   }, {});
-
   return params;
 };
 
-export const transformParamsToUrl = (params: ObjectInterface):string => {
-  const query = Object.entries(params)
-    .flatMap(([key, value]) => {
-      if (!value) return [];
-      if (typeof value !== 'number' && value.length < 1) return [];
-      let resultValue = value;
-      if (Array.isArray(value)) {
-        resultValue = value.join('%');
-      }
-      return `${key}=${resultValue}`;
-    });
-  const resultQuery = query.length === 1 ? query.join('') : query.join('&');
+// export const transformParamsToUrl = (params: ObjectInterface):string => {
+//   const query = Object.entries(params)
+//     .flatMap(([key, value]) => {
+//       if (!value) return [];
+//       if (typeof value !== 'number' && value.length < 1) return [];
+//       let resultValue = value;
+//       if (Array.isArray(value)) {
+//         resultValue = value.join('%');
+//       }
+//       return `${key}=${resultValue}`;
+//     });
+//   const resultQuery = query.length === 1 ? query.join('') : query.join('&');
 
-  return resultQuery;
-};
+//   return resultQuery;
+// };

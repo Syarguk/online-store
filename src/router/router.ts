@@ -1,31 +1,35 @@
+// eslint-disable-next-line import/no-cycle
 import render from './render';
-import { transformParamsToUrl, transformUrlToParams } from '../common/urlHelpers';
-import { ObjectInterface } from '../types/products';
 import { routes } from '../common/constans';
 
 export const goToPath = (path: string): void => {
   window.history.pushState({ path }, path, path);
-  render(path);
+
+  render(new URL(window.location.href));
 };
 
-export const updateUrl = (startUrl: string, params: ObjectInterface): void => {
-  const currentUrl = new URL(window.location.href).pathname;
+export const updateUrl = (startUrl: string, params: { [key: string]: string }): void => {
+  const currentUrlParams = new URL(window.location.href).searchParams;
+  const [key] = Object.keys(params);
 
-  let path;
-  if (currentUrl === routes.main) {
-    path = `${startUrl}${transformParamsToUrl(params)}`;
+  if (params[key] === '') {
+    currentUrlParams.delete(key);
+  } else if (currentUrlParams.has(key)) {
+    currentUrlParams.delete(key);
+    currentUrlParams.append(key, params[key]);
   } else {
-    const currentParams = transformUrlToParams(currentUrl);
-    const newParams = { ...currentParams, ...params };
-    const newUrl = transformParamsToUrl(newParams);
-    path = newUrl ? startUrl + newUrl : routes.main;
+    currentUrlParams.append(key, params[key]);
   }
+
+  const searchStr = currentUrlParams.toString();
+  const path = searchStr === '' ? routes.main : `${startUrl}?${searchStr}`;
+
   window.history.pushState({ path }, path, path);
 };
 
 const initRouter = (): void => {
   window.addEventListener('popstate', () => {
-    render(new URL(window.location.href).pathname);
+    render(new URL(window.location.href));
   });
   document.querySelectorAll('.js-rout').forEach((el) => {
     el.addEventListener('click', (e) => {
@@ -35,7 +39,7 @@ const initRouter = (): void => {
       if (path) { goToPath(path); }
     });
   });
-  render(new URL(window.location.href).pathname);
+  render(new URL(window.location.href));
 };
 
 export default initRouter;

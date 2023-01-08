@@ -61,3 +61,25 @@
     }
   }
 }
+
+.sort-list {
+  background-color: $secondary-btn;
+  border-radius: 10px;
+  z-index: 5;
+
+  &.hide {
+    display: none;
+  }
+
+  .sort-item {
+  margin: 0.3rem;
+  color: $border;
+  transition: 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    color: $main;
+    transition: 0.3s;
+  }
+  }
+}

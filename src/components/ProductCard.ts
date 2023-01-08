@@ -1,17 +1,13 @@
 import { Product } from '../types/products';
+// eslint-disable-next-line import/no-cycle
 import { goToPath } from '../router/router';
 import { routes } from '../common/constans';
 import {
-  getStorage, addToStorage, dropFromStorage, getCostAndCount
-} from '../common/basketHelper';
-import headerWiew from '../view/headerWiew';
+  getStorage, addToStorage, dropFromStorage } from '../common/basketHelper';
 import model from '../model/model';
+import changeHeaderWiew from '../view/headerWiew';
 
-const changeHeaderWiew = (): void => {
-  headerWiew(getCostAndCount());
-};
-
-const isDropBtn = (id: number): boolean => {
+export const isDropBtn = (id: number): boolean => {
   const storage = getStorage();
 
   if (Array.isArray(storage)) {
@@ -33,7 +29,6 @@ class ProductCard {
 
   init(): HTMLDivElement {
     this.render();
-    this.attachEvents();
 
     return this.cardEl;
   }
@@ -60,9 +55,10 @@ class ProductCard {
     btnContainer.innerHTML = '<button type="button" class="btn btn-primary btn-sm">Details</button>';
     btnContainer.prepend(this.getBtn());
     this.cardEl.append(btnContainer);
+    this.attachEvents();
   }
 
-  private getBtn(): HTMLButtonElement {
+  getBtn(): HTMLButtonElement {
     const btn = document.createElement('button');
     btn.classList.add('btn', 'btn-primary', 'btn-sm', 'js-basket');
     if (isDropBtn(this.product.id)) {
@@ -94,7 +90,7 @@ class ProductCard {
     this.cardEl.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
       if (!target.matches('.js-basket')) {
-        const path = `${routes.product}id=${this.product.id}`;
+        const path = `${routes.product}?id=${this.product.id}`;
         goToPath(path);
       }
     });

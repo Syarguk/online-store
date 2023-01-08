@@ -3,7 +3,10 @@ import { UPC, ProCod } from './basket';
 
 interface View {
   renderProducts(products: Products, containerEl: HTMLDivElement): void;
-  renderFilters(listFields: [string, number][]): void;
+  changeProductsCount(count: number): void;
+  changeProductView(): void;
+  //(products: Products): void;
+  //renderFilters(listFields: [string, number][]): void;
 }
 
 interface ViewBasket {
@@ -16,8 +19,3 @@ interface ViewBasket {
 }
 
 export { View, ViewBasket };
-
-export type HeaderWiewArgs = [
-  cost: number,
-  count: number,
-];
