@@ -1,7 +1,7 @@
-//import mainPage from '../pages/main';
+// eslint-disable-next-line import/no-cycle
 import mainPage from '../pages/mainPage/main';
 import basketPage from '../pages/basket';
-import buildProductPage from '../pages/product';
+import productPage from '../pages/product';
 import notFoundPage from '../pages/notFound';
 import { routes } from '../common/constans';
 
@@ -9,19 +9,14 @@ const render = (url) => {
   let result = notFoundPage();
 
   const { pathname } = url;
-
   if (pathname === routes.main) {
     result = mainPage();
   } else if (pathname === routes.basket) {
     result = basketPage();
   } else if (pathname === routes.product) {
-    result = buildProductPage();
+    result = productPage(url.search.slice(1));
   } else if (pathname === routes.mainSearch) {
     result = mainPage(url.search.slice(1));
-    // its only now
-    // const div = document.createElement('div');
-    // div.textContent = 'search product';
-    // result = div;
   }
 
   const app = document.querySelector('#app');

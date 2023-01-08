@@ -16,4 +16,4 @@ export const routes: Routes = {
   mainSearch: '/main',
 };
 
-export const singleValue = ['sort', 'search', 'big'];
+export const singleValues = ['sort', 'search', 'big', 'id'];

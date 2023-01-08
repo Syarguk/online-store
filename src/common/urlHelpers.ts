@@ -1,4 +1,4 @@
-import { numbersTypeArea, singleValue } from './constans';
+import { numbersTypeArea, singleValues } from './constans';
 import { ObjectInterface } from '../types/products';
 
 type Transform = string | number | string[] | number[];
@@ -21,7 +21,7 @@ export const transformUrlToParams = (url:string):ObjectInterface => {
     const [key, value] = param.split('=');
     let newValue;
     const arr = value.split('_');
-    if (arr.length > 1 || !singleValue.includes(key)) {
+    if (arr.length > 1 || !singleValues.includes(key)) {
       newValue = arr;
     } else {
       // eslint-disable-next-line prefer-destructuring

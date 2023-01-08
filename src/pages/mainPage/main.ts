@@ -3,12 +3,11 @@ import { Products, ProductsRenderCallback, ObjectInterface  } from '../../types/
 import model from '../../model/model';
 import multiFilter from '../../common/filter/multiFilter';
 import view from '../../view/view';
-import headerWiew from '../../view/headerWiew';
-import { getCostAndCount } from '../../common/basketHelper';
+import changeHeaderWiew from '../../view/headerWiew';
 import getAside from './aside';
 import getProductsSection from './productsSection';
 import getProductsContainer from './products';
-import { transformUrlToParams } from '../product';
+import { transformUrlToParams } from '../../common/urlHelpers';
 
 const productsRenderCallback = (containerEl: HTMLDivElement): ProductsRenderCallback => {
   const render = (products: Products) => {
@@ -19,7 +18,7 @@ const productsRenderCallback = (containerEl: HTMLDivElement): ProductsRenderCall
 };
 
 const buildMainPage = (products: Products, options?: ObjectInterface): HTMLElement => {
-  headerWiew(getCostAndCount());
+  changeHeaderWiew();
 
   //console.log(options);
 
