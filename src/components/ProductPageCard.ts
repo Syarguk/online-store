@@ -61,6 +61,7 @@ class ProductPageCard extends ProductCard {
         addToStorage(this.product);
       }
       model.isOpenPopup = true;
+
       goToPath(routes.basket);
     });
 

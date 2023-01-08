@@ -9,7 +9,9 @@ import { changeParamsForUrl } from '../common/urlHelpers';
 const checkOptions = (name:string, options: ObjectInterface | undefined): string[] => {
   if (options) {
     const names = options[name];
-    if (names && Array.isArray(names)) return names;
+    if (names && Array.isArray(names)) {
+  return names.map((i) => String(i));
+    };
   }
   return [];
 };
@@ -61,8 +63,10 @@ class ProductFilter {
 
   options?: ObjectInterface;
 
-  // eslint-disable-next-line max-len
-  constructor(filter: ObjectForFilter, filterName: string, productsRender:ProductsRenderCallback, options?: ObjectInterface) {
+  constructor(filter: ObjectForFilter,
+    filterName: string,
+    productsRender:ProductsRenderCallback,
+    options?: ObjectInterface) {
     this.filter = filter;
     this.filterName = filterName;
     this.productsRender = productsRender;

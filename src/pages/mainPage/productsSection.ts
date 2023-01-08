@@ -11,9 +11,7 @@ import giridL from '../../assets/icon/icons8-grid-view-64.png'
 
 const getViewProductSwitch = (whatActive: string | undefined = 'true'): HTMLDivElement => {
 
-  console.log(typeof whatActive);
-
-  const isBigActive = whatActive === 'true' ? true : false;
+const isBigActive = whatActive === 'true' ? true : false;
 
 const div = document.createElement('div');
 div.classList.add('d-flex', 'buttons');
