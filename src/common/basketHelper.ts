@@ -2,8 +2,10 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 import { Products, Product } from '../types/products';
-import model from '../model/model';
 import { UPC, ObectProductsId, CostAndCount } from '../types/basket';
+import model from '../model/model';
+
+export const usedPromoCodes: UPC = {};
 
 export function addToStorage(product: Product) {
   const storage = localStorage.getItem('basket');
@@ -55,49 +57,48 @@ export function getCostAndCount(): CostAndCount {
   return result;
 }
 
-export const promoCodes = {
-  Pro1: 'Code Number-One - <span id="pro1">10</span>% --> ',
-  Pro2: 'Code Number-Two - <span id="pro2">20</span>% --> ',
-  Pro3: 'Code Number-Three - <span id="pro3">30</span>% --> ',
-};
-
-export const usedPromoCodes: UPC = {};
-
 export function getBasket(): ObectProductsId {
-  const storage = localStorage.getItem('products-id');
-  return storage ? JSON.parse(storage) : null;
-}
-
-export function addToBasket(productId: number) {
-  const storage = localStorage.getItem('products-id');
-  if (storage) {
-    const productsBasketId = JSON.parse(storage);
-    if (String(productId) in productsBasketId) {
-      productsBasketId[String(productId)] += 1;
+  const productsId = Object();
+  const storage = getStorage();
+  storage?.forEach((product) => {
+    if (String(product.id) in productsId) {
+      productsId[String(product.id)] += 1;
     } else {
-      productsBasketId[String(productId)] = 1;
+      productsId[String(product.id)] = 1;
     }
-    localStorage.setItem('products-id', JSON.stringify(productsBasketId));
-  } else {
-    const newBasket = Object();
-    newBasket[productId] = 1;
-    localStorage.setItem('products-id', JSON.stringify(newBasket));
+  });
+  return storage ? productsId : null;
+}
+
+export function getProductsFreeCopy() {
+  const storage = getStorage();
+  const ids = Array();
+  const products = storage?.filter((product) => {
+    if (!ids.includes(product.id)) {
+      ids.push(product.id);
+      return true;
+    }
+    return false;
+  });
+  return products;
+}
+
+export function getProductsForBasket(productsId: string[]): Products | undefined {
+  const products = getProductsFreeCopy();
+  if (products) {
+    return products.filter((product) => productsId.includes(String(product.id)));
   }
 }
 
-export function takeFromBasket(productId: number) {
-  const storage = localStorage.getItem('products-id');
-  if (storage) {
-    const productsBasketId = JSON.parse(storage);
-    if (String(productId) in productsBasketId) {
-      if (productsBasketId[String(productId)] > 1) {
-        productsBasketId[String(productId)] -= 1;
-      } else {
-        delete productsBasketId[String(productId)];
-      }
-      localStorage.setItem('products-id', JSON.stringify(productsBasketId));
+export function getProductsLimit(limit = 3) {
+  const products = getProductsFreeCopy();
+  const result = [];
+  if (products) {
+    for (let i = 0; i < limit; i += 1) {
+      result.push(products[i]);
     }
   }
+  return result;
 }
 
 export function getSummaryProducts(): [cost: number, count: number] {
@@ -119,44 +120,4 @@ export function calculationDiscount() {
   const totalDiscount = Object.values(usedPromoCodes).reduce((acc, dis) => acc + dis);
   const discountPrice = totalPrice - ((totalPrice / 100) * totalDiscount);
   return discountPrice;
-}
-
-export function dropPromoCode(e: Event) {
-  if (e.target) {
-    const elBtn = e.target as HTMLElement;
-    const elId = elBtn.parentElement?.children[0].id;
-    const namePromCode = elId?.slice(0, 4);
-    delete usedPromoCodes[namePromCode as keyof typeof usedPromoCodes];
-    if (Object.keys(usedPromoCodes).length === 0) {
-      elBtn.parentElement?.parentElement?.remove();
-      const elemNewPrice = document.querySelector('.total-price:not(.old-price)') as HTMLElement;
-      elemNewPrice.remove();
-      const elemOldPrice = document.querySelector('.old-price');
-      elemOldPrice?.classList.remove('old-price');
-    } else {
-      elBtn.parentElement?.remove();
-      const discountPrice = calculationDiscount();
-      const elemNewPriceCost = document.querySelector('.total-price:not(.old-price) span') as HTMLElement;
-      elemNewPriceCost.textContent = String(discountPrice);
-    }
-  }
-}
-
-export function setQuantityProducts(e?: Event): [Products, number] | null {
-  const input1 = document.querySelector('.basket-number-items') as HTMLInputElement;
-  let quantity = Number(input1.value);
-  if (e) {
-    const input = e.target as HTMLInputElement;
-    quantity = Number(input.value);
-  }
-  const numberPage = document.querySelector('.page-numbers span')?.textContent;
-  if (quantity !== undefined && numberPage !== undefined && numberPage !== null) {
-    const startArray = quantity * Number(numberPage) - quantity;
-    const endArray = startArray + quantity;
-    const prodIdBasket = Object.keys(getBasket());
-    const prodIdPage = prodIdBasket.filter((el, index) => index >= startArray && index < endArray);
-    const products = model.getProductsForBasket(prodIdPage);
-    return [products, startArray];
-  }
-  return null;
 }
