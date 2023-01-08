@@ -11,6 +11,8 @@ import giridL from '../../assets/icon/icons8-grid-view-64.png'
 
 const getViewProductSwitch = (whatActive: string | undefined = 'true'): HTMLDivElement => {
 
+  console.log(typeof whatActive);
+
   const isBigActive = whatActive === 'true' ? true : false;
 
 const div = document.createElement('div');
@@ -58,7 +60,15 @@ const getSelectContainer = (options?: ObjectInterface) => {
   selectContainer.append(sortList.init());
   selectContainer.append(prodFound);
   selectContainer.append(searchForm.init());
-  selectContainer.append(getViewProductSwitch(String(options?.big)));
+
+  let option:string | undefined;
+  if (options?.big) {
+    option = String(options.big)
+  } else {
+    option
+  }
+
+  selectContainer.append(getViewProductSwitch(option));
 
   return selectContainer;
 };
