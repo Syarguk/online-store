@@ -1,10 +1,11 @@
 import { getProductsLimit, getProductsFreeCopy, getSummaryProducts } from '../common/basketHelper';
 import { setQuantityProducts, changePageProducts, changePromo } from '../view/viewBasketHelper';
 import getModalCheckout from '../controller/controllerBasket';
-
+import changeHeaderWiew from '../view/headerWiew';
 import viewBasket from '../view/viewBasket';
 
 const basketPage = () => {
+  changeHeaderWiew();
   const limitProductsPage = 3;
   const wrapper = document.createElement('div');
   const section = document.createElement('section');
@@ -75,3 +76,4 @@ const basketPage = () => {
 };
 
 export default basketPage;
+

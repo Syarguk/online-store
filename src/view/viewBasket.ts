@@ -66,7 +66,7 @@ const viewBasket: ViewBasket = {
     backgrPopup.classList.add('popup-backgr');
     const popup = document.createElement('form');
     popup.classList.add('popup', 'needs-validation');
-    popup.setAttribute('novalidate', '');
+    // popup.setAttribute('novalidate', '');
     popup.setAttribute('name', 'formpd');
     popup.innerHTML = '<h5>Personal details</h5>';
     formFields.forEach((element) => {
