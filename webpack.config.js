@@ -3,6 +3,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { NetlifyPlugin } = require('netlify-webpack-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
 const devMode = mode === 'development';
@@ -32,6 +33,7 @@ module.exports = {
   entry: ['@babel/polyfill', path.resolve(__dirname, 'src', 'index.ts')],
   output: {
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
     clean: true,
     filename: '[name].[contenthash].js',
     assetModuleFilename: 'assets/[name][ext]',
@@ -42,6 +44,15 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
+    }),
+    new NetlifyPlugin({
+      redirects: [
+        {
+          from: '/*',
+          to: '/index.html',
+          status: 200,
+        },
+      ],
     }),
   ],
   module: {
