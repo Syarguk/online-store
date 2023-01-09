@@ -31,6 +31,7 @@ const initRouter = (): void => {
   window.addEventListener('popstate', () => {
     render(new URL(window.location.href));
   });
+
   document.querySelectorAll('.js-rout').forEach((el) => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
