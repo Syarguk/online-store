@@ -41,32 +41,32 @@ const viewBasket: ViewBasket = {
     document.querySelector('.promo-code')?.before(appleCodes);
   },
 
-  checkInput(e) {
-    if (e.target) {
-      /* const target = e.target as HTMLInputElement;
+  checkInput() {
+    const name = document.querySelector('.input-name') as HTMLInputElement;
+    if (name.value.length < 3) {
+      console.log('error');
+      return false;
+    }
+    console.log(name.value);
+    return false;
+    /* const target = e.target as HTMLInputElement;
       const form = document.querySelector('.needs-validation') as HTMLFormElement;
       const name = document.querySelector('.input-name') as HTMLInputElement;
       const namef = document.getElementById('#namef');
-      form?.addEventListener('submit', () => {
-        if (name.value.length === 0) {
-          if (namef) namef.innerHTML = 'Required field';
-        return false;
-        }
       }); */
-    }
   },
 
   renderModalCheckout() {
     const formFields = [
-      '<input class="input-name form-control" name="name" placeholder="Name" required>',
-      '<input class="input-phone form-control" name="phone" placeholder="Phone number" type="tel" required>',
-      '<input class="input-address form-control" name="address" placeholder="Delivery address" required>',
-      '<input class="input-email form-control"  name="email" placeholder="E-mail" type="email" required>'];
+      '<input class="input-name form-control" name="name" placeholder="Name">',
+      '<input class="input-phone form-control" name="phone" placeholder="Phone number" type="tel">',
+      '<input class="input-address form-control" name="address" placeholder="Delivery address">',
+      '<input class="input-email form-control"  name="email" placeholder="E-mail" type="email">'];
     const backgrPopup = document.createElement('div');
     backgrPopup.classList.add('popup-backgr');
     const popup = document.createElement('form');
     popup.classList.add('popup', 'needs-validation');
-    // popup.setAttribute('novalidate', '');
+    // popup.setAttribute('onsubmit', 'return checkInput()');
     popup.setAttribute('name', 'formpd');
     popup.innerHTML = '<h5>Personal details</h5>';
     formFields.forEach((element) => {
@@ -91,7 +91,7 @@ const viewBasket: ViewBasket = {
                           </div>`;
     cardData.innerHTML = cardDataHtml;
     popup.append(cardData);
-    popup.addEventListener('change', this.checkInput);
+    popup.addEventListener('submit', this.checkInput);
     const confirmBtn = document.createElement('button');
     confirmBtn.classList.add('btn', 'btn-outline-primary');
     confirmBtn.setAttribute('type', 'submit');
