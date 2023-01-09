@@ -42,39 +42,62 @@ const viewBasket: ViewBasket = {
   },
 
   checkInput(e) {
-    console.log('sdfsdf');
     const elError = document.querySelectorAll('.error');
     elError.forEach((element) => element.textContent = '');
     const name = document.querySelector('.input-name') as HTMLInputElement;
     const phone = document.querySelector('.input-phone') as HTMLInputElement;
     const address = document.querySelector('.input-address') as HTMLInputElement;
     const email = document.querySelector('.input-email') as HTMLInputElement;
+    const number = document.querySelector('.input-number') as HTMLInputElement;
+    const data = document.querySelector('.input-data') as HTMLInputElement;
+    const cvv = document.querySelector('.input-cvv') as HTMLInputElement;
     const nameText = name.value.trim();
-    const phoneText = name.value.trim();
-    const addressText = name.value.trim();
-    const emailText = name.value.trim();
+    const phoneText = phone.value.trim();
+    const addressText = address.value.trim();
+    const emailText = email.value.trim();
+    const numberText = number.value.trim();
+    const dataText = data.value.trim();
+    const cvvText = cvv.value.trim();
     const nameError = document.querySelector('.name-error') as HTMLInputElement;
     const phoneError = document.querySelector('.phone-error') as HTMLInputElement;
     const addressError = document.querySelector('.address-error') as HTMLInputElement;
     const emailError = document.querySelector('.email-error') as HTMLInputElement;
+    const numberError = document.querySelector('.number-error') as HTMLInputElement;
+    const dataError = document.querySelector('.data-error') as HTMLInputElement;
+    const cvvError = document.querySelector('.cvv-error') as HTMLInputElement;
     if (!(nameText.indexOf(' ') !== -1 && nameText.length >= 7)) {
       nameError.textContent = 'Error';
       e.preventDefault();
     }
-    // if (!(phoneText[0] === '+' && phoneText.length >= 9 && parseInt(phoneText.slice(1), 10))) {
-    /* if (phoneText.length >= 9) {
+    if (!(phoneText[0] === '+' && phoneText.length >= 9 && parseInt(phoneText.slice(1), 10))) {
       phoneError.textContent = 'Error';
-    } */
-    /* const target = e.target as HTMLInputElement;
-      const form = document.querySelector('.needs-validation') as HTMLFormElement;
-      const name = document.querySelector('.input-name') as HTMLInputElement;
-      const namef = document.getElementById('#namef');
-      }); */
+      e.preventDefault();
+    }
+    const checkSpaces = addressText.split(' ');
+    const checkLength = checkSpaces.filter((el) => el.length < 5);
+    if (!(checkSpaces.length >= 3 && checkLength.length === 0)) {
+      addressError.textContent = 'Error';
+      e.preventDefault();
+    }
+    if (!(emailText.indexOf('@') !== 1 && emailText.indexOf('.') !== 1 && emailText.length > 10)) {
+      emailError.textContent = 'Error';
+      e.preventDefault();
+    }
+    number.addEventListener('input', () => {
+      console.log(number.value);
+    });
+  },
+
+  checkNumber(e) {
+    const target = e.target as HTMLInputElement;
+    if (parseInt(target.value, 10)) {
+      target.value = '';
+    }
   },
 
   renderModalCheckout() {
     const formFields = [
-      '<input class="input-name form-control" name="name" placeholder="Name" required><span class="name-error error"></span>',
+      '<input class="input-name form-control" name="name" placeholder="Name"><span class="name-error error"></span>',
       '<input class="input-phone form-control" name="phone" placeholder="Phone number"><span class="phone-error error"></span>',
       '<input class="input-address form-control" name="address" placeholder="Delivery address"><span class="address-error error"></span>',
       '<input class="input-email form-control"  name="email" placeholder="E-mail" type="email"><span class="email-error error"></span>'];
@@ -95,17 +118,18 @@ const viewBasket: ViewBasket = {
     const cardData = document.createElement('div');
     cardData.classList.add('card-data');
     const cardDataHtml = `<div class="number">
-                            <input class="input-number form-control" name="number-card" placeholder="Card number">
+                            <input class="input-number form-control" name="number-card" placeholder="Card number"><span class="number-error error"></span>
                           </div>
                           <div class="other-data">
                             <div class="valid-data">
-                              VALID: <input class="input-data form-control" name="data-card" placeholder="Valid Thru">
+                              VALID: <input class="input-data form-control" name="data-card" placeholder="Valid Thru"><span class="data-error error"></span>
                             </div>
                             <div class="cv-data">
-                              CVV: <input class="input-cvv form-control" name="cvv-card" placeholder="Code">
+                              CVV: <input class="input-cvv form-control" placeholder="Code"><span class="cvv-error error"></span>
                             </div>
                           </div>`;
     cardData.innerHTML = cardDataHtml;
+    cardData.addEventListener('input', this.checkNumber);
     popup.append(cardData);
     popup.addEventListener('submit', this.checkInput);
     const confirmBtn = document.createElement('button');
