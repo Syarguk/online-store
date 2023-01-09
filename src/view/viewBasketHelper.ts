@@ -124,3 +124,4 @@ export function changePageProducts(e: Event) {
     }
   }
 }
+

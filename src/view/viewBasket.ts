@@ -42,26 +42,42 @@ const viewBasket: ViewBasket = {
   },
 
   checkInput(e) {
-    if (e.target) {
-      /* const target = e.target as HTMLInputElement;
+    console.log('sdfsdf');
+    const elError = document.querySelectorAll('.error');
+    elError.forEach((element) => element.textContent = '');
+    const name = document.querySelector('.input-name') as HTMLInputElement;
+    const phone = document.querySelector('.input-phone') as HTMLInputElement;
+    const address = document.querySelector('.input-address') as HTMLInputElement;
+    const email = document.querySelector('.input-email') as HTMLInputElement;
+    const nameText = name.value.trim();
+    const phoneText = name.value.trim();
+    const addressText = name.value.trim();
+    const emailText = name.value.trim();
+    const nameError = document.querySelector('.name-error') as HTMLInputElement;
+    const phoneError = document.querySelector('.phone-error') as HTMLInputElement;
+    const addressError = document.querySelector('.address-error') as HTMLInputElement;
+    const emailError = document.querySelector('.email-error') as HTMLInputElement;
+    if (!(nameText.indexOf(' ') !== -1 && nameText.length >= 7)) {
+      nameError.textContent = 'Error';
+    }
+    // if (!(phoneText[0] === '+' && phoneText.length >= 9 && parseInt(phoneText.slice(1), 10))) {
+    if ((phoneText[0] === '+')) {
+      phoneError.textContent = 'Error';
+    }
+    e.preventDefault();
+    /* const target = e.target as HTMLInputElement;
       const form = document.querySelector('.needs-validation') as HTMLFormElement;
       const name = document.querySelector('.input-name') as HTMLInputElement;
       const namef = document.getElementById('#namef');
-      form?.addEventListener('submit', () => {
-        if (name.value.length === 0) {
-          if (namef) namef.innerHTML = 'Required field';
-        return false;
-        }
       }); */
-    }
   },
 
   renderModalCheckout() {
     const formFields = [
-      '<input class="input-name form-control" name="name" placeholder="Name"><span class="error" id="namef"></span>',
-      '<input class="input-phone form-control" name="phone" placeholder="Phone number" type="tel">',
-      '<input class="input-address form-control" name="address" placeholder="Delivery address">',
-      '<input class="input-email form-control"  name="email" placeholder="E-mail" type="email">'];
+      '<input class="input-name form-control" name="name" placeholder="Name" required><span class="name-error error"></span>',
+      '<input class="input-phone form-control" name="phone" placeholder="Phone number" type="tel"><span class="phone-error error"></span>',
+      '<input class="input-address form-control" name="address" placeholder="Delivery address"><span class="address-error error"></span>',
+      '<input class="input-email form-control"  name="email" placeholder="E-mail" type="email"><span class="email-error error"></span>'];
     const backgrPopup = document.createElement('div');
     backgrPopup.classList.add('popup-backgr');
     const popup = document.createElement('form');
@@ -91,7 +107,7 @@ const viewBasket: ViewBasket = {
                           </div>`;
     cardData.innerHTML = cardDataHtml;
     popup.append(cardData);
-    popup.addEventListener('change', this.checkInput);
+    popup.addEventListener('submit', this.checkInput);
     const confirmBtn = document.createElement('button');
     confirmBtn.classList.add('btn', 'btn-outline-primary');
     confirmBtn.setAttribute('type', 'submit');

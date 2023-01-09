@@ -121,3 +121,4 @@ export function calculationDiscount() {
   const discountPrice = totalPrice - ((totalPrice / 100) * totalDiscount);
   return discountPrice;
 }
+
