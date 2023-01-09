@@ -1,4 +1,6 @@
-const filterDataByArrValues = (data, key, options) => {
+import { Products, Product } from '../../types/products';
+
+const filterDataByArrValues = (data: Products, key: string, options) => {
   const result = data.flatMap((item) => {
     const tmp = [];
     options.forEach((val) => {
@@ -9,14 +11,12 @@ const filterDataByArrValues = (data, key, options) => {
   return result;
 };
 
-const getSortingFuncASC = (key) => {
-  const sortASC = (prod, nextProd) => {
-    // console.log(prod, nextProd);
-
-    if (prod[key] < nextProd[key]) {
+const getSortingFuncASC = (key: string) => {
+  const sortASC = (prod: Product, nextProd: Product) => {
+    if (prod[key as keyof Product] < nextProd[key as keyof Product]) {
       return -1;
     }
-    if (prod[key] > nextProd[key]) {
+    if (prod[key as keyof Product] > nextProd[key as keyof Product]) {
       return 1;
     }
     return 0;
@@ -24,12 +24,12 @@ const getSortingFuncASC = (key) => {
   return sortASC;
 };
 
-const getSortingFuncDESC = (key) => {
-  const sortASC = (prod, nextProd) => {
-    if (prod[key] > nextProd[key]) {
+const getSortingFuncDESC = (key: string) => {
+  const sortASC = (prod: Product, nextProd: Product) => {
+    if (prod[key as keyof Product] > nextProd[key as keyof Product]) {
       return -1;
     }
-    if (prod[key] < nextProd[key]) {
+    if (prod[key as keyof Product] < nextProd[key as keyof Product]) {
       return 1;
     }
     return 0;
@@ -44,8 +44,8 @@ const sortingFunctions = {
   discountDESC: getSortingFuncDESC('discountPercentage'),
 };
 
-const searchValInData = (searchVal, data) => {
-  const delNoInformativeFild = (product) => {
+const searchValInData = (searchVal: string, data: Products) => {
+  const delNoInformativeFild = (product: Product) => {
     delete product.id;
     delete product.thumbnail;
     delete product.images;
@@ -68,7 +68,16 @@ const searchValInData = (searchVal, data) => {
   return result;
 };
 
-const initFilterOptions = {
+type Options = {
+  category: string[],
+  brand: string[],
+  search: string,
+  price: number[],
+  stock: number[],
+  sort: string,
+};
+
+const initFilterOptions: Options = {
   category: [],
   brand: [],
   search: '',
@@ -80,26 +89,27 @@ const initFilterOptions = {
 const multiFilter = {
   options: initFilterOptions,
 
-  addToMultiOptions(key, value) {
+  addToMultiOptions(key: string, value: string[] | number[]) {
     this.options[key] = [...this.options[key], value];
   },
-  dropFromMultiOptions(key, value) {
-    this.options[key] = this.options[key].filter((item) => item !== value);
+  dropFromMultiOptions(key: string, value: Options) {
+  this.options[key as keyof Options] = this.options[key as keyof Options]
+  .filter((item) => item !== value);
   },
-  getMultiOptions(key) {
-    return this.options[key];
+  getMultiOptions(key: string) {
+    return this.options[key as keyof Options];
   },
-  changeOption(key, value) {
-    this.options[key] = value;
+  changeOption(key: string, value) {
+    this.options[key as keyof Options] = value;
   },
   dropAllOptions() {
     this.options = initFilterOptions;
   },
-  updateAllOptions(newOptions) {
+  updateAllOptions(newOptions: Options) {
     this.options = { ...this.options, ...newOptions };
   },
 
-  getFilteredData(data) {
+  getFilteredData(data: Products) {
     let result = [...data];
     const {
       category, brand, sort,
