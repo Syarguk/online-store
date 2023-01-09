@@ -3,6 +3,7 @@ import ProductCard, { isDropBtn } from './ProductCard';
 import { goToPath } from '../router/router';
 import { routes } from '../common/constans';
 import { addToStorage } from '../common/basketHelper';
+import model from '../model/model';
 
 class ProductPageCard extends ProductCard {
   render(): void {
@@ -59,7 +60,8 @@ class ProductPageCard extends ProductCard {
       if (!isDropBtn(this.product.id)) {
         addToStorage(this.product);
       }
-      // fn for open popup
+      model.isOpenPopup = true;
+
       goToPath(routes.basket);
     });
 
