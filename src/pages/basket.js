@@ -17,7 +17,7 @@ const basketPage = () => {
   const noProducts = `<section class="no-products col-12">
                         <h4>No products in basket</h4>
                       </section>`;
-  if (products) {
+  if (products.length !== 0) {
     const contCards = document.createElement('div');
     const titlePageControl = document.createElement('div');
     const pageControl = document.createElement('div');
