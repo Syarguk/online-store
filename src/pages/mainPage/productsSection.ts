@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import { Products, ProductsRenderCallback, ObjectInterface } from '../../types/products';
+import { ProductsRenderCallback, ObjectInterface } from '../../types/products';
 import SortList from '../../components/SortList';
 import SearchForm from '../../components/SearchForm';
 import { routes } from '../../common/constans';
@@ -7,14 +7,6 @@ import { updateUrl } from '../../router/router';
 import view from '../../view/view';
 import gridS from '../../assets/icon/grid.png';
 import giridL from '../../assets/icon/icons8-grid-view-64.png';
-
-// export const productsRenderCallback = (containerEl: HTMLDivElement): ProductsRenderCallback => {
-//   const render = (products: Products) => {
-//     view.renderProducts(products, containerEl);
-//     view.changeProductsCount(products.length);
-//   };
-//   return render;
-// };
 
 const getViewProductSwitch = (whatActive: string | undefined = 'true'): HTMLDivElement => {
   const isBigActive = whatActive === 'true';
