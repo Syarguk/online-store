@@ -1,0 +1,79 @@
+@import 'range';
+
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+
+
+&.active {
+  border: 2px solid $border;
+  border-radius: 10px;
+  background-color: $main
+}
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.cards-container {
+  gap: 10px;
+  border: 2px solid $border;
+  border-radius: 10px;
+
+  &.small {
+    .card>.list-group {
+      display: none;
+    }
+  }
+
+  .card {
+    width: 32%;
+    transition: 0.3s;
+
+&:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+  transition: 0.3s;
+}
+
+  img {
+    width: 100%;
+    height: 70%;
+    }
+
+    @media (max-width: 910px) {
+      width: 47%;
+    }
+    @media (max-width: 640px) {
+      width: 100%;
+    }
+  }
+}
+
+.sort-list {
+  background-color: $secondary-btn;
+  border-radius: 10px;
+  z-index: 5;
+
+  &.hide {
+    display: none;
+  }
+
+  .sort-item {
+  margin: 0.3rem;
+  color: $border;
+  transition: 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    color: $main;
+    transition: 0.3s;
+  }
+  }
+}

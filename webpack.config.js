@@ -1,7 +1,9 @@
+/* eslint-disable global-require */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { NetlifyPlugin } = require('netlify-webpack-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
 const devMode = mode === 'development';
@@ -16,6 +18,7 @@ module.exports = {
     port: 3000,
     open: true,
     hot: true,
+    historyApiFallback: true,
     client: {
       overlay: {
         errors: false,
@@ -23,12 +26,17 @@ module.exports = {
       },
     },
   },
+  stats: {
+    children: true,
+    errorDetails: true,
+  },
   entry: ['@babel/polyfill', path.resolve(__dirname, 'src', 'index.ts')],
   output: {
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
     clean: true,
     filename: '[name].[contenthash].js',
-    assetModuleFilename: 'assets/[name][ext]'
+    assetModuleFilename: 'assets/[name][ext]',
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -36,6 +44,15 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
+    }),
+    new NetlifyPlugin({
+      redirects: [
+        {
+          from: '/*',
+          to: '/index.html',
+          status: 200,
+        },
+      ],
     }),
   ],
   module: {
@@ -48,7 +65,7 @@ module.exports = {
         test: /\.(ts|tsx)$/i,
         loader: 'ts-loader',
         exclude: ['/node_modules/'],
-    },
+      },
       {
         test: /\.(c|sa|sc)ss$/i,
         use: [
@@ -69,8 +86,8 @@ module.exports = {
         test: /\.woff2?$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'fonts/[name][ext]'
-        }
+          filename: 'fonts/[name][ext]',
+        },
       },
       {
         test: /\.(jpe?g|png|webp|gif|svg)$/i,
@@ -86,16 +103,16 @@ module.exports = {
               },
               pngquant: {
                 quality: [0.65, 0.90],
-                speed: 4
+                speed: 4,
               },
               gifsicle: {
                 interlaced: false,
               },
               webp: {
-                quality: 75
+                quality: 75,
               },
-            }
-          }
+            },
+          },
         ],
         type: 'asset/resource',
       },
@@ -110,5 +127,8 @@ module.exports = {
         },
       },
     ],
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
   },
 };

@@ -1,0 +1,14 @@
+#filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: $nav;
+  padding: 0.6rem;
+  border-radius: 10px;
+}
+
+.check-form {
+  max-height: 100px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
