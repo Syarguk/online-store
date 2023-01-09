@@ -15,6 +15,7 @@ interface ViewBasket {
   renderSelectProducts(data: Products, cardsContainer: any): void;
   renderUsedPromoCode(prCodes: ProCod, usdPrCodes: UPC): void;
   checkInput(e: Event): void;
+  checkNumber(e: Event): void;
   renderModalCheckout(): void;
 }
 
