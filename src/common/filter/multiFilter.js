@@ -45,6 +45,29 @@ const sortingFunctions = {
   remove: '',
 };
 
+const searchValInData = (searchVal, data) => {
+  const delNoInformativeFild = (product) => {
+    delete product.id;
+    delete product.thumbnail;
+    delete product.images;
+    return product;
+  };
+
+  const result = data.flatMap((item) => {
+    const targetItem = delNoInformativeFild({ ...item });
+    const values = Object.values(targetItem);
+    const tmp = [];
+    for (let i = 0; i < values.length; i += 1) {
+      const strVal = String(values[i]).toLowerCase();
+      if (strVal.includes(searchVal)) {
+        tmp.push(item);
+        break;
+      }
+    }
+    return tmp;
+  });
+  return result;
+};
 
 const initFilterOptions = {
   category: [],
@@ -78,21 +101,23 @@ const multiFilter = {
   },
 
   getFilteredData(data) {
-    let result = data;
-    //console.log(this.options);
-    const { category, brand, sort } = this.options;
+    let result = [...data];
+    const {
+      category, brand, sort, search,
+    } = this.options;
 
     if (category.length > 0) {
       result = filterDataByArrValues(result, 'category', category);
     } if (brand.length > 0) {
       result = filterDataByArrValues(result, 'brand', brand);
+    } if (search.length > 0) {
+      const searchedData = searchValInData(search, result);
+      result = searchedData;
     } if (sort.length > 0) {
       const fn = sortingFunctions[sort];
       result = result.sort(fn);
     }
-    // if (search.length > 0) {
 
-    // }
     // console.log(result);
     return result;
   },

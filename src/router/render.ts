@@ -9,6 +9,8 @@ const render = (url: URL): void => {
   let result = notFoundPage();
 
   const { pathname } = url;
+  console.log(pathname);
+
   if (pathname === routes.main) {
     result = mainPage();
   } else if (pathname === routes.basket) {
