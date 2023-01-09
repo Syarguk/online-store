@@ -59,12 +59,12 @@ const viewBasket: ViewBasket = {
     const emailError = document.querySelector('.email-error') as HTMLInputElement;
     if (!(nameText.indexOf(' ') !== -1 && nameText.length >= 7)) {
       nameError.textContent = 'Error';
+      e.preventDefault();
     }
     // if (!(phoneText[0] === '+' && phoneText.length >= 9 && parseInt(phoneText.slice(1), 10))) {
-    if ((phoneText[0] === '+')) {
+    /* if (phoneText.length >= 9) {
       phoneError.textContent = 'Error';
-    }
-    e.preventDefault();
+    } */
     /* const target = e.target as HTMLInputElement;
       const form = document.querySelector('.needs-validation') as HTMLFormElement;
       const name = document.querySelector('.input-name') as HTMLInputElement;
@@ -75,7 +75,7 @@ const viewBasket: ViewBasket = {
   renderModalCheckout() {
     const formFields = [
       '<input class="input-name form-control" name="name" placeholder="Name" required><span class="name-error error"></span>',
-      '<input class="input-phone form-control" name="phone" placeholder="Phone number" type="tel"><span class="phone-error error"></span>',
+      '<input class="input-phone form-control" name="phone" placeholder="Phone number"><span class="phone-error error"></span>',
       '<input class="input-address form-control" name="address" placeholder="Delivery address"><span class="address-error error"></span>',
       '<input class="input-email form-control"  name="email" placeholder="E-mail" type="email"><span class="email-error error"></span>'];
     const backgrPopup = document.createElement('div');
