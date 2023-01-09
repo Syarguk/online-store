@@ -10,8 +10,8 @@ const checkOptions = (name:string, options: ObjectInterface | undefined): string
   if (options) {
     const names = options[name];
     if (names && Array.isArray(names)) {
-  return names.map((i) => String(i));
-    };
+      return names.map((i) => String(i));
+    }
   }
   return [];
 };
@@ -63,10 +63,12 @@ class ProductFilter {
 
   options?: ObjectInterface;
 
-  constructor(filter: ObjectForFilter,
+  constructor(
+    filter: ObjectForFilter,
     filterName: string,
     productsRender:ProductsRenderCallback,
-    options?: ObjectInterface) {
+    options?: ObjectInterface,
+  ) {
     this.filter = filter;
     this.filterName = filterName;
     this.productsRender = productsRender;
@@ -82,7 +84,6 @@ class ProductFilter {
   }
 
   render(): void {
-    this.filterEl.classList.add('form-check', 'me-2');
     this.filterEl.innerHTML = renderFilter(this.filterName, this.filter, this.options);
   }
 

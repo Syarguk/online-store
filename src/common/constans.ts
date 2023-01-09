@@ -1,6 +1,7 @@
 export const numbersTypeArea: string[] = ['id', 'price', 'discountPercentage', 'rating', 'stock'];
 
 export const filtersName: string[] = ['category', 'brand'];
+export const rangeFilterNames: string[] = ['price', 'stock'];
 
 type Routes = {
   main: string,
