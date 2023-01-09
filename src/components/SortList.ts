@@ -5,42 +5,6 @@ import model from '../model/model';
 import { updateUrl } from '../router/router';
 import { routes } from '../common/constans';
 
-// const getSortingFuncASC = (key: keyof Product) => {
-//   const sortASC = (prod: Product, nextProd: Product) => {
-//     // console.log(prod, nextProd);
-
-//     if (prod[key] < nextProd[key]) {
-//       return -1;
-//     }
-//     if (prod[key] > nextProd[key]) {
-//       return 1;
-//     }
-//     return 0;
-//   };
-//   return sortASC;
-// };
-
-// const getSortingFuncDESC = (key: keyof Product) => {
-//   const sortASC = (prod: Product, nextProd: Product) => {
-//     if (prod[key] > nextProd[key]) {
-//       return -1;
-//     }
-//     if (prod[key] < nextProd[key]) {
-//       return 1;
-//     }
-//     return 0;
-//   };
-//   return sortASC;
-// };
-// // проверіть сортіровку по возрастанію
-// const sortingFunctions = {
-//   priceASC: getSortingFuncASC('price'),
-//   priceDESC: getSortingFuncDESC('price'),
-//   discountASC: getSortingFuncASC('discountPercentage'),
-//   discountDESC: getSortingFuncDESC('discountPercentage'),
-//   remove: '',
-// };
-
 class SortList {
   containerEl: HTMLDivElement;
 
@@ -68,7 +32,6 @@ class SortList {
         priceDESC: 'Sort by price DESC',
         discountASC: 'Sort by discount ASC',
         discountDESC: 'Sort by discount DESC',
-        remove: 'Sort options',
       };
 
       if (typeof this.options?.sort === 'string') {
@@ -85,7 +48,6 @@ class SortList {
     <li class="sort-item" data-sort="priceDESC">Sort by price DESC</li>
     <li class="sort-item" data-sort="discountASC">Sort by discount ASC</li>
     <li class="sort-item" data-sort="discountDESC">Sort by discount DESC</li>
-    <li class="sort-item" data-sort="remove">Remove sorting</li>
     </ul>
 </div>
 `;
