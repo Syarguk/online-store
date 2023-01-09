@@ -2,6 +2,7 @@ import { getProductsLimit, getProductsFreeCopy, getSummaryProducts } from '../co
 import { setQuantityProducts, changePageProducts, changePromo } from '../view/viewBasketHelper';
 import getModalCheckout from '../controller/controllerBasket';
 import changeHeaderWiew from '../view/headerWiew';
+import model from '../model/model';
 import viewBasket from '../view/viewBasket';
 
 const basketPage = () => {
@@ -69,6 +70,9 @@ const basketPage = () => {
     wrapper.append(section);
     summary.append(buttonBuyNow);
     wrapper.append(summary);
+    if (model.isOpenPopup) {
+      viewBasket.renderModalCheckout();
+    }
   } else {
     wrapper.innerHTML = noProducts;
   }
