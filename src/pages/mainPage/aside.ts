@@ -21,8 +21,8 @@ const getAside = (callback: ProductsRenderCallback, options?: ObjectInterface) =
   });
 
   rangeFilterNames.forEach((filterName) => {
-    const randeFilter = new RangeFilter(filterName, callback, options);
-    aside.append(randeFilter.init());
+    const rangeFilter = new RangeFilter(filterName, callback, options);
+    aside.append(rangeFilter.init());
   });
 
   return aside;
