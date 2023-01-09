@@ -98,8 +98,8 @@ class ProductFilter {
       }
       const filteredData = multiFilter.getFilteredData(model.getProducts());
       this.productsRender(filteredData);
-      const currentFilterss = multiFilter.getMultiOptions(this.filterName);
-      const params = changeParamsForUrl(this.filterName, currentFilterss);
+      const currentFilters = multiFilter.getMultiOptions(this.filterName);
+      const params = changeParamsForUrl(this.filterName, currentFilters);
       updateUrl(routes.mainSearch, params);
     });
   }
