@@ -25,7 +25,10 @@ module.exports = {
       },
     },
   },
-  stats: { children: true },
+  stats: {
+    children: true,
+    errorDetails: true,
+  },
   entry: ['@babel/polyfill', path.resolve(__dirname, 'src', 'index.ts')],
   output: {
     path: path.resolve(__dirname, 'dist'),
