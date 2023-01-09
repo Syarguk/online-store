@@ -20,14 +20,13 @@ const productsRenderCallback = (containerEl: HTMLDivElement): ProductsRenderCall
 const buildMainPage = (products: Products, options?: ObjectInterface): HTMLDivElement => {
   changeHeaderWiew();
 
-  //console.log(options);
-
   const pageContainer = document.createElement('div');
   pageContainer.classList.add('row', 'm-2', 'py-3');
   const productsContainer = getProductsContainer(products, options);
-  const aside = getAside(productsRenderCallback(productsContainer), options);
+  const callback = productsRenderCallback(productsContainer);
+  const aside = getAside(callback, options);
 
-  const productsSection = getProductsSection(productsContainer, options);
+  const productsSection = getProductsSection(productsContainer, callback, options);
 
   pageContainer.append(aside);
   pageContainer.append(productsSection);

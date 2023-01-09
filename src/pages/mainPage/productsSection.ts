@@ -1,12 +1,20 @@
-// eslint-disable-next-line import/no-cycle
+/* eslint-disable import/no-cycle */
+import { Products, ProductsRenderCallback, ObjectInterface } from '../../types/products';
 import SortList from '../../components/SortList';
 import SearchForm from '../../components/SearchForm';
-import { ObjectInterface } from '../../types/products';
 import { routes } from '../../common/constans';
 import { updateUrl } from '../../router/router';
 import view from '../../view/view';
 import gridS from '../../assets/icon/grid.png';
 import giridL from '../../assets/icon/icons8-grid-view-64.png';
+
+// export const productsRenderCallback = (containerEl: HTMLDivElement): ProductsRenderCallback => {
+//   const render = (products: Products) => {
+//     view.renderProducts(products, containerEl);
+//     view.changeProductsCount(products.length);
+//   };
+//   return render;
+// };
 
 const getViewProductSwitch = (whatActive: string | undefined = 'true'): HTMLDivElement => {
   const isBigActive = whatActive === 'true';
@@ -38,7 +46,7 @@ const getViewProductSwitch = (whatActive: string | undefined = 'true'): HTMLDivE
   return div;
 };
 
-const getSelectContainer = (options?: ObjectInterface) => {
+const getSelectContainer = (callback: ProductsRenderCallback, options?: ObjectInterface) => {
   const selectContainer = document.createElement('div');
   selectContainer.classList.add('d-flex', 'flex-wrap', 'justify-content-around', 'p-2', 'gap-2', 'align-items-center');
   const sortList = new SortList(options);
@@ -49,7 +57,7 @@ const getSelectContainer = (options?: ObjectInterface) => {
   prodFound.innerHTML = `<span>Found:</span>
   <span id="prodFound">${found}</span>`;
 
-  const searchForm = new SearchForm();
+  const searchForm = new SearchForm(callback, options);
 
   selectContainer.append(sortList.init());
   selectContainer.append(prodFound);
@@ -67,11 +75,15 @@ const getSelectContainer = (options?: ObjectInterface) => {
   return selectContainer;
 };
 
-const getProductsSection = (productsContainer: HTMLDivElement, options?: ObjectInterface) => {
+const getProductsSection = (
+  productsContainer: HTMLDivElement,
+  callback: ProductsRenderCallback,
+  options?: ObjectInterface,
+) => {
   const productsSection = document.createElement('section');
   productsSection.classList.add('col-8', 'py-2');
 
-  const selectContainer = getSelectContainer(options);
+  const selectContainer = getSelectContainer(callback, options);
 
   productsSection.append(selectContainer);
   productsSection.append(productsContainer);
