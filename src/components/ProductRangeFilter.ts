@@ -1,5 +1,6 @@
 import { ObjectInterface, ProductsRenderCallback, Product } from '../types/products';
 import model from '../model/model';
+// eslint-disable-next-line import/no-cycle
 import { updateUrl } from '../router/router';
 import { routes } from '../common/constans';
 import multiFilter from '../common/filter/multiFilter';
@@ -59,8 +60,8 @@ class RangeFilter {
     if (this.options) {
       const values = this.options[this.filterName];
       if (values && Array.isArray(values)) {
-        minValue = String(values[0]);
-        maxValue = String(values[1]);
+        minValue = values[0];
+        maxValue = values[1];
       }
     }
 
@@ -104,7 +105,7 @@ class RangeFilter {
           spanMax.textContent = maxRange;
         }
 
-        multiFilter.changeOption(this.filterName, [Number(minRange), Number(maxRange)]);
+        multiFilter.changeOption(this.filterName, [minRange, maxRange]);
         this.callback(multiFilter.getFilteredData(model.getProducts()));
         updateUrl(routes.mainSearch, changeParamsForUrl(this.filterName, [minRange, maxRange]));
       });

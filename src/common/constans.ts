@@ -1,4 +1,4 @@
-export const numbersTypeArea: string[] = ['id', 'price', 'discountPercentage', 'rating', 'stock'];
+export const numbersTypeArea: string[] = ['id', 'discountPercentage', 'rating'];
 
 export const filtersName: string[] = ['category', 'brand'];
 export const rangeFilterNames: string[] = ['price', 'stock'];

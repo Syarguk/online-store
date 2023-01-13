@@ -5,6 +5,7 @@ type Transform = string | number | string[] | number[];
 
 export const changeParamsForUrl = (name: string, value: string[]) => ({ [name]: value.join('_') });
 
+
 const transformParamsToNum = (key: string, value: string | string[]): Transform => {
   if (numbersTypeArea.includes(key)) {
     if (Array.isArray(value)) {

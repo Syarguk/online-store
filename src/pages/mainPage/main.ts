@@ -48,13 +48,7 @@ const mainPage = (searchUrl = ''): HTMLDivElement => {
   const restoredData = multiFilter.getFilteredData(data);
   options.found = restoredData.length;
   const page = buildMainPage(restoredData, options);
- // view.restorePageView(restoredData);
-  //console.log(viewProdCard);
 
-
-  // some logic
-  // data = multiFilter.getFilteredData();
-  //data = model.getProducts();
   return page;
 };
 

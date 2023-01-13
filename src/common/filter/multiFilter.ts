@@ -1,10 +1,10 @@
 import { Products, Product } from '../../types/products';
 
-const filterDataByArrValues = (data: Products, key: string, options) => {
+const filterDataByArrValues = (data: Products, key: string, options: string[]) => {
   const result = data.flatMap((item) => {
-    const tmp = [];
+    const tmp: Products = [];
     options.forEach((val) => {
-      if (item[key] === val) { tmp.push(item); }
+      if (item[key as keyof Product] === val) { tmp.push(item); }
     });
     return tmp;
   });
@@ -68,12 +68,18 @@ const searchValInData = (searchVal: string, data: Products) => {
   return result;
 };
 
+const filterDataByMinMax = (data: Products, key: string, min: number, max: number) => {
+  const result = data.filter((item) => item[key as keyof Product] >= min)
+    .filter((item) => item[key as keyof Product] <= max);
+  return result;
+};
+
 type Options = {
   category: string[],
   brand: string[],
   search: string,
-  price: number[],
-  stock: number[],
+  price: string[],
+  stock: string[],
   sort: string,
 };
 
@@ -89,27 +95,35 @@ const initFilterOptions: Options = {
 const multiFilter = {
   options: initFilterOptions,
 
-  addToMultiOptions(key: string, value: string[] | number[]) {
-    this.options[key] = [...this.options[key], value];
+  addToMultiOptions(key: string, value: string) : void {
+    this.options[key as keyof Options] = [...this.options[key as keyof Options], value];
   },
-  dropFromMultiOptions(key: string, value: Options) {
-  this.options[key as keyof Options] = this.options[key as keyof Options]
-  .filter((item) => item !== value);
+  dropFromMultiOptions(key: string, value: string): void {
+    const currentOpt = this.options[key as keyof Options];
+    if (Array.isArray(currentOpt)) {
+      this.options[key as keyof Options] = currentOpt.filter((item) => item !== value);
+    }
   },
-  getMultiOptions(key: string) {
-    return this.options[key as keyof Options];
+  getMultiOptions(key: string): string[] {
+    const options = this.options[key as keyof Options];
+    if (Array.isArray(options)) {
+      return options;
+    }
+    return [];
   },
-  changeOption(key: string, value) {
+
+  changeOption(key: string, value: string | string[]): void {
     this.options[key as keyof Options] = value;
   },
-  dropAllOptions() {
+
+  dropAllOptions(): void {
     this.options = initFilterOptions;
   },
-  updateAllOptions(newOptions: Options) {
+  updateAllOptions(newOptions: Options): void {
     this.options = { ...this.options, ...newOptions };
   },
 
-  getFilteredData(data: Products) {
+  getFilteredData(data: Products): Products {
     let result = [...data];
     const {
       category, brand, sort,
@@ -125,12 +139,10 @@ const multiFilter = {
       result = searchedData;
     } if (price.length > 0) {
       const [min, max] = price;
-      result = result.filter((item) => item.price >= min)
-        .filter((item) => item.price <= max);
+      result = filterDataByMinMax(result, 'price', Number(min), Number(max));
     } if (stock.length > 0) {
       const [min, max] = stock;
-      result = result.filter((item) => item.stock >= min)
-        .filter((item) => item.stock <= max);
+      result = filterDataByMinMax(result, 'stock', Number(min), Number(max));
     } if (sort.length > 0) {
       const fn = sortingFunctions[sort];
 
