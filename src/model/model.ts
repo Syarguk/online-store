@@ -12,9 +12,7 @@ const model: Model = {
   isOpenPopup: false,
 
   getProduct(productId) {
-    const filterProducts = this.data.filter((product) => product.id === productId);
-    const [product] = filterProducts;
-    return product;
+    return this.data.find((product) => product.id === productId);
   },
 
 };

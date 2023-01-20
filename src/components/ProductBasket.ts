@@ -1,7 +1,10 @@
 import { Product } from '../types/products';
 import viewBasket from '../view/viewBasket';
-import { addToStorage, getBasket, dropFromStorage, getSummaryProducts } from '../common/basketHelper';
+import {
+  addToStorage, getBasket, dropFromStorage, getSummaryProducts,
+} from '../common/basketHelper';
 import { setQuantityProducts } from '../view/viewBasketHelper';
+import { CostAndCount } from '../types/basket';
 
 type Elements = {
   card: HTMLElement | null;
@@ -50,12 +53,12 @@ class ProductBasket {
     this.elements.card = cardProduct;
   }
 
-  static changeSummary(sum: number[]) {
-    const [price, quantity] = sum;
+  static changeSummary(sum: CostAndCount) {
+    const { cost, count } = sum;
     const totalProducts = document.querySelector('.total-products span');
     const totalPrice = document.querySelector('.total-price span');
-    if (totalProducts) totalProducts.textContent = `${quantity}`;
-    if (totalPrice) totalPrice.textContent = `${price}`;
+    if (totalProducts) totalProducts.textContent = `${count}`;
+    if (totalPrice) totalPrice.textContent = `${cost}`;
   }
 
   private attachEvents(): void {
@@ -84,6 +87,7 @@ class ProductBasket {
             dropFromStorage(this.product.id);
             quantityCopyProd.textContent = String(Number(quantityCopyProd.textContent) - 1);
           }
+
           ProductBasket.changeSummary(getSummaryProducts());
         } else {
           /* const path = `${routes.product}id=${this.product.id}`;

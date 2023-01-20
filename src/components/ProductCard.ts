@@ -2,8 +2,7 @@ import { Product } from '../types/products';
 // eslint-disable-next-line import/no-cycle
 import { goToPath } from '../router/router';
 import { routes } from '../common/constans';
-import {
-  getStorage, addToStorage, dropFromStorage } from '../common/basketHelper';
+import { getStorage, addToStorage, dropFromStorage } from '../common/basketHelper';
 import model from '../model/model';
 import changeHeaderWiew from '../view/headerWiew';
 
@@ -72,9 +71,12 @@ class ProductCard {
       const target = e.target as HTMLElement;
       const btnType = target.dataset.basket;
       if (btnType === 'add') {
-        addToStorage(model.getProduct(this.product.id));
-        target.textContent = 'Drop from card';
-        target.dataset.basket = 'drop';
+        const product = model.getProduct(this.product.id);
+        if (product) {
+          addToStorage(product);
+          target.textContent = 'Drop from card';
+          target.dataset.basket = 'drop';
+        }
       } else {
         dropFromStorage(this.product.id);
         target.textContent = 'Add to card';

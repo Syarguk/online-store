@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
-import { Products, ProductsRenderCallback, ObjectInterface  } from '../../types/products';
+import { Products, ProductsRenderCallback, ObjectInterface } from '../../types/products';
+import multiFilter, { Options } from '../../common/filter/multiFilter';
 import model from '../../model/model';
-import multiFilter from '../../common/filter/multiFilter';
 import view from '../../view/view';
 import changeHeaderWiew from '../../view/headerWiew';
 import getAside from './aside';
@@ -40,21 +40,12 @@ const mainPage = (searchUrl = ''): HTMLDivElement => {
   }
 
   const params = transformUrlToParams(searchUrl);
-  const options = {...params};
-  if (params.big) {
-    delete params.big;
-  }
-  multiFilter.updateAllOptions(params);
+  const { big, ...options } = params;
+  multiFilter.updateAllOptions(options as Options);
   const restoredData = multiFilter.getFilteredData(data);
   options.found = restoredData.length;
-  const page = buildMainPage(restoredData, options);
- // view.restorePageView(restoredData);
-  //console.log(viewProdCard);
+  const page = buildMainPage(restoredData, params);
 
-
-  // some logic
-  // data = multiFilter.getFilteredData();
-  //data = model.getProducts();
   return page;
 };
 

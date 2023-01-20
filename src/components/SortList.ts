@@ -1,3 +1,4 @@
+import { ProductsRenderCallback } from './../types/products';
 import { ObjectInterface } from '../types/products';
 import multiFilter from '../common/filter/multiFilter';
 import model from '../model/model';
@@ -8,11 +9,14 @@ import { routes } from '../common/constans';
 class SortList {
   containerEl: HTMLDivElement;
 
+  callback: ProductsRenderCallback;
+
   options?: ObjectInterface;
 
-  constructor(options?: ObjectInterface) {
+  constructor(callback: ProductsRenderCallback, options?: ObjectInterface) {
     this.containerEl = document.createElement('div');
     this.options = options;
+    this.callback = callback;
   }
 
   init(): HTMLDivElement {
@@ -62,7 +66,7 @@ class SortList {
         const sortType = target.dataset.sort;
         if (sortType) {
           multiFilter.changeOption('sort', sortType);
-          multiFilter.getFilteredData(model.getProducts());
+          this.callback(multiFilter.getFilteredData(model.getProducts()));
           updateUrl(routes.mainSearch, { sort: sortType });
         }
         const btn = this.containerEl.querySelector('.dropdown-toggle');
