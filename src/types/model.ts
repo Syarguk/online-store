@@ -5,7 +5,7 @@ interface Model {
   isOpenPopup: boolean;
 
   getProducts(): Products;
-  getProduct(productId: number): Product;
+  getProduct(productId: number): Product | undefined;
 }
 
 export default Model;

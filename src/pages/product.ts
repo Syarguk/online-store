@@ -1,4 +1,4 @@
-import { Product } from './../types/products';
+import { Product } from '../types/products';
 import { transformUrlToParams } from '../common/urlHelpers';
 import model from '../model/model';
 import changeHeaderWiew from '../view/headerWiew';
@@ -27,15 +27,16 @@ const productPage = (path: string): HTMLDivElement => {
   changeHeaderWiew();
   const { id } = transformUrlToParams(path);
   const product = model.getProduct(Number(id));
-
   const page = document.createElement('div');
   page.classList.add('container', 'text-center');
+  if (product) {
+    const pathSection = getPathSection(product);
+    const card = new ProductPageCard(product);
 
-  const pathSection = getPathSection(product);
-  const card = new ProductPageCard(product);
+    page.append(pathSection);
+    page.append(card.init());
+  }
 
-  page.append(pathSection);
-  page.append(card.init());
   return page;
 };
 

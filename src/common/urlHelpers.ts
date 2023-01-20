@@ -5,9 +5,8 @@ type Transform = string | number | string[] | number[];
 
 export const changeParamsForUrl = (name: string, value: string[]) => ({ [name]: value.join('_') });
 
-
 const transformParamsToNum = (key: string, value: string | string[]): Transform => {
-  if (numbersTypeArea.includes(key)) {
+  if (numbersTypeArea.find((i) => i === key)) {
     if (Array.isArray(value)) {
       return value.map((item) => Number(item));
     }
@@ -22,11 +21,10 @@ export const transformUrlToParams = (url:string):ObjectInterface => {
     const [key, value] = param.split('=');
     let newValue;
     const arr = value.split('_');
-    if (arr.length > 1 || !singleValues.includes(key)) {
+    if (arr.length > 1 || !singleValues.find((i) => i === key)) {
       newValue = arr;
     } else {
-      // eslint-disable-next-line prefer-destructuring
-      newValue = arr[0];
+      [newValue] = arr;
     }
     acc[key] = transformParamsToNum(key, newValue);
     return acc;

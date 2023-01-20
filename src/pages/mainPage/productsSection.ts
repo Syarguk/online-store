@@ -41,7 +41,7 @@ const getViewProductSwitch = (whatActive: string | undefined = 'true'): HTMLDivE
 const getSelectContainer = (callback: ProductsRenderCallback, options?: ObjectInterface) => {
   const selectContainer = document.createElement('div');
   selectContainer.classList.add('d-flex', 'flex-wrap', 'justify-content-around', 'p-2', 'gap-2', 'align-items-center');
-  const sortList = new SortList(options);
+  const sortList = new SortList(callback, options);
 
   const prodFound = document.createElement('div');
   prodFound.classList.add('found');

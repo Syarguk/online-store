@@ -1,4 +1,6 @@
-import { ObjectInterface, ProductsRenderCallback, Product } from '../types/products';
+import {
+  ObjectInterface, ProductsRenderCallback, Product,
+} from '../types/products';
 import model from '../model/model';
 // eslint-disable-next-line import/no-cycle
 import { updateUrl } from '../router/router';
@@ -10,16 +12,8 @@ const getMinMax = (name: string) => {
   const key = name as keyof Product;
   const find = [...model.getProducts()]
     .map((item) => item[key])
-    .sort((a, b) => {
-      if (a > b) {
-        return 1;
-      }
-      if (a < b) {
-        return -1;
-      }
-      return 0;
-    });
-  const min = find[0];
+    .sort((a, b) => Number(a) - Number(b));
+  const min = find.shift();
   const max = find.pop();
   return [min, max];
 };
@@ -60,8 +54,7 @@ class RangeFilter {
     if (this.options) {
       const values = this.options[this.filterName];
       if (values && Array.isArray(values)) {
-        minValue = values[0];
-        maxValue = values[1];
+        [minValue, maxValue] = values;
       }
     }
 

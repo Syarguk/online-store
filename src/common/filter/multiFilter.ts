@@ -11,37 +11,35 @@ const filterDataByArrValues = (data: Products, key: string, options: string[]) =
   return result;
 };
 
-const getSortingFuncASC = (key: string) => {
-  const sortASC = (prod: Product, nextProd: Product) => {
-    if (prod[key as keyof Product] < nextProd[key as keyof Product]) {
-      return -1;
-    }
-    if (prod[key as keyof Product] > nextProd[key as keyof Product]) {
-      return 1;
-    }
-    return 0;
-  };
-  return sortASC;
-};
+const getSortingFunc = (key: string, strategue: string) => {
+  switch (strategue) {
+    case 'ASC':
+      return (prod: Product, nextProd: Product) => {
+        const a = prod[key as keyof Product];
+        const b = nextProd[key as keyof Product];
+        if (typeof a === 'number' && typeof b === 'number') {
+          return a - b;
+        }
+      };
+    case 'DESC':
+      return (prod: Product, nextProd: Product) => {
+        const a = prod[key as keyof Product];
+        const b = nextProd[key as keyof Product];
+        if (typeof a === 'number' && typeof b === 'number') {
+          return b - a;
+        }
+      };
 
-const getSortingFuncDESC = (key: string) => {
-  const sortASC = (prod: Product, nextProd: Product) => {
-    if (prod[key as keyof Product] > nextProd[key as keyof Product]) {
-      return -1;
-    }
-    if (prod[key as keyof Product] < nextProd[key as keyof Product]) {
-      return 1;
-    }
-    return 0;
-  };
-  return sortASC;
+    default:
+      throw new Error(`unknow strategue ${strategue}`);
+  }
 };
 
 const sortingFunctions = {
-  priceASC: getSortingFuncASC('price'),
-  priceDESC: getSortingFuncDESC('price'),
-  discountASC: getSortingFuncASC('discountPercentage'),
-  discountDESC: getSortingFuncDESC('discountPercentage'),
+  priceASC: getSortingFunc('price', 'ASC'),
+  priceDESC: getSortingFunc('price', 'DESC'),
+  discountASC: getSortingFunc('discountPercentage', 'ASC'),
+  discountDESC: getSortingFunc('discountPercentage', 'DESC'),
 };
 
 const searchValInData = (searchVal: string, data: Products) => {
@@ -74,7 +72,7 @@ const filterDataByMinMax = (data: Products, key: string, min: number, max: numbe
   return result;
 };
 
-type Options = {
+export type Options = {
   category: string[],
   brand: string[],
   search: string,

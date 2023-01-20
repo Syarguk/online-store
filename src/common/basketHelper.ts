@@ -72,7 +72,7 @@ export function getBasket(): ObectProductsId {
 
 export function getProductsFreeCopy() {
   const storage = getStorage();
-  const ids = Array();
+  const ids: number[] = [];
   const products = storage?.filter((product) => {
     if (!ids.includes(product.id)) {
       ids.push(product.id);
@@ -101,23 +101,23 @@ export function getProductsLimit(limit = 3) {
   return result;
 }
 
-export function getSummaryProducts(): [cost: number, count: number] {
+export function getSummaryProducts(): CostAndCount {
   const productsIdBasket = getBasket();
-  let price = 0;
+  let cost = 0;
   model.data.forEach((product) => {
     if (productsIdBasket && String(product.id) in productsIdBasket) {
       const multiplyPrice = product.price * productsIdBasket[String(product.id)];
-      price += multiplyPrice;
+      cost += multiplyPrice;
     }
   });
   const quantity = Object.values(productsIdBasket);
-  const quantityProducts = quantity.reduce((acc, quant) => acc + quant, 0);
-  return [price, quantityProducts];
+  const count = quantity.reduce((acc, quant) => acc + quant, 0);
+  return { cost, count };
 }
 
 export function calculationDiscount() {
-  const totalPrice = getSummaryProducts()[0];
+  const { cost } = getSummaryProducts();
   const totalDiscount = Object.values(usedPromoCodes).reduce((acc, dis) => acc + dis);
-  const discountPrice = totalPrice - ((totalPrice / 100) * totalDiscount);
+  const discountPrice = cost - ((cost / 100) * totalDiscount);
   return discountPrice;
 }
