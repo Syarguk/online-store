@@ -51,8 +51,10 @@ const data = [{
   ],
 }];
 
-test('check creating list fields', () => {
-  const result = { Apple: 2, Samsung: 1 };
+describe('getListFielsd test', () => {
+  test('check creating list fields', () => {
+    const result = { Apple: 2, Samsung: 1 };
 
-  expect(getListFields('brand', data)).toStrictEqual(result);
+    expect(getListFields('brand', data)).toStrictEqual(result);
+  });
 });
