@@ -92,12 +92,7 @@ export function getProductsForBasket(productsId: string[]): Products | undefined
 
 export function getProductsLimit(limit = 3) {
   const products = getProductsFreeCopy();
-  const result = [];
-  if (products) {
-    for (let i = 0; i < limit; i += 1) {
-      result.push(products[i]);
-    }
-  }
+  const result = products?.slice(0, limit);
   return result;
 }
 
